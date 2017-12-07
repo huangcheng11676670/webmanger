@@ -34,9 +34,9 @@
     <!-- Logo -->
     <a href="index.do" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b></b>CMS</span>
+      <span class="logo-mini"><b></b>后台</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>jspX</b>CMS</span>
+      <span class="logo-lg" style="font-size: 0.7em;width:100%;"><b style="color:#0074ef;">国政舆情信息</b>管理后台</span>
     </a>
 
     <!-- Header Navbar -->
