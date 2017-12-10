@@ -30,24 +30,24 @@ import com.jspxcms.core.holder.MenuHolder;
  */
 @Configuration
 public class MenuConfig {
-	@Autowired
-	private ApplicationContext appContext;
+    @Autowired
+    private ApplicationContext appContext;
 
-	@Bean
-	@SuppressWarnings("unchecked")
-	public MenuHolder menuProperties() throws IOException {
-		Resource[] resources = appContext.getResources("classpath:conf/**/menu*.yml");
-		HashSet<Menu> menus = new HashSet<Menu>();
-		for (Resource resource : resources) {
-			Yaml yaml = new Yaml();
-			InputStream is = resource.getInputStream();
-			Map<Object, Map<Object, Object>> map = (Map<Object, Map<Object, Object>>) yaml.load(is);
-			for (Map.Entry<Object, Map<Object, Object>> entry : map.entrySet()) {
-				menus.add(Menu.parse(entry.getKey(), entry.getValue()));
-			}
-		}
-		TreeSet<Menu> sortedMenus = Menu.sort(menus);
-		MenuHolder menuHolder = new MenuHolder(sortedMenus);
-		return menuHolder;
-	}
+    @Bean
+    @SuppressWarnings("unchecked")
+    public MenuHolder menuProperties() throws IOException {
+        Resource[] resources = appContext.getResources("classpath:conf/**/menu*.yml");
+        HashSet<Menu> menus = new HashSet<Menu>();
+        for (Resource resource : resources) {
+            Yaml yaml = new Yaml();
+            InputStream is = resource.getInputStream();
+            Map<Object, Map<Object, Object>> map = (Map<Object, Map<Object, Object>>) yaml.load(is);
+            for (Map.Entry<Object, Map<Object, Object>> entry : map.entrySet()) {
+                menus.add(Menu.parse(entry.getKey(), entry.getValue()));
+            }
+        }
+        TreeSet<Menu> sortedMenus = Menu.sort(menus);
+        MenuHolder menuHolder = new MenuHolder(sortedMenus);
+        return menuHolder;
+    }
 }

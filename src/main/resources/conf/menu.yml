@@ -272,17 +272,6 @@
     - view@core:task:view
     - stop@core:task:stop
     - delete@core:task:delete
-500-200:
-  name: scheduleJob.management
-  url: ../support_genuine.jsp
-  perms: core:schedule_job:list
-  ops:
-    - create@core:schedule_job:create
-    - copy@core:schedule_job:copy
-    - edit@core:schedule_job:edit
-    - save@core:schedule_job:save
-    - update@core:schedule_job:update
-    - delete@core:schedule_job:delete
 500-300:
   name: collect.management
   url: ext/collect/list.do
@@ -308,12 +297,6 @@
     - save@core:sensitive_word:save
     - update@core:sensitive_word:update
     - delete@core:sensitive_word:delete
-500-500:
-  name: attachment.management
-  url: ../support_genuine.jsp
-  perms: core:attachment:list
-  ops:
-    - delete@core:attachment:delete
 500-600:
   name: scoreGroup.management
   url: core/score_group/list.do
@@ -578,17 +561,7 @@
     - global.other.settingUpdate@core:conf_global:other_update
     - global.custom.settingEdit@core:conf_global:custom_edit
     - global.custom.settingUpdate@core:conf_global:custom_update
-900-300:
-  name: publishPoint.management
-  url: ../support_genuine.jsp
-  perms: core:publish_point:list
-  ops:
-    - create@core:publish_point:create
-    - copy@core:publish_point:copy
-    - edit@core:publish_point:edit
-    - save@core:publish_point:save
-    - update@core:publish_point:update
-    - delete@core:publish_point:delete
+
 900-400:
   name: site.management
   url: core/site/list.do
@@ -637,10 +610,18 @@
     - save@core:workflow:save,core:workflow_step:save
     - update@core:workflow:update,core:workflow_step:update
     - delete@core:workflow:delete,core:workflow_step:delete
-900-900:
-  name: operationLog.management
-  url: ../support_genuine.jsp
-  perms: core:operation_log:list
+1000:
+  name: md.system
+  icon: glyphicon glyphicon-headphones
+  perms: sysdict_system
+1000-100:
+  name: sysdict.management
+  url: core/sysdict/list.do
+  perms: core:sysdict:list
   ops:
-    - view@core:operation_log:view
-    - delete@core:operation_log:delete
+    - create@core:sysdict:create
+    - copy@core:sysdict:copy
+    - edit@core:sysdict:edit
+    - save@core:sysdict:save
+    - update@core:sysdict:update
+    - delete@core:sysdict:delete
