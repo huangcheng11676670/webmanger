@@ -2,7 +2,9 @@ package com.jspxcms.core.service;
 
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.data.domain.Sort;
+
 import com.jspxcms.core.domain.SysDict;
 
 /**
@@ -13,6 +15,8 @@ public interface SysDictService {
     public List<SysDict> findList(Integer siteId, Map<String, String[]> params, Sort sort);
 
     public List<SysDict> findList(Integer siteId);
+    
+    public List<SysDict> findList(String treeNumber);
 
     public SysDict get(Integer id);
 

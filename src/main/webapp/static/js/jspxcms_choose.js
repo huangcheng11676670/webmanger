@@ -383,7 +383,17 @@ Cms.f7.uploads = function(name, focus, options) {
 	var names = ["Name","Length"];
 	var f7 = Cms.F7Single(url,name,names,focus,options);
 };
-
+/**
+ * 地区单选
+ */
+Cms.f7.area = function(name, focus, options) {
+	options = options || {};
+	var url = CTX + CMSCP + "/core/area/choose_area_tree.do";
+	var settings = {title:"Area Select",width:350,height:450};
+	options.settings = $.extend(settings, options.settings);
+	var names = ["Number","Name"];
+	var f7 = Cms.F7Single(url,name,names,focus,options);
+};
 
 
 

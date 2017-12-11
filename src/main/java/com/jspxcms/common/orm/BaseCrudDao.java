@@ -1,7 +1,11 @@
 package com.jspxcms.common.orm;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.Repository;
 
 /**
@@ -33,6 +37,8 @@ public interface BaseCrudDao<T, ID extends Serializable> extends Repository<T, I
      */
     Iterable<T> findAll();
 
+    List<T> findAll(Specification<T> spec, Sort sort);
+
     /**
      * Returns the number of entities.
      * 
@@ -45,7 +51,7 @@ public interface BaseCrudDao<T, ID extends Serializable> extends Repository<T, I
      * 
      * @param entity
      */
-    void delete(T entity);
+    T delete(T entity);
 
     /**
      * Indicates whether an entity with the given id exists.

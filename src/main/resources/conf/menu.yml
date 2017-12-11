@@ -625,3 +625,14 @@
     - save@core:sysdict:save
     - update@core:sysdict:update
     - delete@core:sysdict:delete
+1000-200:
+  name: customer.management
+  url: core/customer/list.do
+  perms: core:customer:list
+  ops:
+    - create@core:customer:create
+    - copy@core:customer:copy
+    - edit@core:customer:edit
+    - save@core:customer:save
+    - update@core:customer:update
+    - delete@core:customer:delete
