@@ -1,4 +1,4 @@
-package com.jspxcms.core.repository;
+package com.jspxcms.common.orm;
 
 import java.io.Serializable;
 import java.util.Optional;
