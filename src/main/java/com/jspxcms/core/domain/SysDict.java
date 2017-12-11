@@ -15,6 +15,8 @@ import com.jspxcms.core.support.Siteable;
 @Entity
 @Table(name = "cms_dict")
 public class SysDict implements Siteable, java.io.Serializable {
+    
+    public static final String AREA_TYPE = "area_type";
 
     private static final long serialVersionUID = -6760179206158659536L;
     private Integer id;

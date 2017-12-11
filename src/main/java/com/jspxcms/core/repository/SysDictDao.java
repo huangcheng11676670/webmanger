@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+
 import com.jspxcms.common.orm.Limitable;
 import com.jspxcms.core.domain.SysDict;
 
@@ -39,4 +40,12 @@ public interface SysDictDao extends Repository<SysDict, Integer> {
 
     @Query("select bean from SysDict bean where bean.site.id = ?1 and bean.parentId = ?2 ")
     public List<SysDict> findBySiteIdAndParentId(Integer siteId, Integer pid, Sort sort);
+    
+    public List<SysDict> findByTreeNumberStartingWith(String treeNumber, Sort sort);
+    
+    public List<SysDict> findAll(Sort sort);
+
+    public List<SysDict> findByTreeNumberStartingWithAndType(String treeNumber, String type, Sort sort);
+
+    public List<SysDict> findByType(String areaType, Sort sort);
 }
