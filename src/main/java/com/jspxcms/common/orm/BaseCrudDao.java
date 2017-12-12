@@ -6,13 +6,13 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * 通用DAO层
  * @author HuangCheng
  */
-public interface BaseCrudDao<T, ID extends Serializable> extends Repository<T, ID> {
+public interface BaseCrudDao<T, ID extends Serializable> extends JpaRepository<T, ID> {
 
     /**
      * Saves the given entity.
@@ -30,12 +30,6 @@ public interface BaseCrudDao<T, ID extends Serializable> extends Repository<T, I
      */
     Optional<T> findById(ID primaryKey);
 
-    /**
-     * Returns all entities.
-     * 
-     * @return
-     */
-    Iterable<T> findAll();
 
     List<T> findAll(Specification<T> spec, Sort sort);
 
@@ -45,13 +39,6 @@ public interface BaseCrudDao<T, ID extends Serializable> extends Repository<T, I
      * @return
      */
     long count();
-
-    /**
-     * Deletes the given entity.
-     * 
-     * @param entity
-     */
-    T delete(T entity);
 
     /**
      * Indicates whether an entity with the given id exists.
