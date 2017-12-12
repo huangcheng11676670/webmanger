@@ -28,6 +28,7 @@ import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
 import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Site;
+import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SysDictService;
@@ -64,6 +65,8 @@ public class CustomerController {
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
         List<Customer> pagedList = service.findList(siteId, params, pageable.getSort());
         modelMap.addAttribute("pagedList", pagedList);
+        List<SysDict> dictList = sysDictService.findList("0000");
+        modelMap.addAttribute("dictList", dictList);
         return "core/customer/customer_list";
     }
 

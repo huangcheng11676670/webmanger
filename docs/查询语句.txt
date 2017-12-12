@@ -1,0 +1,68 @@
+查询语句
+
+================================
+              字段对应的类型的，契约值在下面找
+================================
+com.jspxcms.common.orm.SearchFilter
+public enum Type {
+String, Integer, Long, Float, Double, BigDecimal, BigInteger, Boolean, Date, Timestamp;
+
+================================
+                         查询比较符号
+================================
+case EQ:
+    predicates.add(builder.equal(exp, filter.value[0]));
+    break;
+case LIKE:
+    predicates.add(builder.like(exp,
+            filter.value[0].toString()));
+    break;
+case CONTAIN:
+    predicates.add(builder.like(exp, "%"
+            + filter.value[0] + "%"));
+    break;
+case STARTWITH:
+    predicates.add(builder.like(exp, filter.value[0]
+            + "%"));
+    break;
+case ENDWITH:
+    predicates.add(builder.like(exp, "%"
+            + filter.value[0]));
+    break;
+case GT:
+    predicates.add(builder.greaterThan(exp,
+            (Comparable) filter.value[0]));
+    break;
+case LT:
+    predicates.add(builder.lessThan(exp,
+            (Comparable) filter.value[0]));
+    break;
+case GTE:
+    predicates.add(builder.greaterThanOrEqualTo(exp,
+            (Comparable) filter.value[0]));
+    break;
+case LTE:
+    predicates.add(builder.lessThanOrEqualTo(exp,
+            (Comparable) filter.value[0]));
+    break;
+case IN:
+    predicates.add(exp.in(filter.value));
+    break;
+}
+================================
+                   例如jsp语句分析:
+================================
+<div class="form-group">
+<select class="form-control input-sm" id="search_EQ_clearance_Boolean" name="search_EQ_clearance_Boolean">
+    <option value=""><s:message code="allSelect"/></option>
+    <option <c:if test="${search_EQ_clearance_Boolean[0]}"> selected="selected"</c:if> value="true">已回款</option>
+    <option <c:if test="${!search_EQ_clearance_Boolean[0]}"> selected="selected"</c:if> value="false">未回款</option>
+</select>
+</div>
+
+name="search_EQ_clearance_Boolean"
+分成
+search   查询语句前缀
+EQ   查询比较符号
+clearance 查询字段对应域对象模型字段值
+Boolean 查询字段类型

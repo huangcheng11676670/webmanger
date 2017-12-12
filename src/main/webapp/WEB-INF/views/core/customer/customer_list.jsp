@@ -57,6 +57,23 @@ function optDelete(form) {
                   <label>名字</label>
                   <input class="form-control input-sm" type="text" name="search_CONTAIN_name" value="${search_CONTAIN_name[0]}"/>
                 </div>
+                <div class="form-group">
+                <select class="form-control input-sm" id="search_EQ_clearance_Boolean" name="search_EQ_clearance_Boolean">
+                    <option value=""><s:message code="allSelect"/></option>
+                    <option <c:if test="${search_EQ_clearance_Boolean[0]}"> selected="selected"</c:if> value="true">已回款</option>
+                    <option <c:if test="${!search_EQ_clearance_Boolean[0]}"> selected="selected"</c:if> value="false">未回款</option>
+                </select>
+                </div>
+                <div class="form-group">
+                  <label for="search_EQ_areaId">区域</label>
+                <select class="form-control input-sm" id="search_EQ_areaId" name="search_EQ_areaId">
+                    <option value=""><s:message code="allSelect"/></option>
+                    <c:forEach var="attr" items="${dictList}">
+                      <c:set var="idstr">${attr.id}</c:set>
+                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId[0]}"> selected="selected"</c:if>>${attr.label}</option>
+                      </c:forEach>
+                </select>
+                </div>
               <button class="btn btn-default btn-sm" type="submit"><s:message code="search"/></button>
             </form>
             <form method="post">
@@ -87,10 +104,10 @@ function optDelete(form) {
                     <th width="25"><input type="checkbox" onclick="Cms.check('ids',this.checked);"/></th>
                     <th width="160"><s:message code="operate"/></th>
                     <th width="30" class="ls-th-sort"><span class="ls-sort" pagesort="id">ID</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="name">名称</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="webUrl">网站链接</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="weixinName">微信名</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="status">状态</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="name">客户名称</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="webUrl">联系人</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="webUrl">联系电话</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="clearance">是否回款</span></th>
                   </tr>
                   </thead>
                   <tbody>
@@ -115,8 +132,17 @@ function optDelete(form) {
                     <td><c:out value="${bean.id}"/></td>
                     <td><c:out value="${bean.name}"/></td>
                     <td><c:out value="${bean.webUrl}"/></td>
-                    <td><c:out value="${bean.weixinName}"/></td>
-                    <td><s:message code="sysdict.status.${bean.status}"/></td>
+                    <td><c:out value="${bean.webUrl}"/></td>
+                    <td>  
+                    <c:choose>
+                        <c:when test="${clearance}">
+                          已回款
+                        </c:when>
+                        <c:otherwise>
+                             未回款
+                        </c:otherwise>
+                      </c:choose>
+                      </td>
                   </tr>
                   </c:forEach>
                   </tbody>
