@@ -205,7 +205,6 @@ public class SearchFilter {
 
     public static <T> Specification<T> buildSpecification(Map<String, String[]> params, Class<T> clazz) {
         Collection<SearchFilter> filters = SearchFilter.parse(params).values();
-        Specification<T> fsp = SearchFilter.spec(filters, clazz);
-        return fsp;
+        return SearchFilter.spec(filters, clazz);
     }
 }
