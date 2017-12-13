@@ -36,7 +36,7 @@ public class BaseServiceImpl<T, ID extends Serializable> implements IBaseService
 
     @Override
     public T update(T bean) {
-        bean = dao.save(bean);
+        bean = dao.saveAndFlush(bean);
         return bean;
     }
 

@@ -16,39 +16,39 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.service.BaseServiceImpl;
-import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Site;
+import com.jspxcms.core.domain.SysFavorite;
 import com.jspxcms.core.listener.SiteDeleteListener;
-import com.jspxcms.core.repository.CustomerDao;
-import com.jspxcms.core.service.CustomerService;
+import com.jspxcms.core.repository.SysFavoriteDao;
 import com.jspxcms.core.service.SiteService;
+import com.jspxcms.core.service.SysFavoriteService;
 
 /**
- * CustomerServiceImpl
+ * SysFavoriteServiceImpl
  * 
  */
 @Service
 @Transactional(readOnly = true)
-public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> implements CustomerService, SiteDeleteListener {
+public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer> implements SysFavoriteService, SiteDeleteListener {
 
     @Autowired
-    public void setDao(CustomerDao dao) {
+    public void setDao(SysFavoriteDao dao) {
         super.setDao(dao);
     }
 
     @Autowired
     private SiteService siteService;
 
-    public List<Customer> findList(Integer siteId, Map<String, String[]> params, Sort sort) {
+    public List<SysFavorite> findList(Integer siteId, Map<String, String[]> params, Sort sort) {
         return dao.findAll(spec(siteId, params), sort);
     }
 
-    private Specification<Customer> spec(final Integer siteId, Map<String, String[]> params) {
+    private Specification<SysFavorite> spec(final Integer siteId, Map<String, String[]> params) {
         /*Collection<SearchFilter> filters = SearchFilter.parse(params).values();
-        final Specification<Customer> fsp = SearchFilter.spec(filters, Customer.class);*/
-        Specification<Customer> sp = new Specification<Customer>() {
-            public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate pred = SearchFilter.buildSpecification(params, Customer.class).toPredicate(root, query, cb);
+        final Specification<SysFavorite> fsp = SearchFilter.spec(filters, SysFavorite.class);*/
+        Specification<SysFavorite> sp = new Specification<SysFavorite>() {
+            public Predicate toPredicate(Root<SysFavorite> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate pred = SearchFilter.buildSpecification(params, SysFavorite.class).toPredicate(root, query, cb);
                 if (siteId != null) {
                     pred = cb.and(pred, cb.equal(root.get("site").<Integer>get("id"), siteId));
                 }
@@ -58,40 +58,41 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> impl
         return sp;
     }
 
-    public List<Customer> findList(Integer siteId) {
-        return dao.findAll();
+    public List<SysFavorite> findList(Integer siteId) {
+        Sort sort = new Sort("type", "sort");
+        return findList(siteId);
     }
 
     /*
-     * @Transactional public Customer save(Customer bean, Integer groupId, Integer
+     * @Transactional public SysFavorite save(SysFavorite bean, Integer groupId, Integer
      * siteId) { Site site = siteService.get(siteId); bean.setSite(site);
      * super.save(bean); return bean; }
      */
 
     @Transactional
-    public List<Customer> batchUpdate(Integer[] id, String[] name, String[] description) {
+    public List<SysFavorite> batchUpdate(Integer[] id, String[] name, String[] description) {
         /*
-         * List<Customer> beans = new ArrayList<Customer>(); if (ArrayUtils.isEmpty(id))
-         * { return beans; } Customer bean; for (int i = 0, len = id.length; i < len;
+         * List<SysFavorite> beans = new ArrayList<SysFavorite>(); if (ArrayUtils.isEmpty(id))
+         * { return beans; } SysFavorite bean; for (int i = 0, len = id.length; i < len;
          * i++) { bean = get(id[i]); beans.add(bean); } return beans;
          */
         return null;
     }
 
     /*
-     * private Customer doDelete(Integer id) { Customer entity = dao.findOne(id); if
+     * private SysFavorite doDelete(Integer id) { SysFavorite entity = dao.findOne(id); if
      * (entity != null) { dao.delete(entity); } return entity; }
      */
 
     public void preSiteDelete(Integer[] ids) {
         /*
          * if (ArrayUtils.isNotEmpty(ids)) { if (dao.countBySiteId(Arrays.asList(ids)) >
-         * 0) { throw new DeleteException("Customer.management"); } }
+         * 0) { throw new DeleteException("SysFavorite.management"); } }
          */
     }
 
     @Transactional
-    public void save(Customer bean, Integer siteId) {
+    public void save(SysFavorite bean, Integer siteId) {
         Site site = siteService.get(siteId);
         bean.setSite(site);
         bean = dao.save(bean);

@@ -17,6 +17,10 @@ import com.jspxcms.core.support.Siteable;
 public class SysDict implements Siteable, java.io.Serializable {
     
     public static final String AREA_TYPE = "area_type";
+    /**
+     * 收藏夹类型
+     */
+    public static final String FAVORITE_TYPE = "favorite_type";
 
     private static final long serialVersionUID = -6760179206158659536L;
     private Integer id;

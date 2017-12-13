@@ -1,0 +1,6 @@
+从数据库生成实体类
+
+需要创建一个jpa项目，使用
+hibernate.cfg.xml配置项，
+生成hibernate configurations
+右键 jpa项目根目录，选择JPA TOOLS -- Gerenater entites from table

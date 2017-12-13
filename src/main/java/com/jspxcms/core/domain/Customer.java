@@ -35,15 +35,23 @@ public class Customer implements Siteable, java.io.Serializable {
     
     private String contact1;
     private String contact1Phone;
+    private String contact1QQ;
+    private String contact1Weixin;
 
     private String contact2;
     private String contact2Phone;
+    private String contact2QQ;
+    private String contact2Weixin;
 
     private String contact3;
     private String contact3Phone;
+    private String contact3QQ;
+    private String contact3Weixin;
 
     private String contact4;
     private String contact4Phone;
+    private String contact4QQ;
+    private String contact4Weixin;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -209,4 +217,78 @@ public class Customer implements Siteable, java.io.Serializable {
     public void setContact4Phone(String contact4Phone) {
         this.contact4Phone = contact4Phone;
     }
+
+    @Column(name = "f_contact1_qq", length = 20)
+    public String getContact1QQ() {
+        return contact1QQ;
+    }
+
+    public void setContact1QQ(String contact1qq) {
+        contact1QQ = contact1qq;
+    }
+
+    @Column(name = "f_contact1_weixin", length = 20)
+    public String getContact1Weixin() {
+        return contact1Weixin;
+    }
+
+    public void setContact1Weixin(String contact1Weixin) {
+        this.contact1Weixin = contact1Weixin;
+    }
+
+    @Column(name = "f_contact2_qq", length = 20)
+    public String getContact2QQ() {
+        return contact2QQ;
+    }
+
+    public void setContact2QQ(String contact2qq) {
+        contact2QQ = contact2qq;
+    }
+
+    @Column(name = "f_contact2_weixin", length = 20)
+    public String getContact2Weixin() {
+        return contact2Weixin;
+    }
+
+    public void setContact2Weixin(String contact2Weixin) {
+        this.contact2Weixin = contact2Weixin;
+    }
+
+    @Column(name = "f_contact3_qq", length = 20)
+    public String getContact3QQ() {
+        return contact3QQ;
+    }
+
+    public void setContact3QQ(String contact3qq) {
+        contact3QQ = contact3qq;
+    }
+
+    @Column(name = "f_contact3_weixin", length = 20)
+    public String getContact3Weixin() {
+        return contact3Weixin;
+    }
+
+    public void setContact3Weixin(String contact3Weixin) {
+        this.contact3Weixin = contact3Weixin;
+    }
+
+    @Column(name = "f_contact4_qq", length = 20)
+    public String getContact4QQ() {
+        return contact4QQ;
+    }
+
+    public void setContact4QQ(String contact4qq) {
+        contact4QQ = contact4qq;
+    }
+
+    @Column(name = "f_contact4_weixin", length = 20)
+    public String getContact4Weixin() {
+        return contact4Weixin;
+    }
+
+    public void setContact4Weixin(String contact4Weixin) {
+        this.contact4Weixin = contact4Weixin;
+    }
+    
+    
 }

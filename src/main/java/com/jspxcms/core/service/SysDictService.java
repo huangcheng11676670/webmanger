@@ -15,8 +15,10 @@ public interface SysDictService {
     public List<SysDict> findList(Integer siteId, Map<String, String[]> params, Sort sort);
 
     public List<SysDict> findList(Integer siteId);
+
+    public List<SysDict> findListByTree(String treeNumber);
     
-    public List<SysDict> findList(String treeNumber);
+    public List<SysDict> findListByType(String type);
 
     public SysDict get(Integer id);
 

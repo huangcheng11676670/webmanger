@@ -130,6 +130,7 @@ function confirmDelete() {
                     </div>
                 </div>
             </div>
+            <ul class="list-group">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -144,6 +145,24 @@ function confirmDelete() {
                         <label class="col-sm-4 control-label">联系人1电话</label>
                         <div class="col-sm-8">
                             <f:text name="contact1Phone" value="${oprt=='edit' || oprt=='create' ? bean.contact1Phone : ''}" class="form-control" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人1QQ</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact1QQ" value="${oprt=='edit' || oprt=='create' ? bean.contact1QQ : ''}" class="form-control" maxlength="30" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人1微信</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact1Weixin" value="${oprt=='edit' || oprt=='create' ? bean.contact1Weixin : ''}" class="form-control" maxlength="20" />
                         </div>
                     </div>
                 </div>
@@ -169,6 +188,24 @@ function confirmDelete() {
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人2QQ</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact2QQ" value="${oprt=='edit' || oprt=='create' ? bean.contact2QQ : ''}" class="form-control" maxlength="30" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人2微信</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact2Weixin" value="${oprt=='edit' || oprt=='create' ? bean.contact2Weixin : ''}" class="form-control" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
                         <label class="col-sm-4 control-label">联系人3</label>
                         <div class="col-sm-8">
                             <f:text name="contact3" value="${oprt=='edit' || oprt=='create' ? bean.contact3 : ''}" class="form-control" maxlength="30" />
@@ -187,6 +224,24 @@ function confirmDelete() {
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人3QQ</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact3QQ" value="${oprt=='edit' || oprt=='create' ? bean.contact3QQ : ''}" class="form-control" maxlength="30" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人3微信</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact3Weixin" value="${oprt=='edit' || oprt=='create' ? bean.contact3Weixin : ''}" class="form-control" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
                         <label class="col-sm-4 control-label">联系人4</label>
                         <div class="col-sm-8">
                             <f:text name="contact4" value="${oprt=='edit' || oprt=='create' ? bean.contact4 : ''}" class="form-control" maxlength="30" />
@@ -198,6 +253,24 @@ function confirmDelete() {
                         <label class="col-sm-4 control-label">联系人4电话</label>
                         <div class="col-sm-8">
                             <f:text name="contact4Phone" value="${oprt=='edit' || oprt=='create' ? bean.contact4Phone : ''}" class="form-control" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人4QQ</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact4QQ" value="${oprt=='edit' || oprt=='create' ? bean.contact4QQ : ''}" class="form-control" maxlength="30" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人4微信</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact4Weixin" value="${oprt=='edit' || oprt=='create' ? bean.contact4Weixin : ''}" class="form-control" maxlength="20" />
                         </div>
                     </div>
                 </div>

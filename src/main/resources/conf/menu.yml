@@ -636,3 +636,14 @@
     - save@core:customer:save
     - update@core:customer:update
     - delete@core:customer:delete
+1000-300:
+  name: sysfavorite.management
+  url: core/sysfavorite/list.do
+  perms: core:sysfavorite:list
+  ops:
+    - create@core:sysfavorite:create
+    - copy@core:sysfavorite:copy
+    - edit@core:sysfavorite:edit
+    - save@core:sysfavorite:save
+    - update@core:sysfavorite:update
+    - delete@core:sysfavorite:delete
