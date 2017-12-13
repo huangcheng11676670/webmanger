@@ -1,17 +1,19 @@
 package com.jspxcms.core.service.impl;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.core.domain.Customer;
@@ -42,11 +44,11 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> impl
     }
 
     private Specification<Customer> spec(final Integer siteId, Map<String, String[]> params) {
-        Collection<SearchFilter> filters = SearchFilter.parse(params).values();
-        final Specification<Customer> fsp = SearchFilter.spec(filters, Customer.class);
+        /*Collection<SearchFilter> filters = SearchFilter.parse(params).values();
+        final Specification<Customer> fsp = SearchFilter.spec(filters, Customer.class);*/
         Specification<Customer> sp = new Specification<Customer>() {
             public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate pred = fsp.toPredicate(root, query, cb);
+                Predicate pred = SearchFilter.buildSpecification(params, Customer.class).toPredicate(root, query, cb);
                 if (siteId != null) {
                     pred = cb.and(pred, cb.equal(root.get("site").<Integer>get("id"), siteId));
                 }

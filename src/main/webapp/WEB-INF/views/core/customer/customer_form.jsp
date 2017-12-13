@@ -130,6 +130,78 @@ function confirmDelete() {
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人1</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact1" value="${oprt=='edit' || oprt=='create' ? bean.contact1 : ''}" class="form-control" maxlength="30" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人1电话</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact1Phone" value="${oprt=='edit' || oprt=='create' ? bean.contact1Phone : ''}" class="form-control" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人2</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact2" value="${oprt=='edit' || oprt=='create' ? bean.contact2 : ''}" class="form-control" maxlength="30" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人2电话</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact2Phone" value="${oprt=='edit' || oprt=='create' ? bean.contact2Phone : ''}" class="form-control" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人3</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact3" value="${oprt=='edit' || oprt=='create' ? bean.contact3 : ''}" class="form-control" maxlength="30" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人3电话</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact3Phone" value="${oprt=='edit' || oprt=='create' ? bean.contact3Phone : ''}" class="form-control" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人4</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact4" value="${oprt=='edit' || oprt=='create' ? bean.contact4 : ''}" class="form-control" maxlength="30" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人4电话</label>
+                        <div class="col-sm-8">
+                            <f:text name="contact4Phone" value="${oprt=='edit' || oprt=='create' ? bean.contact4Phone : ''}" class="form-control" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
             <div class="box-footer">
           <button class="btn btn-primary" type="submit"><s:message code="save"/></button>

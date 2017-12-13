@@ -60,14 +60,14 @@ function optDelete(form) {
                 <div class="form-group">
                 <select class="form-control input-sm" id="search_EQ_clearance_Boolean" name="search_EQ_clearance_Boolean">
                     <option value=""><s:message code="allSelect"/></option>
-                    <option <c:if test="${search_EQ_clearance_Boolean[0]}"> selected="selected"</c:if> value="true">已回款</option>
-                    <option <c:if test="${!search_EQ_clearance_Boolean[0]}"> selected="selected"</c:if> value="false">未回款</option>
+                    <option <c:if test="${search_EQ_clearance_Boolean[0] eq 'true'}"> selected="selected"</c:if> value="true">已回款</option>
+                    <option <c:if test="${search_EQ_clearance_Boolean[0] eq 'false'}"> selected="selected"</c:if> value="false">未回款</option>
                 </select>
                 </div>
                 <div class="form-group">
                   <label for="search_EQ_areaId">区域</label>
                 <select class="form-control input-sm" id="search_EQ_areaId" name="search_EQ_areaId">
-                    <option value=""><s:message code="allSelect"/></option>
+                    <option value="" ><s:message code="allSelect"/></option>
                     <c:forEach var="attr" items="${dictList}">
                       <c:set var="idstr">${attr.id}</c:set>
                       <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId[0]}"> selected="selected"</c:if>>${attr.label}</option>
@@ -105,8 +105,8 @@ function optDelete(form) {
                     <th width="160"><s:message code="operate"/></th>
                     <th width="30" class="ls-th-sort"><span class="ls-sort" pagesort="id">ID</span></th>
                     <th class="ls-th-sort"><span class="ls-sort" pagesort="name">客户名称</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="webUrl">联系人</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="webUrl">联系电话</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contact1">联系人</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contact1Phone">联系电话</span></th>
                     <th class="ls-th-sort"><span class="ls-sort" pagesort="clearance">是否回款</span></th>
                   </tr>
                   </thead>
@@ -131,11 +131,11 @@ function optDelete(form) {
                      </td>
                     <td><c:out value="${bean.id}"/></td>
                     <td><c:out value="${bean.name}"/></td>
-                    <td><c:out value="${bean.webUrl}"/></td>
-                    <td><c:out value="${bean.webUrl}"/></td>
+                    <td><c:out value="${bean.contact1}"/></td>
+                    <td><c:out value="${bean.contact1Phone}"/></td>
                     <td>  
                     <c:choose>
-                        <c:when test="${clearance}">
+                        <c:when test="${bean.clearance}">
                           已回款
                         </c:when>
                         <c:otherwise>

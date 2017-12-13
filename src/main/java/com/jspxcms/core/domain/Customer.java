@@ -32,6 +32,18 @@ public class Customer implements Siteable, java.io.Serializable {
     private String remarks;
     private Integer status;
     private Site site;
+    
+    private String contact1;
+    private String contact1Phone;
+
+    private String contact2;
+    private String contact2Phone;
+
+    private String contact3;
+    private String contact3Phone;
+
+    private String contact4;
+    private String contact4Phone;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -124,5 +136,77 @@ public class Customer implements Siteable, java.io.Serializable {
 
     public void setSite(Site site) {
         this.site = site;
+    }
+
+    @Column(name = "f_contact1", length = 30)
+    public String getContact1() {
+        return contact1;
+    }
+
+    public void setContact1(String contact1) {
+        this.contact1 = contact1;
+    }
+
+    @Column(name = "f_contact1_phone", length = 20)
+    public String getContact1Phone() {
+        return contact1Phone;
+    }
+
+    public void setContact1Phone(String contact1Phone) {
+        this.contact1Phone = contact1Phone;
+    }
+
+    @Column(name = "f_contact2", length = 30)
+    public String getContact2() {
+        return contact2;
+    }
+
+    public void setContact2(String contact2) {
+        this.contact2 = contact2;
+    }
+
+    @Column(name = "f_contact2_phone", length = 20)
+    public String getContact2Phone() {
+        return contact2Phone;
+    }
+
+    public void setContact2Phone(String contact2Phone) {
+        this.contact2Phone = contact2Phone;
+    }
+
+    @Column(name = "f_contact3", length = 30)
+    public String getContact3() {
+        return contact3;
+    }
+
+    public void setContact3(String contact3) {
+        this.contact3 = contact3;
+    }
+
+    @Column(name = "f_contact3_phone", length = 20)
+    public String getContact3Phone() {
+        return contact3Phone;
+    }
+
+    public void setContact3Phone(String contact3Phone) {
+        this.contact3Phone = contact3Phone;
+    }
+
+    @Column(name = "f_contact4", length = 30)
+    public String getContact4() {
+        return contact4;
+    }
+
+    public void setContact4(String contact4) {
+        this.contact4 = contact4;
+    }
+
+    @Column(name = "f_contact4_phone", length = 20)
+    public String getContact4Phone() {
+        return contact4Phone;
+    }
+
+    public void setContact4Phone(String contact4Phone) {
+        this.contact4Phone = contact4Phone;
     }
 }
