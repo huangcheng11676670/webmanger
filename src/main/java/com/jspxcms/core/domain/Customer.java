@@ -15,7 +15,7 @@ import com.jspxcms.core.support.Siteable;
  * 客户
  */
 @Entity
-@Table(name = "cms_customer")
+@Table(name = "cms_yq_customer")
 public class Customer implements Siteable, java.io.Serializable {
 
     private static final long serialVersionUID = -8120003150160744976L;

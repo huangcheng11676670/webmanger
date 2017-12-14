@@ -647,3 +647,25 @@
     - save@core:sysfavorite:save
     - update@core:sysfavorite:update
     - delete@core:sysfavorite:delete
+1000-400:
+  name: contract.management
+  url: core/contract/list.do
+  perms: core:contract:list
+  ops:
+    - create@core:contract:create
+    - copy@core:contract:copy
+    - edit@core:contract:edit
+    - save@core:contract:save
+    - update@core:contract:update
+    - delete@core:contract:delete
+1000-500:
+  name: sentiment.management
+  url: core/sentiment/list.do
+  perms: core:sentiment:list
+  ops:
+    - create@core:sentiment:create
+    - copy@core:sentiment:copy
+    - edit@core:sentiment:edit
+    - save@core:sentiment:save
+    - update@core:sentiment:update
+    - delete@core:sentiment:delete

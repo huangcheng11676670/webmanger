@@ -16,7 +16,7 @@ public interface SysDictService {
 
     public List<SysDict> findList(Integer siteId);
 
-    public List<SysDict> findListByTree(String treeNumber);
+    public List<SysDict> findAreaListByTree(String treeNumber);
     
     public List<SysDict> findListByType(String type);
 

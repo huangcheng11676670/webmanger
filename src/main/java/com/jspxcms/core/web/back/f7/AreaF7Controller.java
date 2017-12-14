@@ -40,7 +40,7 @@ public class AreaF7Controller {
         if (StringUtils.isNotBlank(treeNumber)) {
             allowRoot = false;
         }
-        List<SysDict> list = service.findListByTree(treeNumber);
+        List<SysDict> list = service.findAreaListByTree(treeNumber);
         SysDict bean = null, excludeChildrenBean = null;
         if (id != null) {
             bean = service.get(id);

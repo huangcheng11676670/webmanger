@@ -13,14 +13,28 @@ import javax.persistence.Table;
 import com.jspxcms.core.support.Siteable;
 
 @Entity
-@Table(name = "cms_dict")
+@Table(name = "cms_yq_dict")
 public class SysDict implements Siteable, java.io.Serializable {
-    
+    /**
+     * 地区类型
+     */
     public static final String AREA_TYPE = "area_type";
     /**
      * 收藏夹类型
      */
     public static final String FAVORITE_TYPE = "favorite_type";
+    /**
+     * 舆论分类
+     */
+    public static final String INFO_TYPE = "info_type";
+    /**
+     * 舆情等级
+     */
+    public static final String INFO_LEVEL = "info_level";
+    /**
+     * 学位分段
+     */
+    public static final String SCHOOL_LEVEL = "school_level";
 
     private static final long serialVersionUID = -6760179206158659536L;
     private Integer id;

@@ -151,7 +151,7 @@ public class SysDictServiceImpl implements SysDictService, SiteDeleteListener {
         return dao.findBySiteIdAndParentId(siteId, pid, sort);
     }
 
-    public List<SysDict> findListByTree(String treeNumber) {
+    public List<SysDict> findAreaListByTree(String treeNumber) {
         if (StringUtils.isNotBlank(treeNumber)) {
             return dao.findByTreeNumberStartingWithAndType(treeNumber, SysDict.AREA_TYPE, new Sort("treeNumber"));
         } else {

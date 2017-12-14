@@ -15,7 +15,7 @@ import com.jspxcms.core.support.Siteable;
  * 收藏夹管理
  */
 @Entity
-@Table(name = "cms_sys_favorite")
+@Table(name = "cms_yq_favorite")
 public class SysFavorite implements Siteable, java.io.Serializable {
 
     private static final long serialVersionUID = 6209612344565429906L;
