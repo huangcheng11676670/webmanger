@@ -115,4 +115,8 @@ public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer
         }
         bean = dao.save(bean);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> branch 'master' of https://github.com/huangcheng11676670/webmanger.git
