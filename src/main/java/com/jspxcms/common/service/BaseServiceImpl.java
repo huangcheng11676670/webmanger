@@ -19,9 +19,8 @@ public class BaseServiceImpl<T, ID extends Serializable> implements IBaseService
     }
 
     @Override
-    public List<T> findList(ID siteId) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<T> findAll() {
+        return dao.findAll();
     }
 
     @Override

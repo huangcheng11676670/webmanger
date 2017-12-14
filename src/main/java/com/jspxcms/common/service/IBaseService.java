@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface IBaseService<T, ID extends Serializable> {
 
-    public List<T> findList(ID siteId);
+    public List<T> findAll();
 
     public T get(ID id);
 

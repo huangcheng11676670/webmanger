@@ -17,4 +17,6 @@ public interface SysFavoriteService extends IBaseService<SysFavorite, Integer>{
     void save(SysFavorite bean, Integer siteId);
     
     public List<SysFavorite> findList(Integer siteId, Map<String, String[]> params, Sort sort);
+    
+    public void update(SysFavorite bean, Integer siteId, Integer sysDictTypeId, Integer customerId);
 }

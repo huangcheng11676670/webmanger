@@ -20,7 +20,9 @@ import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysFavorite;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.SysFavoriteDao;
+import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.SiteService;
+import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.service.SysFavoriteService;
 
 /**
@@ -39,13 +41,17 @@ public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer
     @Autowired
     private SiteService siteService;
 
+    @Autowired
+    private SysDictService sysDictService;
+    
+    @Autowired
+    private CustomerService customerService;
+
     public List<SysFavorite> findList(Integer siteId, Map<String, String[]> params, Sort sort) {
         return dao.findAll(spec(siteId, params), sort);
     }
 
     private Specification<SysFavorite> spec(final Integer siteId, Map<String, String[]> params) {
-        /*Collection<SearchFilter> filters = SearchFilter.parse(params).values();
-        final Specification<SysFavorite> fsp = SearchFilter.spec(filters, SysFavorite.class);*/
         Specification<SysFavorite> sp = new Specification<SysFavorite>() {
             public Predicate toPredicate(Root<SysFavorite> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Predicate pred = SearchFilter.buildSpecification(params, SysFavorite.class).toPredicate(root, query, cb);
@@ -59,8 +65,7 @@ public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer
     }
 
     public List<SysFavorite> findList(Integer siteId) {
-        Sort sort = new Sort("type", "sort");
-        return findList(siteId);
+        return dao.findAll();
     }
 
     /*
@@ -95,6 +100,19 @@ public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer
     public void save(SysFavorite bean, Integer siteId) {
         Site site = siteService.get(siteId);
         bean.setSite(site);
+        bean = dao.save(bean);
+    }
+
+    @Transactional
+    public void update(SysFavorite bean, Integer siteId, Integer sysDictTypeId, Integer customerId) {
+        Site site = siteService.get(siteId);
+        bean.setSite(site);
+        if(customerId != null) {
+            bean.setCustomer(customerService.get(customerId));
+        }
+        if(sysDictTypeId != null) {
+            bean.setSysDictType(sysDictService.get(sysDictTypeId));
+        }
         bean = dao.save(bean);
     }
 }
