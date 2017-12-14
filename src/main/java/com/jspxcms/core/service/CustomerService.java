@@ -17,4 +17,6 @@ public interface CustomerService extends IBaseService<Customer, Integer>{
     void save(Customer bean, Integer siteId);
     
     public List<Customer> findList(Integer siteId, Map<String, String[]> params, Sort sort);
+
+    List<Customer> findList(Integer siteId);
 }
