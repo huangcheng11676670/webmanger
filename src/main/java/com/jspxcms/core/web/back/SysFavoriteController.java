@@ -131,10 +131,12 @@ public class SysFavoriteController {
     @RequiresPermissions("core:sysfavorite:update")
     @RequestMapping("update.do")
     public String update(@ModelAttribute("bean") SysFavorite bean, Integer position, String redirect,
+            Integer sysDictTypeId,
+            Integer customerId,
             HttpServletRequest request, RedirectAttributes ra) {
         Site site = Context.getCurrentSite();
         Backends.validateDataInSite(bean, site.getId());
-        service.update(bean);
+        service.update(bean, site.getId(), sysDictTypeId, customerId);
         logService.operation("opr.sysfavorite.edit", bean.getFavoriteName(), null, bean.getId(), request);
         logger.info("update SysFavoriteGroup, title={}.", bean.getFavoriteName());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);

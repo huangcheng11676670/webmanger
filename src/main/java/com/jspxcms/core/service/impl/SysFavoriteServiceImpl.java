@@ -20,7 +20,9 @@ import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysFavorite;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.SysFavoriteDao;
+import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.SiteService;
+import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.service.SysFavoriteService;
 
 /**
@@ -38,6 +40,12 @@ public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer
 
     @Autowired
     private SiteService siteService;
+
+    @Autowired
+    private SysDictService sysDictService;
+    
+    @Autowired
+    private CustomerService customerService;
 
     public List<SysFavorite> findList(Integer siteId, Map<String, String[]> params, Sort sort) {
         return dao.findAll(spec(siteId, params), sort);
@@ -95,6 +103,19 @@ public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer
     public void save(SysFavorite bean, Integer siteId) {
         Site site = siteService.get(siteId);
         bean.setSite(site);
+        bean = dao.save(bean);
+    }
+
+    @Transactional
+    public void update(SysFavorite bean, Integer siteId, Integer sysDictTypeId, Integer customerId) {
+        Site site = siteService.get(siteId);
+        bean.setSite(site);
+        if(customerId != null) {
+            bean.setCustomer(customerService.get(customerId));
+        }
+        if(sysDictTypeId != null) {
+            bean.setSysDictType(sysDictService.get(sysDictTypeId));
+        }
         bean = dao.save(bean);
     }
 }

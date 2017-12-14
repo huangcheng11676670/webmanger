@@ -4,3 +4,8 @@
 hibernate.cfg.xml配置项，
 生成hibernate configurations
 右键 jpa项目根目录，选择JPA TOOLS -- Gerenater entites from table
+
+
+Hibernate的提示错误 
+Caused by: org.hibernate.HibernateException: identifier of an instance of .[类名]. is alterde from [数字] to [数字]
+原因：是由于在一个事务中更新了主键,而主键是不能被更新的.
