@@ -41,7 +41,7 @@
 %>
 <div class="login-box">
     <div class="login-logo">
-        <a href="${ctx}/" style="color:#fff;"><b>jspX</b>CMS</a>
+        <a href="${ctx}/" style="color:#fff;"><b>后台管理</b>信息系统</a>
     </div>
     <div class="login-box-body">
         <p class="login-box-msg text-danger">
