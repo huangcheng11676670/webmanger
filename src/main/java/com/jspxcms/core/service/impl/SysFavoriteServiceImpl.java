@@ -1,5 +1,8 @@
 package com.jspxcms.core.service.impl;
 
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +11,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,6 +29,8 @@ import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.SiteService;
 import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.service.SysFavoriteService;
+import com.jspxcms.ext.domain.Collect;
+import com.jspxcms.ext.dto.CommentListDto;
 
 /**
  * SysFavoriteServiceImpl
@@ -114,5 +121,50 @@ public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer
             bean.setSysDictType(sysDictService.get(sysDictTypeId));
         }
         bean = dao.save(bean);
+    }
+
+    /**
+     * 手机浏览器代理
+     */
+    public static final String agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1";
+    
+    @Override
+    public List<CommentListDto> findFavoriteByUrl(String url, Integer favoriteId) {
+        SysFavorite bean = dao.findOne(favoriteId);
+        if(bean ==null || StringUtils.isBlank(bean.getCustomerUrl())) {
+            return null;
+        }
+        String webSiteHtml;
+        try {
+            webSiteHtml = Collect.fetchHtml(URI.create(url), "utf-8", agent);
+        } catch (ClientProtocolException e) {
+            return null;
+        } catch (IOException e) {
+            return null;
+        }
+        if(StringUtils.isBlank(webSiteHtml)){
+            return null;
+        }
+        List<CommentListDto> dtoList = new ArrayList<CommentListDto>();
+        //假设有50个类似的数据
+        List<String> itemsList = Collect.findByReg(webSiteHtml, bean.getItemsPattern(), 50);
+        itemsList.forEach(item -> {
+            CommentListDto dto = new CommentListDto();
+            dto.setCommentNum(getHtmlValue(bean.getCommentNumPattern(), item));
+            dto.setContentCreateTime(getHtmlValue(bean.getContentCreateTimePattern(), item));
+            dto.setSummary(getHtmlValue(bean.getSummaryPattern(), item));
+            dto.setTitle(getHtmlValue(bean.getTitlePattern(), item));
+            dtoList.add(dto);
+        });
+        return dtoList;
+    }
+
+    private String getHtmlValue(String pattern, String item) {
+        List<String> numList = Collect.findByReg(item, pattern ,1);
+        if(numList != null && numList.size() >= 1) {
+            return numList.get(0);
+        }else {
+            return null;
+        }
     }
 }

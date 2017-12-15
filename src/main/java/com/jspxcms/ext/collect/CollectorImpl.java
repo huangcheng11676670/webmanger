@@ -27,6 +27,10 @@ public class CollectorImpl implements Collector {
 		new CollectThread(collectId).start();
 	}
 
+	public void starttest(Integer collectId) {
+	    new CollectThread(collectId).run();
+	}
+
 	public class CollectThread extends Thread {
 		private Integer collectId;
 

@@ -25,6 +25,15 @@ public class SysFavorite implements Siteable, java.io.Serializable {
     private Customer customer;
     private String customerUrl;
     private Site site;
+    private String itemsPattern;
+    private String realUrl;
+    private String originalUrl;
+    private String titlePattern;
+    private String contentCreateTimePattern;
+    private String commentNumPattern;
+    private String summaryPattern;
+    private String agent;
+    private String charset;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -82,5 +91,68 @@ public class SysFavorite implements Siteable, java.io.Serializable {
     }
     public void setSite(Site site) {
         this.site = site;
+    }
+
+    @Column(name = "f_items_pattern")
+    public String getItemsPattern() {
+        return itemsPattern;
+    }
+
+    public void setItemsPattern(String itemsPattern) {
+        this.itemsPattern = itemsPattern;
+    }
+
+    @Column(name = "f_real_url")
+    public String getRealUrl() {
+        return realUrl;
+    }
+
+    public void setRealUrl(String realUrl) {
+        this.realUrl = realUrl;
+    }
+
+    @Column(name = "f_original_url")
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
+    }
+
+    @Column(name = "f_title_pattern")
+    public String getTitlePattern() {
+        return titlePattern;
+    }
+
+    public void setTitlePattern(String titlePattern) {
+        this.titlePattern = titlePattern;
+    }
+
+    @Column(name = "f_content_create_time_pattern")
+    public String getContentCreateTimePattern() {
+        return contentCreateTimePattern;
+    }
+
+    public void setContentCreateTimePattern(String contentCreateTimePattern) {
+        this.contentCreateTimePattern = contentCreateTimePattern;
+    }
+
+    @Column(name = "f_comment_num_pattern")
+    public String getCommentNumPattern() {
+        return commentNumPattern;
+    }
+
+    public void setCommentNumPattern(String commentNumPattern) {
+        this.commentNumPattern = commentNumPattern;
+    }
+
+    @Column(name = "f_summary_pattern")
+    public String getSummaryPattern() {
+        return summaryPattern;
+    }
+
+    public void setSummaryPattern(String summaryPattern) {
+        this.summaryPattern = summaryPattern;
     }
 }

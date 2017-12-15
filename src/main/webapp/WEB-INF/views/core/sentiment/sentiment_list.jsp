@@ -145,11 +145,11 @@ function optDelete(form) {
                     <th width="25"><input type="checkbox" onclick="Cms.check('ids',this.checked);"/></th>
                     <th width="160"><s:message code="operate"/></th>
                     <th width="30" class="ls-th-sort"><span class="ls-sort" pagesort="id">ID</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="name">舆情标题</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contractMoney">采集人</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contractCode">舆情等级</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contractCreateTime">舆情分类</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contractEndTime">采集日期</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="sentimentTitle">舆情标题</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="user.realName">采集人</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="infoLevel">舆情等级</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="infoType">舆情分类</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="createDatetime">采集日期</span></th>
                   </tr>
                   </thead>
                   <tbody>
@@ -172,11 +172,11 @@ function optDelete(form) {
                       </shiro:hasPermission>
                      </td>
                     <td><c:out value="${bean.id}"/></td>
-                    <td><c:out value="${bean.customer.name}"/></td>
-                    <td><c:out value="${bean.contractMoney}"/></td>
-                    <td><c:out value="${bean.contractCode}"/></td>
-                    <td><fmt:formatDate value="${bean.contractCreateTime}" pattern="yyyy-MM-dd"/></td>
-                    <td><fmt:formatDate value="${bean.contractEndTime}" pattern="yyyy-MM-dd"/></td>
+                    <td><c:out value="${bean.sentimentTitle}"/></td>
+                    <td><c:out value="${bean.user.realName}"/></td>
+                    <td><c:out value="${bean.infoLevel}"/></td>
+                    <td><c:out value="${bean.infoType}"/></td>
+                    <td><fmt:formatDate value="${bean.createDatetime}" pattern="yyyy-MM-dd"/></td>
                   </tr>
                   </c:forEach>
                   </tbody>

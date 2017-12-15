@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import com.jspxcms.common.service.IBaseService;
 import com.jspxcms.core.domain.SysFavorite;
+import com.jspxcms.ext.dto.CommentListDto;
 
 /**
  * SysFavoriteService
@@ -19,4 +20,6 @@ public interface SysFavoriteService extends IBaseService<SysFavorite, Integer>{
     public List<SysFavorite> findList(Integer siteId, Map<String, String[]> params, Sort sort);
     
     public void update(SysFavorite bean, Integer siteId, Integer sysDictTypeId, Integer customerId);
+    
+    public List<CommentListDto> findFavoriteByUrl(String url, Integer favoriteId);
 }
