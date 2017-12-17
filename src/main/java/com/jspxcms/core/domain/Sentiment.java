@@ -46,6 +46,7 @@ public class Sentiment implements Siteable, java.io.Serializable {
     private String summary;
     private String smsContent;
     private Integer favoriteId;
+<<<<<<< HEAD
 
     @Transient
     public String getInfoLevelShow() {
@@ -63,6 +64,8 @@ public class Sentiment implements Siteable, java.io.Serializable {
     public void setInfoTypeShow(String infoTypeShow) {
         this.infoTypeShow = infoTypeShow;
     }
+=======
+>>>>>>> branch 'master' of https://github.com/huangcheng11676670/webmanger.git
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

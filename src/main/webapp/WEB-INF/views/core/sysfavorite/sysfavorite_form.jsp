@@ -71,7 +71,7 @@ function confirmDelete() {
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><em class="required">*</em>所属客户</label>

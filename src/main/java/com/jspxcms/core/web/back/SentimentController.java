@@ -36,6 +36,10 @@ import com.jspxcms.core.domain.Sentiment;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.domain.SysFavorite;
+<<<<<<< HEAD
+=======
+import com.jspxcms.core.service.SentimentService;
+>>>>>>> branch 'master' of https://github.com/huangcheng11676670/webmanger.git
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SentimentService;
