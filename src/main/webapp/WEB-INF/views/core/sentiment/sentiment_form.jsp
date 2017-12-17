@@ -62,7 +62,10 @@
                         <label class="col-sm-4 control-label">所属客户</label>
                         <div class="col-sm-8">
                             <input type="hidden" value="${bean.areaId}" name="areaId">
+<<<<<<< HEAD
                             <input type="hidden" value="${bean.customer.id}" name="customer.id">
+=======
+>>>>>>> branch 'master' of https://github.com/huangcheng11676670/webmanger.git
                             <div style="padding:5px;">${bean.customer.name}</div>
                         </div>
                     </div>

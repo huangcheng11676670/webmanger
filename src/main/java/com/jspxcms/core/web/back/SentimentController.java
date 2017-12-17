@@ -6,13 +6,10 @@ import static com.jspxcms.core.constant.Constants.EDIT;
 import static com.jspxcms.core.constant.Constants.MESSAGE;
 import static com.jspxcms.core.constant.Constants.OPRT;
 import static com.jspxcms.core.constant.Constants.SAVE_SUCCESS;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.jspxcms.common.util.HtmlAnalysisUtils;
 import com.jspxcms.common.util.MessageUtils;
 import com.jspxcms.common.web.Servlets;
