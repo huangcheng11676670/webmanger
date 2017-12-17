@@ -56,7 +56,7 @@ function confirmDelete() {
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><em class="required">*</em>类型名</label>
                         <div class="col-sm-8">
-                        <select class="form-control" name="sysDictTypeId" >
+                        <select class="form-control" name="sysDictType.id" >
                               <f:options items="${favoriteTypeList}" itemLabel="label" itemValue="id" selected="${bean.sysDictType.id}" />
                         </select>
                         </div>
@@ -71,12 +71,12 @@ function confirmDelete() {
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><em class="required">*</em>所属客户</label>
                         <div class="col-sm-8">
-                            <select class="form-control" name="customerId" >
+                            <select class="form-control" name="customer.id" >
                                   <f:options items="${customerList}" itemLabel="name" itemValue="id" selected="${bean.customer.id}" />
                             </select>
                         </div>
@@ -87,6 +87,88 @@ function confirmDelete() {
                         <label class="col-sm-4 control-label"><em class="required">*</em>收藏夹地址</label>
                         <div class="col-sm-8">
                             <f:text name="customerUrl" value="${oprt=='edit' || oprt=='create' ? bean.customerUrl : ''}" class="form-control required" maxlength="150" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">标题表达式</label>
+                        <div class="col-sm-8">
+                            <f:text name="titlePattern" value="${oprt=='edit' || oprt=='create' ? bean.titlePattern : ''}" class="form-control" maxlength="300" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">列表表达式</label>
+                        <div class="col-sm-8">
+                            <f:text name="itemsPattern" value="${oprt=='edit' || oprt=='create' ? bean.itemsPattern : ''}" class="form-control" maxlength="300" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+               <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">概要表达式</label>
+                        <div class="col-sm-8">
+                            <f:text name="summaryPattern" value="${oprt=='edit' || oprt=='create' ? bean.summaryPattern : ''}" class="form-control" maxlength="300" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">评论数量表达式</label>
+                        <div class="col-sm-8">
+                            <f:text name="commentNumPattern" value="${oprt=='edit' || oprt=='create' ? bean.commentNumPattern : ''}" class="form-control" maxlength="300" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">创建时间表达式</label>
+                        <div class="col-sm-8">
+                            <f:text name="contentCreateTimePattern" value="${oprt=='edit' || oprt=='create' ? bean.contentCreateTimePattern : ''}" class="form-control" maxlength="300" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">代理</label>
+                        <div class="col-sm-8">
+                            <f:text name="agent" value="${oprt=='edit' ? bean.agent : 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1'}" class="form-control" maxlength="200" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">编码</label>
+                        <div class="col-sm-8">
+                            <f:text name="charset" value="${oprt=='edit' || oprt=='create' ? bean.charset : ''}" class="form-control" maxlength="200" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">真实域名</label>
+                        <div class="col-sm-8">
+                            <f:text name="realUrl" value="${oprt=='edit' || oprt=='create' ? bean.realUrl : ''}" class="form-control" maxlength="500" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">被替换的域名</label>
+                        <div class="col-sm-8">
+                            <f:text name="originalUrl" value="${oprt=='edit' || oprt=='create' ? bean.originalUrl : ''}" class="form-control" maxlength="500" />
                         </div>
                     </div>
                 </div>

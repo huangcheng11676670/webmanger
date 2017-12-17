@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.jspxcms.common.util.Strings;
 import com.jspxcms.core.AbstractServiceTest;
 import com.jspxcms.ext.domain.Collect;
 import com.jspxcms.ext.repository.CollectDao;
@@ -32,18 +33,22 @@ public class CollectorTest extends AbstractServiceTest {
     //取外部文章列表的正则
     public static final String item_list_pattern = "<li class=\"tl_shadow\">(.*?)</li>";
     public static final String replay_num_pattern = "<span class=\"btn_icon\">(.*?)</span>";
-    public static void main(String[] args) throws Exception {
-        String webSiteHtml = Collect.fetchHtml(URI.create("https://tieba.baidu.com/f?kw=%E6%88%90%E9%83%BD%E4%B8%83%E4%B8%AD&ie=utf-8&pn=100&"), "utf-8", agent);
-        System.out.println(webSiteHtml);
+    public static final String Content_CreateTime_pattern = "<ul class=\"p_tail\"><li><span>1楼</span></li><li><span>(.*?)</span></li></ul>";
+    public static void main2(String[] args) throws Exception {
+       // String webSiteHtml = Collect.fetchHtml(URI.create("https://tieba.baidu.com/f?kw=%E6%88%90%E9%83%BD%E4%B8%83%E4%B8%AD&ie=utf-8&pn=100&"), "utf-8", agent);
+        String webSiteHtml = Collect.fetchHtml(URI.create("http://tieba.baidu.com/p/1100806756"), "utf-8", "Mozilla/5.0");
+        System.out.println(Strings.replaceBlank(webSiteHtml));
         System.out.println("--------------------------html------------------------------------");
-        List<String> itemsList = Collect.findByReg(webSiteHtml, item_list_pattern, 10);
+/*        List<String> itemsList = Collect.findByReg(webSiteHtml, item_list_pattern, 10);
         itemsList.forEach(item -> {
             System.out.println("-----------------------item-------------------");
             System.out.println(item);
             List<String> numList = Collect.findByReg(item,  replay_num_pattern ,1);
             System.out.println(numList.get(0)+"--------------num-----------------");
             });
-        itemsList.forEach(System.out::print);
+        itemsList.forEach(System.out::print);*/
+        List<String> numList = Collect.findByReg(Strings.replaceBlank(webSiteHtml),  Content_CreateTime_pattern ,1);
+        System.out.println(numList.get(0)+"--------------ContentCreateTime-----------------");
     }
     
     public static void main1(String[] args) {
@@ -62,6 +67,15 @@ public class CollectorTest extends AbstractServiceTest {
         } else {
            System.out.println("NO MATCH");
         }
+    }
+    
+    public static void main(String[] args) {
+        String content = "<div class=\"core_reply_tail \">"
+                + "<ul class=\"p_reply\"><li>"
+                + "<a href=\"#\" class=\"p_reply_first\">回复</a></li></ul><ul class=\"p_tail\">"
+                + "<li><span>1楼</span></li><li><span>2011-06-06 12:52</span></li></ul><ul class=\"p_mtail\"><li class=\"j_jb_ele\"><a href=\"#\" onclick=\"window.open('http://tieba.baidu.com/complaint/info?type=0&amp;cid=0&amp;tid=1100806756&amp;pid=12594918704','newwindow', 'height=900, width=800, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no');return false;\" class=\"complaint complaint-opened\" data-checkun=\"un\">举报</a>&nbsp;|<span class=\"super_jubao\"><a href=\"#\" onclick=\"window.open('http://tieba.baidu.com/complaint/info?type=1&amp;cid=0&amp;tid=1100806756&amp;pid=12594918704','newwindow', 'height=900, width=800, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no');return false;\">个人企业举报</a><a href=\"#\" onclick=\"window.open('http://tieba.baidu.com/complaint/info?type=2&amp;cid=0&amp;tid=1100806756&amp;pid=12594918704','newwindow', 'height=900, width=800, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no');return false;\">垃圾信息举报</a></span></li></ul><ul class=\"p_props_tail props_appraise_wrap\"></ul></div>";
+        List<String> numList = Collect.findByReg(content,  Content_CreateTime_pattern ,1);
+        System.out.println(numList.get(0)+"--------------ContentCreateTime-----------------");
     }
 
 }

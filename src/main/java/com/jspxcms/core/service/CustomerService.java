@@ -19,4 +19,6 @@ public interface CustomerService extends IBaseService<Customer, Integer>{
     public List<Customer> findList(Integer siteId, Map<String, String[]> params, Sort sort);
 
     List<Customer> findList(Integer siteId);
+
+    List<Customer> findByAreaId(Integer areaId);
 }

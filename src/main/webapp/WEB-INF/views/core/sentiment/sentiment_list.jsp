@@ -122,7 +122,7 @@ function optDelete(form) {
                 <div class="btn-toolbar ls-btn-bar">
                     <div class="btn-group">
                         <shiro:hasPermission name="core:sentiment:create">
-                        <button class="btn btn-default" type="button" onclick="location.href='create.do?${searchstring}';"><s:message code="create"/></button>
+                        <button class="btn btn-default" type="button" onclick="location.href='favoriteList.do';"><s:message code="create"/></button>
                         </shiro:hasPermission>
                     </div>
                     <div class="btn-group">
@@ -168,7 +168,7 @@ function optDelete(form) {
                       </c:choose>
                       </shiro:hasPermission>
                       <shiro:hasPermission name="core:sentiment:edit">
-                      <a id="edit_opt_${bean.id}" href="edit.do?id=${bean.id}&${searchstring}" class="ls-opt"><s:message code="edit"/></a>
+                      <a id="edit_opt_${bean.id}" href="edit.do?id=${bean.id}&favoriteId=${bean.favoriteId}&${searchstring}" class="ls-opt"><s:message code="edit"/></a>
                       </shiro:hasPermission>
                      </td>
                     <td><c:out value="${bean.id}"/></td>

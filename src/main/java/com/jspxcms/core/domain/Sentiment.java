@@ -34,11 +34,15 @@ public class Sentiment implements Siteable, java.io.Serializable {
     private Integer areaId;
     private Site site;
     private Customer customer;
-    private Date contentCreateTime;
+    /**
+     * 采集的内容创建时间,发帖时间
+     */
+    private String contentCreateTime;
     private Integer relayNum;
     private Integer commentNum;
     private String summary;
     private String smsContent;
+    private Integer favoriteId;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -144,13 +148,12 @@ public class Sentiment implements Siteable, java.io.Serializable {
         this.customer = customer;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "f_content_create_time", length = 19)
-    public Date getContentCreateTime() {
+    @Column(name = "f_content_create_time", length = 20)
+    public String getContentCreateTime() {
         return this.contentCreateTime;
     }
 
-    public void setContentCreateTime(Date contentCreateTime) {
+    public void setContentCreateTime(String contentCreateTime) {
         this.contentCreateTime = contentCreateTime;
     }
 
@@ -188,5 +191,14 @@ public class Sentiment implements Siteable, java.io.Serializable {
 
     public void setSmsContent(String smsContent) {
         this.smsContent = smsContent;
+    }
+
+    @Column(name = "f_favorite_id")
+    public Integer getFavoriteId() {
+        return favoriteId;
+    }
+
+    public void setFavoriteId(Integer favoriteId) {
+        this.favoriteId = favoriteId;
     }
 }

@@ -6,6 +6,7 @@ import static com.jspxcms.core.constant.Constants.MESSAGE;
 import static com.jspxcms.core.constant.Constants.OPRT;
 import static com.jspxcms.core.constant.Constants.SAVE_SUCCESS;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,18 +23,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
-import com.jspxcms.core.domain.SysFavorite;
 import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
-import com.jspxcms.core.service.SysFavoriteService;
+import com.jspxcms.core.domain.SysFavorite;
+import com.jspxcms.core.dto.FaviruteListDto;
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SysDictService;
+import com.jspxcms.core.service.SysFavoriteService;
 import com.jspxcms.core.support.Backends;
 import com.jspxcms.core.support.Context;
 
@@ -159,5 +162,24 @@ public class SysFavoriteController {
         }
         ra.addFlashAttribute(MESSAGE, DELETE_SUCCESS);*/
         return "redirect:list.do";
+    }
+    
+    /**
+     * 选择学校下的收藏夹
+     * @param schoolid
+     * @return
+     */
+    @ResponseBody
+    @RequiresPermissions("core:sysfavorite:list")
+    @RequestMapping("faviruteList.do")
+    public Object autogetinfo(@RequestParam(name="schoolid", defaultValue="1")Integer schoolid) {
+        List<FaviruteListDto> listDto = new ArrayList<FaviruteListDto>();
+           List<SysFavorite> dbCustomerList = service.findByCustomerId(schoolid);
+           if(dbCustomerList != null) {
+               dbCustomerList.forEach(item -> {
+                   listDto.add(new FaviruteListDto(item.getFavoriteName(), item.getId()));
+               });
+           }
+        return listDto;
     }
 }
