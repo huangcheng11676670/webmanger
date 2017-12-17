@@ -37,4 +37,6 @@ public interface SysDictService {
      * @return
      */
     public List<SysDict> findTreeList(Integer siteId, Integer pid);
+
+    public String getLabelById(Integer id);
 }

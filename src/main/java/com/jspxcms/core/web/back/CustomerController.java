@@ -6,6 +6,7 @@ import static com.jspxcms.core.constant.Constants.MESSAGE;
 import static com.jspxcms.core.constant.Constants.OPRT;
 import static com.jspxcms.core.constant.Constants.SAVE_SUCCESS;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jspxcms.common.web.Servlets;
@@ -29,6 +31,7 @@ import com.jspxcms.core.constant.Constants;
 import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
+import com.jspxcms.core.dto.SchoolListDto;
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SysDictService;
@@ -143,5 +146,19 @@ public class CustomerController {
         }
         ra.addFlashAttribute(MESSAGE, DELETE_SUCCESS);*/
         return "redirect:list.do";
+    }
+    
+    @ResponseBody
+    @RequiresPermissions("core:customer:list")
+    @RequestMapping("customerList.do")
+    public Object autogetinfo(@RequestParam(name="areaid", defaultValue="9")Integer areaid) {
+        List<SchoolListDto> listDto = new ArrayList<SchoolListDto>();
+           List<Customer> dbCustomerList = service.findByAreaId(areaid);
+           if(dbCustomerList != null) {
+               dbCustomerList.forEach(item -> {
+                   listDto.add(new SchoolListDto(item.getName(), item.getId()));
+               });
+           }
+        return listDto;
     }
 }

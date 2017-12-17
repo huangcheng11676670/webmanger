@@ -163,4 +163,17 @@ public class SysDictServiceImpl implements SysDictService, SiteDeleteListener {
     public List<SysDict> findListByType(String type) {
         return dao.findByType(type, new Sort("sort"));
     }
+
+    @Override
+    public String getLabelById(Integer id) {
+        if(id == null) {
+            return "";
+        }
+        SysDict dbSysDict = dao.findOne(id);
+        if(dbSysDict != null) {
+            return dbSysDict.getLabel();
+        }else {
+            return "";
+        }
+    }
 }

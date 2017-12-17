@@ -22,5 +22,6 @@ public interface CustomerDao extends BaseCrudDao<Customer, Integer> {
     public long countBySiteId(Collection<Integer> siteIds);
 
     public Page<Customer> findAll(Specification<Customer> spec, Pageable pageable);
-
+    
+    public List<Customer> findByAreaId(Integer areaId);
 }

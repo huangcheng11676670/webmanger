@@ -40,8 +40,10 @@ import com.jspxcms.ext.dto.CommentListDto;
 @Transactional(readOnly = true)
 public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer> implements SysFavoriteService, SiteDeleteListener {
 
+    SysFavoriteDao dao;
     @Autowired
     public void setDao(SysFavoriteDao dao) {
+        this.dao = dao;
         super.setDao(dao);
     }
 
@@ -166,5 +168,10 @@ public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer
         }else {
             return null;
         }
+    }
+
+    @Override
+    public List<SysFavorite> findByCustomerId(Integer schoolid) {
+        return dao.findByCustomerId(schoolid);
     }
 }

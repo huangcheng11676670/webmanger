@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.jspxcms.core.support.Siteable;
 
@@ -28,17 +29,40 @@ public class Sentiment implements Siteable, java.io.Serializable {
     private String sentimentUrl;
     private User user;
     private Integer infoLevel;
+    private String infoLevelShow;
     private Integer infoType;
+    private String infoTypeShow;
     private Date createDatetime;
     private Integer schoolLevel;
     private Integer areaId;
     private Site site;
     private Customer customer;
-    private Date contentCreateTime;
+    /**
+     * 采集的内容创建时间,发帖时间
+     */
+    private String contentCreateTime;
     private Integer relayNum;
     private Integer commentNum;
     private String summary;
     private String smsContent;
+    private Integer favoriteId;
+
+    @Transient
+    public String getInfoLevelShow() {
+        return infoLevelShow;
+    }
+
+    public void setInfoLevelShow(String infoLevelShow) {
+        this.infoLevelShow = infoLevelShow;
+    }
+    @Transient
+    public String getInfoTypeShow() {
+        return infoTypeShow;
+    }
+
+    public void setInfoTypeShow(String infoTypeShow) {
+        this.infoTypeShow = infoTypeShow;
+    }
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -144,13 +168,12 @@ public class Sentiment implements Siteable, java.io.Serializable {
         this.customer = customer;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "f_content_create_time", length = 19)
-    public Date getContentCreateTime() {
+    @Column(name = "f_content_create_time", length = 20)
+    public String getContentCreateTime() {
         return this.contentCreateTime;
     }
 
-    public void setContentCreateTime(Date contentCreateTime) {
+    public void setContentCreateTime(String contentCreateTime) {
         this.contentCreateTime = contentCreateTime;
     }
 
@@ -188,5 +211,14 @@ public class Sentiment implements Siteable, java.io.Serializable {
 
     public void setSmsContent(String smsContent) {
         this.smsContent = smsContent;
+    }
+
+    @Column(name = "f_favorite_id")
+    public Integer getFavoriteId() {
+        return favoriteId;
+    }
+
+    public void setFavoriteId(Integer favoriteId) {
+        this.favoriteId = favoriteId;
     }
 }

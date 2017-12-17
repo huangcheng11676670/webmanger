@@ -23,4 +23,6 @@ public interface SysFavoriteDao extends BaseCrudDao<SysFavorite, Integer> {
 
     public Page<SysFavorite> findAll(Specification<SysFavorite> spec, Pageable pageable);
 
+    public List<SysFavorite> findByCustomerId(Integer schoolid);
+
 }

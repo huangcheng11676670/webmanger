@@ -22,4 +22,6 @@ public interface SysFavoriteService extends IBaseService<SysFavorite, Integer>{
     public void update(SysFavorite bean, Integer siteId, Integer sysDictTypeId, Integer customerId);
     
     public List<CommentListDto> findFavoriteByUrl(String url, Integer favoriteId);
+
+    List<SysFavorite> findByCustomerId(Integer schoolid);
 }

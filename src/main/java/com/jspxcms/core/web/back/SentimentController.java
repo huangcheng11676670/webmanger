@@ -1,14 +1,18 @@
 package com.jspxcms.core.web.back;
 
 import static com.jspxcms.core.constant.Constants.CREATE;
+import static com.jspxcms.core.constant.Constants.DELETE_SUCCESS;
 import static com.jspxcms.core.constant.Constants.EDIT;
 import static com.jspxcms.core.constant.Constants.MESSAGE;
 import static com.jspxcms.core.constant.Constants.OPRT;
 import static com.jspxcms.core.constant.Constants.SAVE_SUCCESS;
-import static com.jspxcms.core.constant.Constants.DELETE_SUCCESS;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,17 +24,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.jspxcms.common.util.HtmlAnalysisUtils;
+import com.jspxcms.common.util.MessageUtils;
 import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
-import com.jspxcms.core.domain.Sentiment;
 import com.jspxcms.core.domain.Customer;
+import com.jspxcms.core.domain.Sentiment;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
-import com.jspxcms.core.service.SentimentService;
+import com.jspxcms.core.domain.SysFavorite;
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
+import com.jspxcms.core.service.SentimentService;
 import com.jspxcms.core.service.SysDictService;
+import com.jspxcms.core.service.SysFavoriteService;
 import com.jspxcms.core.support.Backends;
 import com.jspxcms.core.support.Context;
 
@@ -54,6 +64,9 @@ public class SentimentController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private SysFavoriteService sysFavoriteService;
+
     @ModelAttribute("bean")
     public Sentiment preloadBean(@RequestParam(required = false) Integer oid) {
         return oid != null ? service.get(oid) : null;
@@ -66,21 +79,45 @@ public class SentimentController {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
         List<Sentiment> pagedList = service.findList(siteId, params, pageable.getSort());
+        pagedList.forEach(item -> {
+            item.setInfoLevelShow(sysDictService.getLabelById(item.getInfoLevel()));
+            item.setInfoTypeShow(sysDictService.getLabelById(item.getInfoType()));
+        });
         modelMap.addAttribute("pagedList", pagedList);
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
         modelMap.addAttribute("areaList", areaList);
         return "core/sentiment/sentiment_list";
     }
 
+    @RequiresPermissions("core:sentiment:list")
+    @RequestMapping("favoriteList.do")
+    public String favoriteList(org.springframework.ui.Model modelMap) {
+        modelMap.addAttribute("pagedList", sysFavoriteService.findAll());
+        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);
+        return "core/sentiment/sentiment_favorite_list";
+    }
+
     @RequiresPermissions("core:sentiment:create")
     @RequestMapping("create.do")
-    public String create(Integer id, HttpServletRequest request, org.springframework.ui.Model modelMap) {
+    public String create(Integer id, 
+            @RequestParam(name="favoriteId", required=true)Integer favoriteId, HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
+        SysFavorite  favorite  = sysFavoriteService.get(favoriteId);
+        if(favorite != null) {
+            modelMap.addAttribute("favorite", favorite);
+            Sentiment bean = new Sentiment();
+            bean.setAreaId(favorite.getCustomer().getAreaId());
+            bean.setFavoriteId(favoriteId);
+            bean.setCustomer(favorite.getCustomer());
+            modelMap.addAttribute("bean", bean);
+        }
         if (id != null) {
             Sentiment bean = service.get(id);
             Backends.validateDataInSite(bean, siteId);
             modelMap.addAttribute("bean", bean);
         }
+        
         List<Customer> dbCustomerList = customerService.findList(siteId);
         modelMap.addAttribute("customerList", dbCustomerList);
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
@@ -97,16 +134,17 @@ public class SentimentController {
 
     @RequiresPermissions("core:sentiment:edit")
     @RequestMapping("edit.do")
-    public String edit(Integer id, @PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable,
+    public String edit(Integer id, 
+            @PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable,
             HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         Sentiment bean = service.get(id);
         Backends.validateDataInSite(bean, siteId);
         modelMap.addAttribute("bean", bean);
-        List<Customer> dbCustomerList = customerService.findList(siteId);
-        modelMap.addAttribute("customerList", dbCustomerList);
-        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+        SysFavorite  favorite  = sysFavoriteService.get(bean.getFavoriteId());
+        if(favorite != null) {
+            modelMap.addAttribute("favorite", favorite);
+        }
         List<SysDict> infoLevelList = sysDictService.findListByType(SysDict.INFO_LEVEL);
         modelMap.addAttribute("infoLevelList", infoLevelList);
         List<SysDict> infoTypelList = sysDictService.findListByType(SysDict.INFO_TYPE);
@@ -121,6 +159,8 @@ public class SentimentController {
     @RequestMapping("save.do")
     public String save(Sentiment bean, String redirect, HttpServletRequest request, RedirectAttributes ra) {
         Integer siteId = Context.getCurrentSiteId();
+        bean.setUser(Context.getCurrentUser());
+        bean.setCreateDatetime(new Date());
         service.save(bean, siteId);
         logService.operation("opr.Sentiment.add", bean.getSentimentTitle(), null, bean.getId(), request);
         logger.info("save Sentiment, title={}.", bean.getSentimentTitle());
@@ -166,5 +206,17 @@ public class SentimentController {
         }
         ra.addFlashAttribute(MESSAGE, DELETE_SUCCESS);
         return "redirect:list.do";
+    }
+    
+    @ResponseBody
+    @RequiresPermissions("core:sentiment:create")
+    @RequestMapping("autogetinfo.do")
+    public Object autogetinfo(@RequestParam(name="favoriteId", required=true)Integer favoriteId, 
+            @RequestParam(name="url", required=true)String url) {
+        SysFavorite  favorite  = sysFavoriteService.get(favoriteId);
+        if(favorite == null) {
+            return MessageUtils.failMsg("数据错误");
+        }
+        return MessageUtils.sucessMsg("获取成功", HtmlAnalysisUtils.analysisDetailPage(url, favorite));
     }
 }

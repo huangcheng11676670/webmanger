@@ -31,8 +31,11 @@ import com.jspxcms.core.service.SiteService;
 @Transactional(readOnly = true)
 public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> implements CustomerService, SiteDeleteListener {
 
+    private CustomerDao dao;
+    
     @Autowired
     public void setDao(CustomerDao dao) {
+        this.dao = dao;
         super.setDao(dao);
     }
 
@@ -95,5 +98,10 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> impl
         Site site = siteService.get(siteId);
         bean.setSite(site);
         bean = dao.save(bean);
+    }
+
+    @Override
+    public List<Customer> findByAreaId(Integer areaId) {
+        return dao.findByAreaId(areaId);
     }
 }

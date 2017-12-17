@@ -25,9 +25,9 @@ public class SysFavorite implements Siteable, java.io.Serializable {
     private Customer customer;
     private String customerUrl;
     private Site site;
-    private String itemsPattern;
     private String realUrl;
     private String originalUrl;
+    private String itemsPattern;
     private String titlePattern;
     private String contentCreateTimePattern;
     private String commentNumPattern;
@@ -93,7 +93,7 @@ public class SysFavorite implements Siteable, java.io.Serializable {
         this.site = site;
     }
 
-    @Column(name = "f_items_pattern")
+    @Column(name = "f_items_pattern", length = 300)
     public String getItemsPattern() {
         return itemsPattern;
     }
@@ -102,7 +102,7 @@ public class SysFavorite implements Siteable, java.io.Serializable {
         this.itemsPattern = itemsPattern;
     }
 
-    @Column(name = "f_real_url")
+    @Column(name = "f_real_url", length = 500)
     public String getRealUrl() {
         return realUrl;
     }
@@ -111,7 +111,7 @@ public class SysFavorite implements Siteable, java.io.Serializable {
         this.realUrl = realUrl;
     }
 
-    @Column(name = "f_original_url")
+    @Column(name = "f_original_url", length = 500)
     public String getOriginalUrl() {
         return originalUrl;
     }
@@ -120,7 +120,7 @@ public class SysFavorite implements Siteable, java.io.Serializable {
         this.originalUrl = originalUrl;
     }
 
-    @Column(name = "f_title_pattern")
+    @Column(name = "f_title_pattern", length = 300)
     public String getTitlePattern() {
         return titlePattern;
     }
@@ -129,7 +129,7 @@ public class SysFavorite implements Siteable, java.io.Serializable {
         this.titlePattern = titlePattern;
     }
 
-    @Column(name = "f_content_create_time_pattern")
+    @Column(name = "f_content_create_time_pattern", length = 300)
     public String getContentCreateTimePattern() {
         return contentCreateTimePattern;
     }
@@ -138,7 +138,7 @@ public class SysFavorite implements Siteable, java.io.Serializable {
         this.contentCreateTimePattern = contentCreateTimePattern;
     }
 
-    @Column(name = "f_comment_num_pattern")
+    @Column(name = "f_comment_num_pattern", length = 300)
     public String getCommentNumPattern() {
         return commentNumPattern;
     }
@@ -147,12 +147,28 @@ public class SysFavorite implements Siteable, java.io.Serializable {
         this.commentNumPattern = commentNumPattern;
     }
 
-    @Column(name = "f_summary_pattern")
+    @Column(name = "f_summary_pattern", length = 300)
     public String getSummaryPattern() {
         return summaryPattern;
     }
 
     public void setSummaryPattern(String summaryPattern) {
         this.summaryPattern = summaryPattern;
+    }
+    @Column(name = "f_agent", length = 200)
+    public String getAgent() {
+        return agent;
+    }
+
+    public void setAgent(String agent) {
+        this.agent = agent;
+    }
+    @Column(name = "f_charset", length = 50)
+    public String getCharset() {
+        return charset;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
     }
 }

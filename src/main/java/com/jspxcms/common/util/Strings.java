@@ -252,5 +252,18 @@ public abstract class Strings {
         String newString = String.format("%0" + formatLength + "d", sourceDate);
         return newString;
     }
-
+    /**
+     * 替换掉所有的回车，换行符号
+     * @param str
+     * @return
+     */
+    public static String replaceBlank(String str) {
+            String dest = "";
+            if (str!=null) {
+                Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+                Matcher m = p.matcher(str);
+                dest = m.replaceAll("");
+            }
+            return dest;
+        }
 }
