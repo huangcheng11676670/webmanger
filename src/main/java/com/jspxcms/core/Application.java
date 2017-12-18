@@ -8,7 +8,6 @@ import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
 import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration;
 import org.springframework.boot.autoconfigure.mobile.DeviceResolverAutoConfiguration;
@@ -17,6 +16,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,11 +41,12 @@ import com.jspxcms.core.support.ForeInterceptor;
  * 应用启动的主入口
  */
 @Configuration
+@EnableCaching
 // 此三项也未用到，但二次开发时有可能会用到，暂时不屏蔽：JdbcTemplateAutoConfiguration.class, JtaAutoConfiguration.class,
 // WebSocketAutoConfiguration.class
 // 暂时不用Mobile的自动配置：DeviceResolverAutoConfiguration.class, SitePreferenceAutoConfiguration.class
 @EnableAutoConfiguration(exclude = { MessageSourceAutoConfiguration.class, JmxAutoConfiguration.class,
-		CacheAutoConfiguration.class, DeviceResolverAutoConfiguration.class, SitePreferenceAutoConfiguration.class })
+     DeviceResolverAutoConfiguration.class, SitePreferenceAutoConfiguration.class })
 @Import({ ContextConfig.class, ShiroConfig.class, MenuConfig.class })
 @PropertySource({ "classpath:conf/spring.jpa.properties", "${weixin.config.file}" })
 @ImportResource({ "classpath:conf/**/context*.xml", "classpath:custom.xml" })
