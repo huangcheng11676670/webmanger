@@ -91,8 +91,10 @@ public class SysFavoriteController {
         }
         List<SysDict> dictList = sysDictService.findListByType(SysDict.FAVORITE_TYPE);
         modelMap.addAttribute("favoriteTypeList", dictList);
-        List<Customer> dbCustomerList = customerService.findList(siteId);
-        modelMap.addAttribute("customerList", dbCustomerList);
+        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);
+/*        List<Customer> dbCustomerList = customerService.findList(siteId);
+        modelMap.addAttribute("customerList", dbCustomerList);*/
         modelMap.addAttribute(OPRT, CREATE);
         return "core/sysfavorite/sysfavorite_form";
     }
@@ -107,8 +109,8 @@ public class SysFavoriteController {
         modelMap.addAttribute("bean", bean);
         List<SysDict> dictList = sysDictService.findListByType(SysDict.FAVORITE_TYPE);
         modelMap.addAttribute("favoriteTypeList", dictList);
-        List<Customer> dbCustomerList = customerService.findList(siteId);
-        modelMap.addAttribute("customerList", dbCustomerList);
+/*        List<Customer> dbCustomerList = customerService.findList(siteId);
+        modelMap.addAttribute("customerList", dbCustomerList);*/
         modelMap.addAttribute(OPRT, EDIT);
         return "core/sysfavorite/sysfavorite_form";
     }
