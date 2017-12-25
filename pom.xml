@@ -224,6 +224,18 @@
             <artifactId>im4java</artifactId>
             <version>${im4java.version}</version>
         </dependency>
+        <!-- chart -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+          <groupId>com.github.abel533</groupId>
+          <artifactId>ECharts</artifactId>
+          <version>3.0.0.2</version>
+        </dependency>
         <!-- 中文分词组件 -->
         <dependency>
             <groupId>local</groupId>

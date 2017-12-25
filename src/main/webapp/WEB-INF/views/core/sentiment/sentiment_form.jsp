@@ -220,6 +220,7 @@ $(function() {
         }
     });
     $("input[name='name']").focus();
+    $(".btn").on("click",function(){var b=$(this);b.button("loading..."),setTimeout(function(){b.button("reset")}, 5000)});
 });
 function confirmDelete() {
     return confirm("<s:message code='confirmDelete'/>");
@@ -246,14 +247,6 @@ function autogetinfo(){
 this.$('.js-loading-bar').modal({
       backdrop: 'static',
       show: false
-});
-
-$('#load').click(function() {
-
-   setTimeout(function() {
-        $bar.removeClass('animate');
-        $modal.modal('hide');
-      }, 1500);
 });
 </script>
 </html>
