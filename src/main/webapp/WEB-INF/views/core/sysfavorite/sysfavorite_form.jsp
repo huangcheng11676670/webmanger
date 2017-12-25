@@ -11,15 +11,11 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/views/head.jsp"/>
-<script type="text/javascript">
-$(function() {
-    $("#validForm").validate();
-    $("input[name='name']").focus();
-});
-function confirmDelete() {
-    return confirm("<s:message code='confirmDelete'/>");
+<style type="text/css">
+.progress-bar.animate {
+   width: 100%;
 }
-</script>
+</style>
 </head>
 <body class="skin-blue content-body">
 <jsp:include page="/WEB-INF/views/commons/show_message.jsp"/>
@@ -71,21 +67,36 @@ function confirmDelete() {
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label"><em class="required">*</em>所属客户</label>
+                        <label class="col-sm-4 control-label">地区</label>
                         <div class="col-sm-8">
-                            <select class="form-control" name="customer.id" >
-                                  <f:options items="${customerList}" itemLabel="name" itemValue="id" selected="${bean.customer.id}" />
+                            <select class="form-control input-sm" id="areaId_select" name="areaId_select" onchange="showSchool();">
+                                <c:forEach var="attr" items="${areaList}">
+                                  <c:set var="idstr">${attr.id}</c:set>
+                                  <option value="${attr.id}">${attr.label}</option>
+                                </c:forEach>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label"><em class="required">*</em>收藏夹地址</label>
+                        <label class="col-sm-4 control-label"><em class="required">*</em>所属客户</label>
                         <div class="col-sm-8">
+                            <select class="form-control" name="customer.id" id="school_select">
+                                  <option value="${bean.customer.id}">${bean.customer.name}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><em class="required">*</em>收藏夹地址</label>
+                        <div class="col-sm-10">
                             <f:text name="customerUrl" value="${oprt=='edit' || oprt=='create' ? bean.customerUrl : ''}" class="form-control required" maxlength="150" />
                         </div>
                     </div>
@@ -184,5 +195,46 @@ function confirmDelete() {
         </form>
     </div>
 </div>
+
+<div class="modal js-loading-bar">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-body">
+       <div class="progress progress-popup">
+        <div class="progress-bar"></div>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
 </body>
+<script type="text/javascript">
+$(function() {
+    $("#validForm").validate();
+    $("input[name='name']").focus();
+});
+function confirmDelete() {
+    return confirm("<s:message code='confirmDelete'/>");
+}
+function showSchool() {
+   var $modal = $('.js-loading-bar'),
+   $bar = $modal.find('.progress-bar');
+   $modal.modal('show');
+   $bar.addClass('animate');
+
+   $.getJSON("../customer/customerList.do", { areaid: $("#areaId_select").val()}, function(json){
+         if(json && json.length > 0){
+             var htmlString = "";
+                $.each(json, function(index, domEle) {
+                htmlString += "<option value='"+domEle.id+"'>"+domEle.schoolName+"</option>";
+            });
+          $("#school_select").html(htmlString);
+         }else{
+            $("#school_select").html("");
+         }
+         $bar.removeClass('animate');
+         $modal.modal('hide');
+    });
+}
+</script>
 </html>

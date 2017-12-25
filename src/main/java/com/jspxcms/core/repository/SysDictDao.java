@@ -2,7 +2,6 @@ package com.jspxcms.core.repository;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
-
 import com.jspxcms.common.orm.Limitable;
 import com.jspxcms.core.domain.SysDict;
 
@@ -32,7 +30,7 @@ public interface SysDictDao extends Repository<SysDict, Integer> {
     @CacheEvict(allEntries=true)
     public SysDict save(SysDict bean);
 
-    @CacheEvict
+    @CacheEvict(allEntries=true)
     public void delete(SysDict bean);
 
     public List<SysDict> findBySiteId(Integer siteId, Sort sort);
