@@ -669,3 +669,14 @@
     - save@core:sentiment:save
     - update@core:sentiment:update
     - delete@core:sentiment:delete
+1000-600:
+  name: reports.management
+  url: core/reports/list.do
+  perms: core:reports:list
+  ops:
+    - create@core:reports:create
+    - copy@core:reports:copy
+    - edit@core:reports:edit
+    - save@core:reports:save
+    - update@core:reports:update
+    - delete@core:reports:delete

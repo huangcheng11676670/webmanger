@@ -19,5 +19,4 @@ public interface SentimentDao extends BaseCrudDao<Sentiment, Integer> {
     public List<Sentiment> findBySiteId(Integer siteId, Sort sort);
 
     public Page<Sentiment> findAll(Specification<Sentiment> spec, Pageable pageable);
-
 }

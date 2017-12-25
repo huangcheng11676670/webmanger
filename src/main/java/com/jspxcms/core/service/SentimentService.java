@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import com.jspxcms.common.service.IBaseService;
 import com.jspxcms.core.domain.Sentiment;
+import com.jspxcms.core.dto.ReportSentimentNumDto;
 
 /**
  * SentimentService
@@ -19,4 +20,6 @@ public interface SentimentService extends IBaseService<Sentiment, Integer>{
     public void update(Sentiment bean, Integer siteId, Integer sysDictTypeId, Integer customerId);
 
     public void save(Sentiment bean, Integer siteId);
+
+    public List<ReportSentimentNumDto> reportSentimentNumNativeQuery(Integer userid, String startDate, String endDate);
 }
