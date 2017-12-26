@@ -12,6 +12,7 @@ import com.jspxcms.common.util.MessageUtils;
 import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.dto.ReportSentimentNumDto;
 import com.jspxcms.core.service.SentimentService;
+//github.com/huangcheng11676670/webmanger.git
 import com.jspxcms.core.service.SysDictService;
 
 /**
@@ -25,12 +26,6 @@ public class ReportsController {
 
     @Autowired
     private SentimentService sentimentService;
-
-    @RequiresPermissions("core:reports:list")
-    @RequestMapping("test.do")
-    public String test() {
-        return "core/reports/test";
-    }
 
     /**
      * 业务数据
