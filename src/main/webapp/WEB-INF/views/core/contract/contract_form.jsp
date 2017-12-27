@@ -76,28 +76,16 @@ function confirmDelete() {
                     <div class="form-group">
                         <label class="col-sm-2 control-label"><em class="required">*</em>客户名称</label>
                         <div class="col-sm-5">
-                            <c:set var="areaName"><c:choose><c:when test="${empty area}">中国</c:when><c:otherwise><c:out value="${area.label}"/></c:otherwise></c:choose></c:set>
-                                <f:hidden id="areaId" name="areaId" value="${bean.areaId}"/>
-                                <div class="input-group">
-                                    <f:text class="form-control" id="areaIdName" value="${areaName}" readonly="readonly"/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" id="areaIdButton" type="button"><s:message code='choose'/></button>
-                                    </span>
-                                </div>
-                                <script type="text/javascript">
-                                $(function(){
-                                    Cms.f7.area("areaId","areaName",{
-                                        settings: {"title": "选择地区"},
-                                        params: {
-                                            "treeNumber": "0000"
-                                        }
-                                    });
-                                });
-                                </script>
+                            <select class="form-control input-sm" id="areaId" name="areaId" onchange="showSchool();">
+                                <c:forEach var="attr" items="${areaList}">
+                                  <c:set var="idstr">${attr.id}</c:set>
+                                  <option value="${attr.id}"  <c:if test="${attr.id == bean.areaId}">selected="selected" </c:if>>${attr.label}</option>
+                                  </c:forEach>
+                            </select>
                         </div>
                         <div class="col-sm-5">
-                        <select class="form-control" name="customer.id" >
-                              <f:options items="${customerList}" itemLabel="name" itemValue="id" selected="${bean.customer.id}" />
+                        <select class="form-control" name="customer.id" id="customer_select" >
+                            <option value="${bean.customer.id}" selected="selected">${bean.customer.name}</option>
                         </select>
                         </div>
                     </div>
@@ -160,5 +148,20 @@ function confirmDelete() {
         </form>
     </div>
 </div>
+<script type="text/javascript">
+function showSchool() {
+    $.getJSON("../customer/customerList.do", { areaid: $("#areaId").val()}, function(json){
+         if(json && json.length > 0){
+             var htmlString = "<option value=''>选择学校</option>";
+                $.each(json, function(index, domEle) {
+                htmlString += "<option value='"+domEle.id+"'>"+domEle.schoolName+"</option>";
+            });
+          $("#customer_select").html(htmlString);
+         }else{
+            $("#customer_select").html("");
+         }
+    });
+}
+</script>
 </body>
 </html>

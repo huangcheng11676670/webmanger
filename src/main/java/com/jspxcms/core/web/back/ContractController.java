@@ -81,8 +81,8 @@ public class ContractController {
             Backends.validateDataInSite(bean, siteId);
             modelMap.addAttribute("bean", bean);
         }
-        List<Customer> dbCustomerList = customerService.findList(siteId);
-        modelMap.addAttribute("customerList", dbCustomerList);
+/*        List<Customer> dbCustomerList = customerService.findList(siteId);
+        modelMap.addAttribute("customerList", dbCustomerList);*/
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
         modelMap.addAttribute("areaList", areaList);
         modelMap.addAttribute(OPRT, CREATE);
@@ -97,8 +97,8 @@ public class ContractController {
         Contract bean = service.get(id);
         Backends.validateDataInSite(bean, siteId);
         modelMap.addAttribute("bean", bean);
-        List<Customer> dbCustomerList = customerService.findList(siteId);
-        modelMap.addAttribute("customerList", dbCustomerList);
+       /* List<Customer> dbCustomerList = customerService.findList(siteId);
+        modelMap.addAttribute("customerList", dbCustomerList);*/
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
         modelMap.addAttribute("areaList", areaList);
         modelMap.addAttribute(OPRT, EDIT);

@@ -17,6 +17,7 @@ import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.domain.SysFavorite;
 import com.jspxcms.core.dto.ReportSentimentNumDto;
 import com.jspxcms.core.dto.ReportCountAndIdDto;
+import com.jspxcms.core.service.ContractService;
 import com.jspxcms.core.service.SentimentService;
 //github.com/huangcheng11676670/webmanger.git
 import com.jspxcms.core.service.SysDictService;
@@ -36,6 +37,9 @@ public class ReportsController {
 
     @Autowired
     private SysFavoriteService sysFavoriteService;
+
+    @Autowired
+    private ContractService contractService;
     /**
      * 业务数据
      * @param modelMap
@@ -134,6 +138,55 @@ public class ReportsController {
             e.printStackTrace();
         }
         List<ReportCountAndIdDto> dtoList = sentimentService.reportSentimentAreaNativeQuery(startDate, endDate);
+        if(dtoList != null) {
+            dtoList.forEach(item -> {
+                SysDict dbSysDict = sysDictService.get(item.getFavoriteid());
+                item.setFavoriteName(dbSysDict.getLabel());
+            });
+        }
+        return MessageUtils.sucessMsg("获取成功", dtoList);
+    }
+    
+    /**
+     * 销售数据
+     * @param modelMap
+     * @return
+     */
+    @RequiresPermissions("core:reports:list")
+    @RequestMapping("saleList.do")
+    public String saleList(Model modelMap) {
+        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);
+        return "core/reports/reports_sale_list";
+    }
+    
+    /**
+     * 合同统计， 柱状图，按行政区分
+     * @param userid
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    @ResponseBody
+    @RequiresPermissions("core:reports:list")
+    @RequestMapping("contract_bar_data.do")
+    public Object contractAreaData(Integer areaId, String startDate, String endDate) {
+        if(StringUtils.isBlank(startDate)){
+            return MessageUtils.failMsg("开始日期不能为空");
+        }
+        if(StringUtils.isBlank(endDate)){
+            return MessageUtils.failMsg("结束日期不能为空");
+        }
+        //日期间隔不能超过一个月
+        try {
+            int dayNum = DateUtils.daysBetween(DateUtils.getDateString(startDate), DateUtils.getDateString(endDate));
+            if(dayNum > 365) {
+                return MessageUtils.failMsg("日期不能超过1年");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<ReportCountAndIdDto> dtoList = contractService.reportContractAreaNativeQuery(areaId, startDate, endDate);
         if(dtoList != null) {
             dtoList.forEach(item -> {
                 SysDict dbSysDict = sysDictService.get(item.getFavoriteid());

@@ -1,11 +1,19 @@
 package com.jspxcms.core.service.impl;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,6 +23,7 @@ import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.core.domain.Contract;
 import com.jspxcms.core.domain.Site;
+import com.jspxcms.core.dto.ReportCountAndIdDto;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.ContractDao;
 import com.jspxcms.core.service.ContractService;
@@ -29,9 +38,19 @@ import com.jspxcms.core.service.SiteService;
 @Transactional(readOnly = true)
 public class ContractServiceImpl extends BaseServiceImpl<Contract, Integer> implements ContractService, SiteDeleteListener {
 
+    private ContractDao dao;
+
+    private EntityManager em;
+
+    @PersistenceContext
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+
     @Autowired
     public void setDao(ContractDao dao) {
         super.setDao(dao);
+        this.dao = dao;
     }
 
     @Autowired
@@ -80,6 +99,31 @@ public class ContractServiceImpl extends BaseServiceImpl<Contract, Integer> impl
 
     @Override
     public void preSiteDelete(Integer[] ids) {
-        
+    }
+
+    /**
+     * 每月新增合同数
+     */
+    @Override
+    public List<ReportCountAndIdDto> reportContractAreaNativeQuery(Integer areaId, String startDate, String endDate) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT COUNT(*), date_format(f_contract_create_time , '%Y-%m')");
+        query.append(" FROM cms_yq_contract WHERE 1=1");
+        if(StringUtils.isNotBlank(startDate)) {
+            query.append(" AND f_area_id = "+areaId);
+        }
+        query.append(" GROUP BY date_format(f_contract_create_time , '%Y-%m') ");
+    
+      //执行原生SQL
+      Query nativeQuery = em.createNativeQuery(query.toString());
+      //返回对象
+      @SuppressWarnings("unchecked")
+      List<Object> resultList = nativeQuery.getResultList();
+      List<ReportCountAndIdDto> dtoList = new ArrayList<ReportCountAndIdDto>();
+      resultList.forEach(item -> {
+          Object[] cells = (Object[]) item;
+          dtoList.add( new ReportCountAndIdDto((BigInteger)cells[0], (Integer)cells[1]));
+      });
+      return dtoList;
     }
 }
