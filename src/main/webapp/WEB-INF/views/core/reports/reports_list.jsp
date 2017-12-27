@@ -80,6 +80,7 @@
                             </select>
                         </div>
                         <div class="form-group">
+<<<<<<< HEAD
                         <input class="form-control input-sm" type="text"  id="search_createTime_Date_pie" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'search_endTime_Date_pie\')}'});" />
                         至<input class="form-control input-sm" type="text" id="search_endTime_Date_pie" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'search_createTime_Date_pie\')}'});"/>
                         </div>
@@ -104,6 +105,32 @@
                         <div class="form-group">
                         <input class="form-control input-sm" type="text"  id="search_createTime_Date_bar" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'search_endTime_Date_bar\')}'});" />
                         至<input class="form-control input-sm" type="text" id="search_endTime_Date_bar" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'search_createTime_Date_bar\')}'});"/>
+=======
+                        <input class="form-control input-sm" type="text" name="search_createTime_Date" id="search_createTime_Date_pie" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'search_endTime_Date_pie\')}'});" />
+                        至<input class="form-control input-sm" type="text" name="search_endTime_Date" id="search_endTime_Date_pie" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'search_createTime_Date_pie\')}'});"/>
+                        </div>
+                         <button type="button" class="btn btn-primary" onclick="searchReport_pie();">查询</button>
+                        </form>
+                    </div>
+                    <div class="box-body">
+                         <div id="report_main_pie" style="width: 600px;height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                    <form class="form-inline">
+                        <div class="form-group">
+                        <i class="glyphicon glyphicon-stats"></i>
+                        <h3 class="box-title">综合统计</h3>
+                        </div>
+                        <div class="form-group">
+                        <input class="form-control input-sm" type="text" name="search_createTime_Date" id="search_createTime_Date_bar" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'search_endTime_Date_bar\')}'});" />
+                        至<input class="form-control input-sm" type="text" name="search_endTime_Date" id="search_endTime_Date_bar" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'search_createTime_Date_bar\')}'});"/>
+>>>>>>> branch 'master' of https://github.com/huangcheng11676670/webmanger.git
                         </div>
                          <button type="button" class="btn btn-primary" onclick="searchReport_bar();">查询</button>
                         </form>
@@ -342,10 +369,17 @@ myChart_bar.setOption(option_bar);
 function searchReport_bar() {
     $.getJSON("sentiment_bar_data.do", { startDate: $("#search_createTime_Date_bar").val() ,  endDate : $("#search_endTime_Date_bar").val() }, function(json){
          if(json.status){
+<<<<<<< HEAD
             option_bar.xAxis[0].data = [];
             option_bar.series[0].data = [];
              $.each(json.result, function(index, item) {
                  option_bar.xAxis[0].data.push(item.favoriteName);
+=======
+            option_bar.xAxis.data = [];
+            option_bar.series[0].data = [];
+             $.each(json.result, function(index, item) {
+                 option_bar.xAxis.data.push(item.favoriteName);
+>>>>>>> branch 'master' of https://github.com/huangcheng11676670/webmanger.git
                  option_bar.series[0].data.push(item.num);
              });
              myChart_bar.setOption(option_bar, true);
