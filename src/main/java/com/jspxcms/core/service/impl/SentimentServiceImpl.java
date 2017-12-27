@@ -26,6 +26,7 @@ import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.core.domain.Sentiment;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.dto.ReportSentimentNumDto;
+import com.jspxcms.core.dto.ReportCountAndIdDto;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.SentimentDao;
 import com.jspxcms.core.service.CustomerService;
@@ -41,7 +42,6 @@ import com.jspxcms.core.service.SiteService;
 public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> implements SentimentService, SiteDeleteListener {
 
     private SentimentDao dao;
-    
 
     private EntityManager em;
 
@@ -155,5 +155,58 @@ public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> im
             };
             System.out.println(dao.count(querySpecifi));
             return  null;
+    }
+
+    @Override
+    public List<ReportCountAndIdDto> reportSentimentPieNativeQuery(Integer userid, String startDate, String endDate) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT COUNT(sentiment0_.f_sentiment_id) , sentiment0_.f_favorite_id ");
+        query.append(" FROM cms_yq_sentiment sentiment0_ WHERE 1=1");
+        if(StringUtils.isNotBlank(startDate)) {
+            query.append(" AND cast( sentiment0_.f_create_datetime AS DATE ) >= '"+startDate+"'");
+        }
+        if(StringUtils.isNotBlank(endDate)) {
+            query.append(" AND cast( sentiment0_.f_create_datetime AS DATE ) <= '"+endDate+"'");
+        }
+        query.append(" AND sentiment0_.f_user_id = "+userid);
+        query.append(" GROUP BY sentiment0_.f_favorite_id ");
+    
+      //执行原生SQL
+      Query nativeQuery = em.createNativeQuery(query.toString());
+      //返回对象
+      @SuppressWarnings("unchecked")
+    List<Object> resultList = nativeQuery.getResultList();
+      List<ReportCountAndIdDto> dtoList = new ArrayList<ReportCountAndIdDto>();
+      resultList.forEach(item -> {
+          Object[] cells = (Object[]) item;
+          dtoList.add( new ReportCountAndIdDto((BigInteger)cells[0], (Integer)cells[1]));
+      });
+      return dtoList;
+    }
+
+    @Override
+    public List<ReportCountAndIdDto> reportSentimentAreaNativeQuery(String startDate, String endDate) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT COUNT(sentiment0_.f_sentiment_id), sentiment0_.f_area_id");
+        query.append(" FROM cms_yq_sentiment sentiment0_ WHERE 1=1");
+        if(StringUtils.isNotBlank(startDate)) {
+            query.append(" AND cast( sentiment0_.f_create_datetime AS DATE ) >= '"+startDate+"'");
+        }
+        if(StringUtils.isNotBlank(endDate)) {
+            query.append(" AND cast( sentiment0_.f_create_datetime AS DATE ) <= '"+endDate+"'");
+        }
+        query.append(" GROUP BY sentiment0_.f_area_id ");
+    
+      //执行原生SQL
+      Query nativeQuery = em.createNativeQuery(query.toString());
+      //返回对象
+      @SuppressWarnings("unchecked")
+      List<Object> resultList = nativeQuery.getResultList();
+      List<ReportCountAndIdDto> dtoList = new ArrayList<ReportCountAndIdDto>();
+      resultList.forEach(item -> {
+          Object[] cells = (Object[]) item;
+          dtoList.add( new ReportCountAndIdDto((BigInteger)cells[0], (Integer)cells[1]));
+      });
+      return dtoList;
     }
 }
