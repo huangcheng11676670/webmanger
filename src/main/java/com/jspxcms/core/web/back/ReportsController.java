@@ -16,6 +16,7 @@ import com.jspxcms.common.util.MessageUtils;
 import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.domain.SysFavorite;
 import com.jspxcms.core.dto.ReportSentimentNumDto;
+import com.jspxcms.core.dto.ReportContractDto;
 import com.jspxcms.core.dto.ReportCountAndIdDto;
 import com.jspxcms.core.service.ContractService;
 import com.jspxcms.core.service.SentimentService;
@@ -186,13 +187,7 @@ public class ReportsController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        List<ReportCountAndIdDto> dtoList = contractService.reportContractAreaNativeQuery(areaId, startDate, endDate);
-        if(dtoList != null) {
-            dtoList.forEach(item -> {
-                SysDict dbSysDict = sysDictService.get(item.getFavoriteid());
-                item.setFavoriteName(dbSysDict.getLabel());
-            });
-        }
+        List<ReportContractDto> dtoList = contractService.reportContractAreaNativeQuery(areaId, startDate, endDate);
         return MessageUtils.sucessMsg("获取成功", dtoList);
     }
 }

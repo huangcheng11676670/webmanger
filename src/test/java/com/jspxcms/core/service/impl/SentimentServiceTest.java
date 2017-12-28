@@ -1,5 +1,6 @@
 package com.jspxcms.core.service.impl;
 
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -9,15 +10,18 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jspxcms.core.AbstractServiceTest;
-import com.jspxcms.core.domain.Sentiment;
-import com.jspxcms.core.dto.ReportSentimentNumDto;
 import com.jspxcms.core.dto.ReportCountAndIdDto;
+import com.jspxcms.core.dto.ReportSentimentNumDto;
+import com.jspxcms.core.service.ContractService;
 import com.jspxcms.core.service.SentimentService;
 
 public class SentimentServiceTest extends AbstractServiceTest {
 
     @Autowired
     SentimentService sentimentService;
+
+    @Autowired
+    ContractService contractService;
     
     //@Test
     public void testreportNumByDateAndUser() {
@@ -33,8 +37,14 @@ public class SentimentServiceTest extends AbstractServiceTest {
             e.printStackTrace();
         }
     }
-    @Test
+    //@Test
     public void testreportSentimentPieNativeQuery() {
             List<ReportCountAndIdDto> dbList = sentimentService.reportSentimentPieNativeQuery(3, "2017-12-21", "2017-12-29");
+    }
+
+    @Test
+    public void reportContractAreaNativeQuery() {
+        BigInteger dbList = contractService.reportContractNewNumNativeQuery(14, "2017-12");
+        System.out.println(dbList);
     }
 }

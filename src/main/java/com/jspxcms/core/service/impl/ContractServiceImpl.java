@@ -1,7 +1,6 @@
 package com.jspxcms.core.service.impl;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +18,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.core.domain.Contract;
 import com.jspxcms.core.domain.Site;
-import com.jspxcms.core.dto.ReportCountAndIdDto;
+import com.jspxcms.core.dto.ReportContractDto;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.ContractDao;
 import com.jspxcms.core.service.ContractService;
@@ -101,29 +101,26 @@ public class ContractServiceImpl extends BaseServiceImpl<Contract, Integer> impl
     public void preSiteDelete(Integer[] ids) {
     }
 
-    /**
-     * 每月新增合同数
-     */
     @Override
-    public List<ReportCountAndIdDto> reportContractAreaNativeQuery(Integer areaId, String startDate, String endDate) {
+    public BigInteger reportContractNewNumNativeQuery(Integer areaId, String searchMonth) {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT COUNT(*), date_format(f_contract_create_time , '%Y-%m')");
-        query.append(" FROM cms_yq_contract WHERE 1=1");
-        if(StringUtils.isNotBlank(startDate)) {
+        query.append("SELECT COUNT(*) FROM cms_yq_contract WHERE 1=1");
+        if(areaId != null) {
             query.append(" AND f_area_id = "+areaId);
         }
-        query.append(" GROUP BY date_format(f_contract_create_time , '%Y-%m') ");
-    
+        if(StringUtils.isNotBlank(searchMonth)) {
+            query.append(" AND date_format(f_contract_create_time , '%Y-%m') = '"+ searchMonth+"'");
+        }
       //执行原生SQL
       Query nativeQuery = em.createNativeQuery(query.toString());
       //返回对象
-      @SuppressWarnings("unchecked")
-      List<Object> resultList = nativeQuery.getResultList();
-      List<ReportCountAndIdDto> dtoList = new ArrayList<ReportCountAndIdDto>();
-      resultList.forEach(item -> {
-          Object[] cells = (Object[]) item;
-          dtoList.add( new ReportCountAndIdDto((BigInteger)cells[0], (Integer)cells[1]));
-      });
-      return dtoList;
+      Object resultObj = nativeQuery.getSingleResult();
+      return (BigInteger)resultObj;
+    }
+
+    @Override
+    public List<ReportContractDto> reportContractAreaNativeQuery(Integer areaId, String startDate, String endDate) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
