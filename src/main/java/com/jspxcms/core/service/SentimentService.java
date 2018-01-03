@@ -38,4 +38,9 @@ public interface SentimentService extends IBaseService<Sentiment, Integer>{
      * @return
      */
     public List<ReportCountAndIdDto> reportSentimentAreaNativeQuery(String startDate, String endDate);
+    /**
+     * 加入案例
+     * @param id
+     */
+    public Sentiment joincase(Integer id);
 }

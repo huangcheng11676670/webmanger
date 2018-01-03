@@ -46,6 +46,7 @@ public class Sentiment implements Siteable, java.io.Serializable {
     private String summary;
     private String smsContent;
     private Integer favoriteId;
+    private Boolean caseStatus = true;
 
     @Transient
     public String getInfoLevelShow() {
@@ -62,6 +63,15 @@ public class Sentiment implements Siteable, java.io.Serializable {
 
     public void setInfoTypeShow(String infoTypeShow) {
         this.infoTypeShow = infoTypeShow;
+    }
+
+    @Column(name = "f_case")
+    public Boolean getCaseStatus() {
+        return this.caseStatus;
+    }
+
+    public void setCaseStatus(Boolean caseStatus) {
+        this.caseStatus = caseStatus;
     }
 
     @Id

@@ -40,7 +40,6 @@ import com.jspxcms.core.service.SiteService;
 @Service
 @Transactional(readOnly = true)
 public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> implements SentimentService, SiteDeleteListener {
-
     private SentimentDao dao;
 
     private EntityManager em;
@@ -208,5 +207,18 @@ public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> im
           dtoList.add( new ReportCountAndIdDto((BigInteger)cells[0], (Integer)cells[1]));
       });
       return dtoList;
+    }
+
+    @Override
+    @Transactional
+    public Sentiment joincase(Integer id) {
+        Sentiment dbSentiment =  super.get(id);
+        if(dbSentiment.getCaseStatus()) {
+            dbSentiment.setCaseStatus(false);
+        }else {
+            dbSentiment.setCaseStatus(true);
+        }
+        super.update(dbSentiment);
+        return dbSentiment;
     }
 }

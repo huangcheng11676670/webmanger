@@ -669,6 +669,17 @@
     - save@core:sentiment:save
     - update@core:sentiment:update
     - delete@core:sentiment:delete
+1000-501:
+  name: sentiment.case.management
+  url: core/sentiment/listCase.do
+  perms: core:sentiment:list
+  ops:
+    - create@core:sentiment:create
+    - copy@core:sentiment:copy
+    - edit@core:sentiment:edit
+    - save@core:sentiment:save
+    - update@core:sentiment:update
+    - delete@core:sentiment:delete
 1000-600:
   name: reports.management
   url: core/reports/list.do

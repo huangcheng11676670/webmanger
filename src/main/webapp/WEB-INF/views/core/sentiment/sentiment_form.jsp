@@ -186,7 +186,15 @@
           <button class="btn btn-default" type="submit" onclick="$('#redirect').val('list');"><s:message code="saveAndReturn"/></button>
           <c:if test="${oprt=='create'}">
           <button class="btn btn-default" type="submit" onclick="$('#redirect').val('create');"><s:message code="saveAndCreate"/></button>
-             </c:if>
+          </c:if>
+          <button class="btn btn-primary" type="button" onclick="joincase();" id="case_btn">
+          <c:if test="${bean.caseStatus}">
+          移除案情舆情
+          </c:if>
+          <c:if test="${!bean.caseStatus}">
+          加入案情舆情
+          </c:if>
+          </button>
             </div>
         </form>
     </div>
@@ -243,6 +251,16 @@ function autogetinfo(){
         $bar.removeClass('animate');
         $modal.modal('hide');
     });
+}
+function joincase(){
+    $.post("joincase.do", { id: ${bean.id} },
+       function(data){
+         if(data.result){
+             $("#case_btn").html("移除案情舆情");
+         }else{
+             $("#case_btn").html("加入案情舆情");
+         }
+       }, "json");
 }
 this.$('.js-loading-bar').modal({
       backdrop: 'static',

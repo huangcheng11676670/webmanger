@@ -20,6 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -83,6 +84,24 @@ public class SentimentController {
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
         modelMap.addAttribute("areaList", areaList);
         return "core/sentiment/sentiment_list";
+    }
+
+    @RequiresPermissions("core:sentiment:list")
+    @RequestMapping("listCase.do")
+    public String listByCase(@PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable,
+            HttpServletRequest request, org.springframework.ui.Model modelMap) {
+        Integer siteId = Context.getCurrentSiteId();
+        Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
+        params.put("EQ_caseStatus_Boolean", new String[]{"true"});
+        List<Sentiment> pagedList = service.findList(siteId, params, pageable.getSort());
+        pagedList.forEach(item -> {
+            item.setInfoLevelShow(sysDictService.getLabelById(item.getInfoLevel()));
+            item.setInfoTypeShow(sysDictService.getLabelById(item.getInfoType()));
+        });
+        modelMap.addAttribute("pagedList", pagedList);
+        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);
+        return "core/sentiment/sentiment_case_list";
     }
 
     @RequiresPermissions("core:sentiment:list")
@@ -169,6 +188,14 @@ public class SentimentController {
             ra.addAttribute("id", bean.getId());
             return "redirect:edit.do";
         }
+    }
+
+    @ResponseBody
+    @RequiresPermissions("core:sentiment:save")
+    @RequestMapping(value="joincase.do", method=RequestMethod.POST)
+    public Object joincase(Integer id) {
+        Sentiment dbSentiment =  service.joincase(id);
+        return MessageUtils.sucessMsg("保存成功", dbSentiment.getCaseStatus());
     }
 
     @RequiresPermissions("core:sentiment:update")
