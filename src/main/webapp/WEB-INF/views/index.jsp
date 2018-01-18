@@ -48,14 +48,14 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-            <li style="padding:10px 5px 0 ;">
+<%--             <li style="padding:10px 5px 0 ;">
                   <select class="form-control input-sm" onchange="location.href='index.do?_site='+$(this).val();" style="border-radius:4px;background-color:#ecf0f5;">
                           <c:forEach var="s" items="${siteList}">
                               <option value="${s.id}"<c:if test="${site.id==s.id}"> selected="selected"</c:if>>${s.name}(${s.org.name})</option>
                           </c:forEach>
                   </select> 
-              </li>
-            <li>
+              </li> --%>
+            <%-- <li>
                   <a href="${site.url}" target="_blank" title="网站首页">
                     <i class="glyphicon glyphicon-home"></i>
                   </a>
@@ -65,7 +65,7 @@
               <i class="fa fa-bell-o"></i>
               <span id="notificationCount" class="label label-warning"></span>
             </a>
-            </li>
+            </li> --%>
             <li class="user-menu">
             <a href="javascript:;">
               <!-- The user image in the navbar-->
@@ -182,6 +182,10 @@ $(function() {
     getNotificationCount();
     setInterval(getNotificationCount,120000);
     */
+    $("ul.sidebar-menu>li").click(function() {
+        $(this).parent().find("li").removeClass("active");
+        $(this).addClass("active");
+    });
     $(".treeview-menu>li:not(.treeview)>a").click(function() {
         $(this).parent().parent().find("li").removeClass("active");
         $(this).parent().parent().parent().parent().find("li").not($(this).parent().parent().parent()[0]).removeClass("active");
