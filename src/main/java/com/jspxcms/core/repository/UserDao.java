@@ -21,46 +21,49 @@ import com.jspxcms.core.repository.plus.UserDaoPlus;
  * 
  */
 public interface UserDao extends Repository<User, Integer>, UserDaoPlus {
-	public Page<User> findAll(Specification<User> spec, Pageable pageable);
+    public Page<User> findAll(Specification<User> spec, Pageable pageable);
 
-	public List<User> findAll(Specification<User> spec, Limitable limitable);
+    public List<User> findAll(Specification<User> spec, Limitable limitable);
 
-	public User findOne(Integer id);
+    public User findOne(Integer id);
 
-	public User save(User bean);
+    public User save(User bean);
 
-	public void delete(User bean);
+    public void delete(User bean);
 
-	// ------------------------------------
+    // ------------------------------------
 
-	/**
-	 * 查询注册用户数量
-	 * 
-	 * @param siteId
-	 *            站点ID
-	 * @param beginDate
-	 *            开始日期
-	 * @return
-	 */
-	@Query("select count(*) from UserDetail bean where bean.creationDate >= ?1")
-	public long countByDate(Date beginDate);
+    /**
+     * 查询注册用户数量
+     * 
+     * @param siteId
+     *            站点ID
+     * @param beginDate
+     *            开始日期
+     * @return
+     */
+    @Query("select count(*) from UserDetail bean where bean.creationDate >= ?1")
+    public long countByDate(Date beginDate);
 
-	public User findByUsername(String username);
+    public User findByUsername(String username);
 
-	public User findByWeixinOpenid(String weixinOpenid);
+    public User findByWeixinOpenid(String weixinOpenid);
 
-	public User findByQqOpenid(String qqOpenid);
+    public User findByQqOpenid(String qqOpenid);
 
-	public User findByWeiboUid(String weiboUid);
+    public User findByWeiboUid(String weiboUid);
 
-	public User findByValidationTypeAndValidationKey(String type, String key);
+    public User findByValidationTypeAndValidationKey(String type, String key);
 
-	@Query("select count(*) from User bean where bean.username=?1")
-	public long countByUsername(String username);
+    @Query("select count(*) from User bean where bean.username=?1")
+    public long countByUsername(String username);
 
-	@Query("select count(*) from User bean where bean.org.id in ?1")
-	public long countByOrgId(Collection<Integer> orgIds);
+    @Query("select count(*) from User bean where bean.org.id in ?1")
+    public long countByOrgId(Collection<Integer> orgIds);
 
-	@Query("select count(*) from User bean where bean.group.id in ?1")
-	public long countByGroupId(Collection<Integer> groupIds);
+    @Query("select count(*) from User bean where bean.group.id in ?1")
+    public long countByGroupId(Collection<Integer> groupIds);
+
+    @Query("select count(*) from User bean where bean.status = 0")
+    public long countByStatus();
 }

@@ -15,6 +15,7 @@ import com.jspxcms.core.dto.ReportCountAndIdDto;
  * 
  */
 public interface SentimentService extends IBaseService<Sentiment, Integer>{
+    public long countByToday();
 
     public List<Sentiment> findList(Integer siteId, Map<String, String[]> params, Sort sort);
     
@@ -43,4 +44,9 @@ public interface SentimentService extends IBaseService<Sentiment, Integer>{
      * @param id
      */
     public Sentiment joincase(Integer id);
+    /**
+     * 舆情总数
+     * @return
+     */
+    public Long countTotal();
 }

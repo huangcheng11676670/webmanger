@@ -104,4 +104,9 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> impl
     public List<Customer> findByAreaId(Integer areaId) {
         return dao.findByAreaId(areaId);
     }
+
+    @Override
+    public Long countCustomer() {
+        return dao.countByStatus();
+    }
 }

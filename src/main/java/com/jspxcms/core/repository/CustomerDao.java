@@ -24,4 +24,7 @@ public interface CustomerDao extends BaseCrudDao<Customer, Integer> {
     public Page<Customer> findAll(Specification<Customer> spec, Pageable pageable);
     
     public List<Customer> findByAreaId(Integer areaId);
+    
+    @Query("select count(*) from Customer bean where bean.status = 1")
+    public long countByStatus();
 }

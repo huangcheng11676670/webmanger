@@ -1,0 +1,11 @@
+https://github.com/pandao/editor.md
+图标按钮参考下面链接
+样式有下面引入
+static/vendor/editormd/css/editormd.min.css
+字体由下面引入
+http://fontawesome.io/icons/
+
+加个前置fa-*
+比如
+fa fa-diamond
+fa fa-user-o

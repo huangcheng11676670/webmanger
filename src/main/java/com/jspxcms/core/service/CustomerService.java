@@ -21,4 +21,6 @@ public interface CustomerService extends IBaseService<Customer, Integer>{
     List<Customer> findList(Integer siteId);
 
     List<Customer> findByAreaId(Integer areaId);
+    
+    Long countCustomer();
 }

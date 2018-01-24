@@ -20,48 +20,50 @@
     <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="info-box">
-        <span class="info-box-icon bg-aqua"><i class="fa fa-user-o"></i></span>
+        <span class="info-box-icon bg-aqua"><i class="fa fa-edit"></i></span>
         <div class="info-box-content">
-          <span class="info-box-text">客户总数</span>
-          <span class="info-box-number">${customerNum}</span>
+          <span class="info-box-text">发布文档（最近7日）</span>
+          <span class="info-box-number">${infos}</span>
         </div>
+        <!-- /.info-box-content -->
       </div>
+      <!-- /.info-box -->
     </div>
-    <div class="col-md-3 col-sm-3 col-xs-12">
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="info-box">
         <span class="info-box-icon bg-red"><i class="ion ion-ios-people-outline"></i></span>
         <div class="info-box-content">
-          <span class="info-box-text">员工数量</span>
-          <span class="info-box-number">${userNum}</span>
+          <span class="info-box-text">用户注册（最近7日）</span>
+          <span class="info-box-number">${users}</span>
         </div>
+        <!-- /.info-box-content -->
       </div>
+      <!-- /.info-box -->
     </div>
-    <div class="col-md-3 col-sm-6 col-xs-12">
-         <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="fa fa-bullhorn"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">今日新增舆情</span>
-              <span class="info-box-number">${sentimentNum}</span>
-            </div>
-          </div>
-    </div>
+    <!-- /.col -->
+
     <!-- fix for small devices only -->
     <div class="clearfix visible-sm-block"></div>
+
     <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="info-box">
-        <span class="info-box-icon bg-green"><i class="fa fa-binoculars"></i></span>
+        <span class="info-box-icon bg-green"><i class="fa fa-commenting"></i></span>
         <div class="info-box-content">
-          <span class="info-box-text">舆情总数</span>
-          <span class="info-box-number">${sentimentTotalNum}</span>
+          <span class="info-box-text">用户评论（最近7日）</span>
+          <span class="info-box-number">${comments}</span>
         </div>
+        <!-- /.info-box-content -->
       </div>
+      <!-- /.info-box -->
     </div>
+    <!-- /.col -->
     <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="info-box">
-        <span class="info-box-icon bg-yellow"><i class="fa fa-calendar-times-o"></i></span>
+        <span class="info-box-icon bg-yellow"><i class="fa fa-book"></i></span>
         <div class="info-box-content">
-          <span class="info-box-text">合同到期数量</span>
-          <span class="info-box-number">${contractEndNum}</span>
+          <span class="info-box-text">用户留言（最近7日）</span>
+          <span class="info-box-number">${guestbooks}</span>
         </div>
         <!-- /.info-box-content -->
       </div>

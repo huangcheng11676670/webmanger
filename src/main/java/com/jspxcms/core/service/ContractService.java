@@ -35,4 +35,9 @@ public interface ContractService extends IBaseService<Contract, Integer>{
      * @return
      */
     public List<ReportContractDto> reportContractAreaNativeQuery(Integer areaId, String startDate, String endDate);
+    /**
+     * 合同到期数
+     * @return
+     */
+    public Long endContractNum();
 }

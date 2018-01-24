@@ -60,6 +60,10 @@ public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> im
 
     @Autowired
     private CustomerService customerService;
+    
+    public long countByToday() {
+       return dao.countByToday();
+    }
 
     public List<Sentiment> findList(Integer siteId, Map<String, String[]> params, Sort sort) {
         return dao.findAll(spec(siteId, params), sort);
@@ -220,5 +224,10 @@ public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> im
         }
         super.update(dbSentiment);
         return dbSentiment;
+    }
+
+    @Override
+    public Long countTotal() {
+        return dao.count();
     }
 }

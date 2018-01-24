@@ -123,4 +123,9 @@ public class ContractServiceImpl extends BaseServiceImpl<Contract, Integer> impl
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public Long endContractNum() {
+        return dao.endContractNum();
+    }
 }
