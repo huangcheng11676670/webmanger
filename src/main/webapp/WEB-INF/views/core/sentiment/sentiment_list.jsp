@@ -163,7 +163,7 @@ function optDelete(form) {
                           <span class="disabled"><s:message code="copy"/></span>
                         </c:when>
                         <c:otherwise>
-                              <a id="copy_opt_${bean.id}" href="create.do?id=${bean.id}&${searchstring}" class="ls-opt"><s:message code="copy"/></a>
+                              <a id="copy_opt_${bean.id}" href="create.do?id=${bean.id}&favoriteId=${bean.favoriteId}&${searchstring}" class="ls-opt"><s:message code="copy"/></a>
                         </c:otherwise>
                       </c:choose>
                       </shiro:hasPermission>
