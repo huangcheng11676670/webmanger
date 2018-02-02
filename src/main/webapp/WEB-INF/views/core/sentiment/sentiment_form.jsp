@@ -187,6 +187,7 @@
           <c:if test="${oprt=='create'}">
           <button class="btn btn-default" type="submit" onclick="$('#redirect').val('create');"><s:message code="saveAndCreate"/></button>
           </c:if>
+          <c:if test="${oprt !='create'}">
           <button class="btn btn-primary" type="button" onclick="joincase();" id="case_btn">
           <c:if test="${bean.caseStatus}">
           移除案情舆情
@@ -195,6 +196,7 @@
           加入案情舆情
           </c:if>
           </button>
+          </c:if>
             </div>
         </form>
     </div>
@@ -252,6 +254,7 @@ function autogetinfo(){
         $modal.modal('hide');
     });
 }
+<c:if test="${oprt !='create'}">
 function joincase(){
     $.post("joincase.do", { id: ${bean.id} },
        function(data){
@@ -262,6 +265,7 @@ function joincase(){
          }
        }, "json");
 }
+</c:if>
 this.$('.js-loading-bar').modal({
       backdrop: 'static',
       show: false
