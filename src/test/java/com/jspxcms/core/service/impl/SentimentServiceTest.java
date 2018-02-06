@@ -5,10 +5,13 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.jspxcms.common.util.AliyunSMSUtils;
 import com.jspxcms.core.AbstractServiceTest;
 import com.jspxcms.core.dto.ReportCountAndIdDto;
 import com.jspxcms.core.dto.ReportSentimentNumDto;
@@ -22,6 +25,9 @@ public class SentimentServiceTest extends AbstractServiceTest {
 
     @Autowired
     ContractService contractService;
+    
+    @Resource(name="aliyunSMSUtils")
+    AliyunSMSUtils aliyunSMSUtils;
     
     //@Test
     public void testreportNumByDateAndUser() {
@@ -42,9 +48,13 @@ public class SentimentServiceTest extends AbstractServiceTest {
             List<ReportCountAndIdDto> dbList = sentimentService.reportSentimentPieNativeQuery(3, "2017-12-21", "2017-12-29");
     }
 
-    @Test
+    //@Test
     public void reportContractAreaNativeQuery() {
         BigInteger dbList = contractService.reportContractNewNumNativeQuery(14, "2017-12");
         System.out.println(dbList);
+    }
+    @Test
+    public void smsTest() {
+        aliyunSMSUtils.sendSms("18382323963", "dfadfasdf");
     }
 }

@@ -236,6 +236,21 @@
           <artifactId>ECharts</artifactId>
           <version>3.0.0.2</version>
         </dependency>
+        <!-- 阿里云 -->
+        <dependency>
+          <groupId>local</groupId>
+          <artifactId>aliyun-core</artifactId>
+          <version>3.3.1</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/aliyun-java-sdk-core-3.3.1.jar</systemPath>
+        </dependency>
+        <dependency>
+          <groupId>local</groupId>
+          <artifactId>aliyun-dysmsapi</artifactId>
+          <version>1.0.0</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar</systemPath>
+        </dependency>
         <!-- 中文分词组件 -->
         <dependency>
             <groupId>local</groupId>
