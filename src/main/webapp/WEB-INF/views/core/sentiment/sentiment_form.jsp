@@ -170,17 +170,39 @@
                     </div>
                 </div>
             </div>
+            <c:if test="${oprt=='create'}">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">短信内容</label>
                         <div class="col-sm-10">
-                            <f:textarea class="form-control" name="smsContent" value="${oprt=='edit' || oprt=='create' ? bean.smsContent : ''}" maxlength="255" rows="3" />
+                            <f:textarea class="form-control" name="smsContent" id="smsContent" value="${oprt=='edit' || oprt=='create' ? bean.smsContent : ''}" maxlength="255" rows="3" />
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">联系人</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="sendSMSPhone">
+                                <option value="${customer.contact1Phone}">${customer.contact1}</option>
+                                <option value="${customer.contact2Phone}">${customer.contact2}</option>
+                                <option value="${customer.contact3Phone}">${customer.contact3}</option>
+                                <option value="${customer.contact4Phone}">${customer.contact4}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                        <f:checkbox name="sendSMS"/>发送短信
+                    </div>
+                 </div>
             </div>
+            </c:if>
             <div class="box-footer">
           <button class="btn btn-primary" type="submit"><s:message code="save"/></button>
           <button class="btn btn-default" type="submit" onclick="$('#redirect').val('list');"><s:message code="saveAndReturn"/></button>
@@ -230,7 +252,8 @@ $(function() {
         }
     });
     $("input[name='name']").focus();
-    $(".btn").on("click",function(){var b=$(this);b.button("loading..."),setTimeout(function(){b.button("reset")}, 5000)});
+    $(".btn").on("click",function(){
+        var b=$(this);b.button("loading..."),setTimeout(function(){b.button("reset")}, 5000)});
 });
 function confirmDelete() {
     return confirm("<s:message code='confirmDelete'/>");
@@ -244,6 +267,7 @@ function autogetinfo(){
     $.getJSON("autogetinfo.do", { favoriteId: ${favorite.id}, url: $("#sentimentUrl").val() },function(json){
         if(json.status){
            $("#sentimentTitle").val(json.result.sentimentTitle);
+           $("#smsContent").val(json.result.sentimentTitle);
            $("#contentCreateTime").val(json.result.contentCreateTime);
            $("#commentNum").val(json.result.commentNum);
            $("#summary").val(json.result.summary);

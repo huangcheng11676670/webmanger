@@ -9,6 +9,8 @@ import static com.jspxcms.core.constant.Constants.SAVE_SUCCESS;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.jspxcms.common.util.AliyunSMSUtils;
 import com.jspxcms.common.util.HtmlAnalysisUtils;
 import com.jspxcms.common.util.MessageUtils;
 import com.jspxcms.common.web.Servlets;
@@ -49,6 +54,8 @@ import com.jspxcms.core.support.Context;
 public class SentimentController {
     private static final Logger logger = LoggerFactory.getLogger(SentimentController.class);
 
+    @Resource(name="aliyunSMSUtils")
+    private AliyunSMSUtils aliyunSMSUtils;
     @Autowired
     private OperationLogService logService;
 
@@ -63,6 +70,9 @@ public class SentimentController {
 
     @Autowired
     private SysFavoriteService sysFavoriteService;
+
+    @Autowired  
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;  
 
     @ModelAttribute("bean")
     public Sentiment preloadBean(@RequestParam(required = false) Integer oid) {
@@ -126,23 +136,26 @@ public class SentimentController {
             bean.setFavoriteId(favoriteId);
             bean.setCustomer(favorite.getCustomer());
             modelMap.addAttribute("bean", bean);
+            Customer dbCustomer = customerService.get(favorite.getCustomer().getId());
+            modelMap.addAttribute("customer", dbCustomer);
         }
         if (id != null) {
             Sentiment bean = service.get(id);
             Backends.validateDataInSite(bean, siteId);
             modelMap.addAttribute("bean", bean);
         }
-        
-        List<Customer> dbCustomerList = customerService.findList(siteId);
+/*        List<Customer> dbCustomerList = customerService.findList(siteId);
         modelMap.addAttribute("customerList", dbCustomerList);
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+        modelMap.addAttribute("areaList", areaList);*/
         List<SysDict> infoLevelList = sysDictService.findListByType(SysDict.INFO_LEVEL);
         modelMap.addAttribute("infoLevelList", infoLevelList);
         List<SysDict> infoTypelList = sysDictService.findListByType(SysDict.INFO_TYPE);
         modelMap.addAttribute("infoTypelList", infoTypelList);
         List<SysDict> schoolLevelList = sysDictService.findListByType(SysDict.SCHOOL_LEVEL);
         modelMap.addAttribute("schoolLevelList", schoolLevelList);
+        //客户对应的联系人
+        
         modelMap.addAttribute(OPRT, CREATE);
         return "core/sentiment/sentiment_form";
     }
@@ -177,6 +190,15 @@ public class SentimentController {
         bean.setUser(Context.getCurrentUser());
         bean.setCreateDatetime(new Date());
         service.save(bean, siteId);
+        //是否发送短信
+        if(bean.getSendSMS()) {
+            threadPoolTaskExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    aliyunSMSUtils.sendSms(bean.getSendSMSPhone(), bean.getSmsContent());
+                }
+            });  
+        }
         logService.operation("opr.Sentiment.add", bean.getSentimentTitle(), null, bean.getId(), request);
         logger.info("save Sentiment, title={}.", bean.getSentimentTitle());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);

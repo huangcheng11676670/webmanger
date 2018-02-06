@@ -45,6 +45,8 @@ public class Sentiment implements Siteable, java.io.Serializable {
     private Integer commentNum;
     private String summary;
     private String smsContent;
+    private Boolean sendSMS;
+    private String sendSMSPhone;
     private Integer favoriteId;
     private Boolean caseStatus = true;
 
@@ -230,5 +232,20 @@ public class Sentiment implements Siteable, java.io.Serializable {
 
     public void setFavoriteId(Integer favoriteId) {
         this.favoriteId = favoriteId;
+    }
+    @Transient
+    public Boolean getSendSMS() {
+        return sendSMS;
+    }
+
+    public void setSendSMS(Boolean sendSMS) {
+        this.sendSMS = sendSMS;
+    }
+    @Transient
+    public String getSendSMSPhone() {
+        return sendSMSPhone;
+    }
+    public void setSendSMSPhone(String sendSMSPhone) {
+        this.sendSMSPhone = sendSMSPhone;
     }
 }

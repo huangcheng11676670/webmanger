@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mobile.device.LiteDeviceResolver;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.foxinmy.weixin4j.cache.FileCacheStorager;
 import com.foxinmy.weixin4j.http.factory.HttpClientFactory;
@@ -172,4 +173,18 @@ public class ContextConfig {
         return new SiteResolver();
     }
 
+    @Bean  
+    public ThreadPoolTaskExecutor taskExecutor() {  
+        ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();  
+        // 线程池所使用的缓冲队列  
+        pool.setQueueCapacity(100);  
+        // 线程池维护线程的最少数量  
+        pool.setCorePoolSize(10);  
+        // 线程池维护线程的最大数量  
+        pool.setMaxPoolSize(50);  
+        // 线程池维护线程所允许的空闲时间  
+        pool.setKeepAliveSeconds(5);  
+        // pool.setWaitForTasksToCompleteOnShutdown(true);  
+        return pool;  
+    }  
 }
