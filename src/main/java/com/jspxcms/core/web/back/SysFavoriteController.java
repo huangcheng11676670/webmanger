@@ -16,6 +16,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -28,12 +29,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
-import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.domain.SysFavorite;
 import com.jspxcms.core.dto.FaviruteListDto;
-import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.service.SysFavoriteService;
@@ -57,8 +56,8 @@ public class SysFavoriteController {
     @Autowired
     private SysDictService sysDictService;
 
-    @Autowired
-    private CustomerService customerService;
+  /*  @Autowired
+    private CustomerService customerService;*/
 
     @ModelAttribute("bean")
     public SysFavorite preloadBean(@RequestParam(required = false) Integer oid) {
@@ -71,7 +70,8 @@ public class SysFavoriteController {
             HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
-        List<SysFavorite> pagedList = service.findList(siteId, params, pageable.getSort());
+        //List<SysFavorite> pagedList = service.findList(siteId, params, pageable.getSort());
+        Page<SysFavorite> pagedList = service.findPage(siteId, params, pageable);
         modelMap.addAttribute("pagedList", pagedList);
         List<SysDict> dictList = sysDictService.findListByType(SysDict.FAVORITE_TYPE);
         modelMap.addAttribute("favoriteTypeList", dictList);

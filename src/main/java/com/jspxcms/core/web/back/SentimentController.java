@@ -16,6 +16,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -85,7 +86,8 @@ public class SentimentController {
             HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
-        List<Sentiment> pagedList = service.findList(siteId, params, pageable.getSort());
+        //List<Sentiment> pagedList = service.findList(siteId, params, pageable.getSort());
+        Page<Sentiment> pagedList = service.findPage(siteId, params, pageable);
         pagedList.forEach(item -> {
             item.setInfoLevelShow(sysDictService.getLabelById(item.getInfoLevel()));
             item.setInfoTypeShow(sysDictService.getLabelById(item.getInfoType()));
@@ -103,7 +105,8 @@ public class SentimentController {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
         params.put("EQ_caseStatus_Boolean", new String[]{"true"});
-        List<Sentiment> pagedList = service.findList(siteId, params, pageable.getSort());
+        Page<Sentiment> pagedList = service.findPage(siteId, params, pageable);
+        //List<Sentiment> pagedList = service.findList(siteId, params, pageable.getSort());
         pagedList.forEach(item -> {
             item.setInfoLevelShow(sysDictService.getLabelById(item.getInfoLevel()));
             item.setInfoTypeShow(sysDictService.getLabelById(item.getInfoType()));

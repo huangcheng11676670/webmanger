@@ -3,6 +3,8 @@ package com.jspxcms.core.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.jspxcms.common.service.IBaseService;
@@ -49,4 +51,12 @@ public interface SentimentService extends IBaseService<Sentiment, Integer>{
      * @return
      */
     public Long countTotal();
+    /**
+     * 分页展示
+     * @param siteId
+     * @param params
+     * @param pageable
+     * @return
+     */
+    public Page<Sentiment> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable);
 }

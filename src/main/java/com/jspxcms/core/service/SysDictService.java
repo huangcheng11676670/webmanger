@@ -3,6 +3,8 @@ package com.jspxcms.core.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.jspxcms.core.domain.SysDict;
@@ -39,4 +41,12 @@ public interface SysDictService {
     public List<SysDict> findTreeList(Integer siteId, Integer pid);
 
     public String getLabelById(Integer id);
+    /**
+     * 分页
+     * @param siteId
+     * @param params
+     * @param pageable
+     * @return
+     */
+    public Page<SysDict> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable);
 }

@@ -14,6 +14,8 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,11 @@ public class ContractServiceImpl extends BaseServiceImpl<Contract, Integer> impl
 
     public List<Contract> findList(Integer siteId, Map<String, String[]> params, Sort sort) {
         return dao.findAll(spec(siteId, params), sort);
+    }
+
+    @Override
+    public Page<Contract> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable) {
+        return dao.findAll(spec(siteId, params), pageable);
     }
 
     private Specification<Contract> spec(final Integer siteId, Map<String, String[]> params) {

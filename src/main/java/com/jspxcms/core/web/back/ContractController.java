@@ -1,18 +1,22 @@
 package com.jspxcms.core.web.back;
 
 import static com.jspxcms.core.constant.Constants.CREATE;
+import static com.jspxcms.core.constant.Constants.DELETE_SUCCESS;
 import static com.jspxcms.core.constant.Constants.EDIT;
 import static com.jspxcms.core.constant.Constants.MESSAGE;
 import static com.jspxcms.core.constant.Constants.OPRT;
 import static com.jspxcms.core.constant.Constants.SAVE_SUCCESS;
-import static com.jspxcms.core.constant.Constants.DELETE_SUCCESS;
+
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -21,14 +25,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
 import com.jspxcms.core.domain.Contract;
-import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.service.ContractService;
-import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.support.Backends;
@@ -51,9 +54,6 @@ public class ContractController {
     @Autowired
     private SysDictService sysDictService;
 
-    @Autowired
-    private CustomerService customerService;
-
     @ModelAttribute("bean")
     public Contract preloadBean(@RequestParam(required = false) Integer oid) {
         return oid != null ? service.get(oid) : null;
@@ -65,7 +65,8 @@ public class ContractController {
             HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
-        List<Contract> pagedList = service.findList(siteId, params, pageable.getSort());
+        //List<Contract> pagedList = service.findList(siteId, params, pageable.getSort());
+        Page<Contract> pagedList = service.findPage(siteId, params, pageable);
         modelMap.addAttribute("pagedList", pagedList);
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
         modelMap.addAttribute("areaList", areaList);

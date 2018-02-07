@@ -2,6 +2,10 @@ package com.jspxcms.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsRequest;
@@ -12,6 +16,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.jspxcms.common.file.AntZipUtils;
 
 /**
  * Created on 17/6/7.
@@ -25,6 +30,8 @@ import com.aliyuncs.profile.IClientProfile;
  * 国际短信发送请勿参照此DEMO
  */
 public class AliyunSMSUtils {
+    private static final Logger logger = LoggerFactory
+            .getLogger(AliyunSMSUtils.class);
 
     public AliyunSMSUtils(String accessKeyId, String accessKeySecret) {
         super();
@@ -68,7 +75,7 @@ public class AliyunSMSUtils {
         //必填:待发送手机号
         request.setPhoneNumbers(phone);
         //必填:短信签名-可在短信控制台中找到
-        request.setSignName("阿里云短信测试专用");
+        request.setSignName("四川省国政教育咨询有限公");
         //必填:短信模板-可在短信控制台中找到
         request.setTemplateCode("SMS_124045154");
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
@@ -84,11 +91,10 @@ public class AliyunSMSUtils {
         //hint 此处可能会抛出异常，注意catch
         try {
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
+            logger.info(sendSmsResponse.getCode()+sendSmsResponse.getMessage());
             return sendSmsResponse;
-        } catch (ServerException e) {
-            e.printStackTrace();
-        } catch (ClientException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error(e.getLocalizedMessage());
         }
         return null;
     }

@@ -134,7 +134,7 @@ function optDelete(form) {
                   </tr>
                   </thead>
                   <tbody>
-                  <c:forEach var="bean" varStatus="status" items="${pagedList}">
+                  <c:forEach var="bean" varStatus="status" items="${pagedList.content}">
                   <tr<shiro:hasPermission name="core:sentiment:edit"> ondblclick="location.href=$('#edit_opt_${bean.id}').attr('href');"</shiro:hasPermission>>
                     <td><c:if test="${bean.id!=0}"><input type="checkbox" name="ids" value="${bean.id}"/></c:if></td>
                     <td align="center">
@@ -162,6 +162,13 @@ function optDelete(form) {
                   </c:forEach>
                   </tbody>
                 </table>
+                <c:if test="${fn:length(pagedList.content) le 0}"> 
+                <div class="ls-norecord"><s:message code="recordNotFound"/></div>
+                </c:if>
+            </form>
+            <form action="listCase.do" method="get" class="ls-page">
+                <tags:search_params excludePage="true"/>
+              <tags:pagination pagedList="${pagedList}"/>
             </form>
         </div>
     </div>

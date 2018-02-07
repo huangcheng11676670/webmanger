@@ -9,6 +9,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,11 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> impl
 
     public List<Customer> findList(Integer siteId, Map<String, String[]> params, Sort sort) {
         return dao.findAll(spec(siteId, params), sort);
+    }
+    
+    @Override
+    public Page<Customer> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable) {
+        return dao.findAll(spec(siteId, params), pageable);
     }
 
     private Specification<Customer> spec(final Integer siteId, Map<String, String[]> params) {

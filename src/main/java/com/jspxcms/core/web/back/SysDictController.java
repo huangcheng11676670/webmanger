@@ -16,6 +16,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -63,7 +64,8 @@ public class SysDictController {
             HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
-        List<SysDict> pagedList = service.findList(siteId, params, pageable.getSort());
+        //List<SysDict> pagedList = service.findList(siteId, params, pageable.getSort());
+        Page<SysDict> pagedList = service.findPage(siteId, params, pageable);
         modelMap.addAttribute("pagedList", pagedList);
         return "core/sysdict/sysdict_list";
     }

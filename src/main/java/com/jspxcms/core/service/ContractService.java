@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.jspxcms.common.service.IBaseService;
@@ -40,4 +42,12 @@ public interface ContractService extends IBaseService<Contract, Integer>{
      * @return
      */
     public Long endContractNum();
+    /**
+     * 分页
+     * @param siteId
+     * @param params
+     * @param pageable
+     * @return
+     */
+    public Page<Contract> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable);
 }
