@@ -1,6 +1,5 @@
 0:
   name: navigation.homepage
-  icon: fa fa-dashboard
   perms: core:homepage:welcome,core:nav
   url: core/homepage/welcome.do
 2:
@@ -71,7 +70,6 @@
     - delete@core:contract:delete
 8:
   name: navigation.user
-  icon: glyphicon glyphicon-user
   perms: nav_user
 8-10:
   name: homepage.personal

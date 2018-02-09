@@ -41,7 +41,7 @@
 %>
 <div class="login-box">
     <div class="login-logo">
-        <a href="${ctx}/" style="color:#fff;"><b>后台管理</b>信息系统</a>
+        <a href="${ctx}/" style="color:#fff;"><b>国政舆情</b>信息管理系统</a>
     </div>
     <div class="login-box-body">
         <p class="login-box-msg text-danger">
