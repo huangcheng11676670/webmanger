@@ -13,10 +13,8 @@ import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsResponse;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.jspxcms.common.file.AntZipUtils;
 
 /**
  * Created on 17/6/7.
@@ -49,18 +47,57 @@ public class AliyunSMSUtils {
     public String accessKeySecret = "yourAccessKeySecret";
     /**
      * SMS_125025696
-     * ${time},网络舆情${title},查看更多${more}.
+     * 尊敬的${name}领导,我们在${from}监测到一条舆情,内容概述${content}
      * @return
      */
-    public void buildMsg(SendSmsRequest request, String dateValue, String title, String url){
+    public void buildMsg(SendSmsRequest request, String name, String title, String url){
         //必填:短信签名-可在短信控制台中找到
-        request.setSignName("信息通知");
+        request.setSignName("国政教育");
         //必填:短信模板-可在短信控制台中找到
-        request.setTemplateCode("SMS_125025696");
+        request.setTemplateCode("SMS_125116385");
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
-        request.setTemplateParam("{\"time\":\""+dateValue+"\",\"title\":\""+title+"\",\"more\":\""+url+"\"}");
+        request.setTemplateParam("{\"name\":\""+name+"\",\"from\":\""+title+"\",\"content\":\""+url+"\"}");
     }
 
+    /**
+     * SMS_125025696
+     * 尊敬的${name}领导,我们在${from}监测到一条舆情,内容概述${content}
+     * @param phone
+     * @param message
+     * @return
+     */
+    public SendSmsResponse sendSMS_125116385(String phone, String name, String from, String content) {
+        //初始化acsClient,暂不支持region化
+        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", getAccessKeyId(), getAccessKeySecret());
+        try {
+            DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        IAcsClient acsClient = new DefaultAcsClient(profile);
+        //组装请求对象-具体描述见控制台-文档部分内容
+        SendSmsRequest request = new SendSmsRequest();
+        //必填:待发送手机号
+        request.setPhoneNumbers(phone);
+        //必填:短信签名-可在短信控制台中找到
+        request.setSignName("国政教育");
+        //必填:短信模板-可在短信控制台中找到
+        request.setTemplateCode("SMS_125116385");
+        //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
+        request.setTemplateParam("{\"name\":\""+name+"\",\"from\":\""+from+"\",\"content\":\""+content+"\"}");
+        //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
+        request.setOutId("yourOutId");
+        //hint 此处可能会抛出异常，注意catch
+        try {
+            SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
+            logger.info(sendSmsResponse.getCode()+sendSmsResponse.getMessage());
+            return sendSmsResponse;
+        } catch (Exception e) {
+            logger.error(e.getLocalizedMessage());
+        }
+        return null;
+    }
+    
     public SendSmsResponse sendSms(String phone, String message) {
         //初始化acsClient,暂不支持region化
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", getAccessKeyId(), getAccessKeySecret());

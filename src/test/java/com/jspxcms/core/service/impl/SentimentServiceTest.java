@@ -55,6 +55,6 @@ public class SentimentServiceTest extends AbstractServiceTest {
     }
     @Test
     public void smsTest() {
-        aliyunSMSUtils.sendSms("18382323963", "dfadfasdf");
+        aliyunSMSUtils.sendSMS_125116385("13880554256", "姓名", "华阳中学吧", "请问一下华中的转学考试难不难？http://tieba.baidu.com/p/5541435045");
     }
 }
