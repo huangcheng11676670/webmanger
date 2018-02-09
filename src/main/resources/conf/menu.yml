@@ -153,10 +153,6 @@
     - update@core:org_global:update
     - batchUpdate@core:org_global:batch_update
     - delete@core:org_global:delete
-90:
-  name: database.management
-  url: core/contract/list.do
-  perms: core:contract:list
 100:
   name: sysdict.management
   url: core/sysdict/list.do

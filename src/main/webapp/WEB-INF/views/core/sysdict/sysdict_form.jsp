@@ -75,7 +75,12 @@ function confirmDelete() {
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><em class="required">*</em>类型</label>
                         <div class="col-sm-8">
-                            <f:text name="type" value="${oprt=='edit' || oprt=='create' ? bean.type : ''}" class="form-control required" maxlength="150" />
+                             <select class="form-control" name="type">
+                                <c:forEach var="attr" items="${sysDictTypeList}">
+                                 <c:set var="idstr">${attr.value}</c:set>
+                                  <option value="${attr.value}"<c:if test="${idstr eq bean.type}"> selected="selected"</c:if>>${attr.name}</option>
+                                  </c:forEach>
+                             </select>
                         </div>
                     </div>
                 </div>

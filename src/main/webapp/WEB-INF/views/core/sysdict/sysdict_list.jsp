@@ -47,7 +47,7 @@ function optDelete(form) {
 <body class="skin-blue content-body">
 <jsp:include page="/WEB-INF/views/commons/show_message.jsp"/>
 <div class="content-header">
-    <h1>字典管理 - <s:message code="list"/> <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
+    <h1>基础数据管理 - <s:message code="list"/> <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
 </div>
 <div class="content">
     <div class="box box-primary">
@@ -56,6 +56,15 @@ function optDelete(form) {
                 <div class="form-group">
                   <label>值</label>
                   <input class="form-control input-sm" type="text" name="search_CONTAIN_value" value="${search_CONTAIN_value[0]}"/>
+                </div>
+                <div class="form-group">
+                   <label for="search_EQ_type">类型</label>
+                   <select class="form-control" id="search_EQ_type" name="search_EQ_type">
+                        <c:forEach var="attr" items="${sysDictTypeList}">
+                         <c:set var="idstr">${attr.value}</c:set>
+                          <option value="${attr.value}"<c:if test="${idstr == search_EQ_type[0]}"> selected="selected"</c:if>>${attr.name}</option>
+                          </c:forEach>
+                    </select>
                 </div>
               <button class="btn btn-default btn-sm" type="submit"><s:message code="search"/></button>
             </form>
@@ -116,7 +125,7 @@ function optDelete(form) {
                     <td><c:out value="${bean.id}"/></td>
                     <td><c:out value="${bean.value}"/></td>
                     <td><c:out value="${bean.label}"/></td>
-                    <td><c:out value="${bean.type}"/></td>
+                    <td><s:message code="sysdicttype.${bean.type}"/></td>
                     <td><s:message code="sysdict.status.${bean.status}"/></td>
                   </tr>
                   </c:forEach>

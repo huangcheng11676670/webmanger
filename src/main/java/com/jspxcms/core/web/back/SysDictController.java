@@ -31,6 +31,7 @@ import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
+import com.jspxcms.core.dto.SysDictType;
 import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.support.Backends;
@@ -66,6 +67,7 @@ public class SysDictController {
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
         //List<SysDict> pagedList = service.findList(siteId, params, pageable.getSort());
         Page<SysDict> pagedList = service.findPage(siteId, params, pageable);
+        modelMap.addAttribute("sysDictTypeList", SysDictType.values());
         modelMap.addAttribute("pagedList", pagedList);
         return "core/sysdict/sysdict_list";
     }
@@ -83,6 +85,7 @@ public class SysDictController {
             }
             modelMap.addAttribute("bean", bean);
         }
+        modelMap.addAttribute("sysDictTypeList", SysDictType.values());
         modelMap.addAttribute(OPRT, CREATE);
         return "core/sysdict/sysdict_form";
     }
@@ -96,6 +99,7 @@ public class SysDictController {
         Integer siteId = Context.getCurrentSiteId();
         SysDict bean = service.get(id);
         Backends.validateDataInSite(bean, siteId);
+        modelMap.addAttribute("sysDictTypeList", SysDictType.values());
         modelMap.addAttribute("bean", bean);
         modelMap.addAttribute(OPRT, EDIT);
         return "core/sysdict/sysdict_form";
