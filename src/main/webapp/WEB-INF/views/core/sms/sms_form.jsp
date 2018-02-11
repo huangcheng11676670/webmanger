@@ -15,13 +15,12 @@
 $(function() {
     $("#validForm").validate({
         rules: {
-            contractMoney: {
+         smsContent: {
                 required: true,
-                number:true
+                rangelength:[5,30]
                }
         },
         messages: {
-        	contractMoney: "合同金额必须为数字"
         }
     });
     $("input[name='name']").focus();
@@ -34,24 +33,23 @@ function confirmDelete() {
 <body class="skin-blue content-body">
 <jsp:include page="/WEB-INF/views/commons/show_message.jsp"/>
 <div class="content-header">
-    <h1><s:message code="contract.management"/> - <s:message code="${oprt=='edit' ? 'edit' : 'create'}"/></h1>
+    <h1><s:message code="sms.management"/> - <s:message code="${oprt=='edit' ? 'edit' : 'create'}"/></h1>
 </div>
 <div class="content">
     <div class="box box-primary">
         <form class="form-horizontal" id="validForm" action="${oprt=='edit' ? 'update' : 'save'}.do" method="post">
             <tags:search_params/>
             <f:hidden name="oid" value="${bean.id}" />
-            <f:hidden name="position" value="${position}" />
             <input type="hidden" id="redirect" name="redirect" value="edit"/>
             <div class="box-header with-border">
                 <div class="btn-toolbar">
                     <div class="btn-group">
-                        <shiro:hasPermission name="core:contract:create">
+                        <shiro:hasPermission name="core:sms:create">
                         <button class="btn btn-default" type="button" onclick="location.href='create.do?${searchstring}';"<c:if test="${oprt=='create'}"> disabled="disabled"</c:if>><s:message code="create"/></button>
                         </shiro:hasPermission>
                     </div>
                     <div class="btn-group">
-                        <shiro:hasPermission name="core:contract:delete">
+                        <shiro:hasPermission name="core:sms:delete">
                         <button class="btn btn-default" type="button" onclick="if(confirmDelete()){location.href='delete.do?ids=${bean.id}&queryParentId=${queryParentId}&${searchstring}';}"<c:if test="${oprt=='create'}"> disabled="disabled"</c:if>><s:message code="delete"/></button>
                         </shiro:hasPermission>
                     </div>
@@ -64,18 +62,9 @@ function confirmDelete() {
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label"><em class="required">*</em>发票号</label>
-                        <div class="col-sm-10">
-                            <f:text name="contractCode" value="${oprt=='edit' || oprt=='create' ? bean.contractCode : ''}" class="form-control required" maxlength="255" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label"><em class="required">*</em>客户名称</label>
+                        <label class="col-sm-2 control-label"><em class="required">*</em>区域</label>
                         <div class="col-sm-5">
+                            <input type="hidden" id="areaName" name="areaName" value="${bean.areaName}"/>
                             <select class="form-control input-sm" id="areaId" name="areaId" onchange="showSchool();">
                                 <c:forEach var="attr" items="${areaList}">
                                   <c:set var="idstr">${attr.id}</c:set>
@@ -89,45 +78,10 @@ function confirmDelete() {
                             </select>
                         </div>
                         <div class="col-sm-5">
-                        <select class="form-control" name="customer.id" id="customer_select" >
-                            <option value="${bean.customer.id}" selected="selected">${bean.customer.name}</option>
+                        <input type="hidden" id="customerName" name="customerName" value="${bean.customerName}"/>
+                        <select class="form-control" name="customerId" id="customerId" onchange="showContact();">
+                            <option value="${bean.customerId}" selected="selected">${bean.customerName}</option>
                         </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label"><em class="required">*</em>经办人</label>
-                        <div class="col-sm-8">
-                            <f:text name="operator" value="${oprt=='edit' || oprt=='create' ? bean.operator : ''}" class="form-control required" maxlength="50" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label"><em class="required">*</em>合同金额</label>
-                        <div class="col-sm-8">
-                            <f:text name="contractMoney" value="${oprt=='edit' || oprt=='create' ? bean.contractMoney : ''}" class="form-control required"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label"><em class="required">*</em>合同时间</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="contractCreateTime" id="contractCreateTime" value="<c:if test="${oprt=='edit' || oprt=='create'}"><fmt:formatDate value="${bean.contractCreateTime}" pattern="yyyy-MM-dd"/></c:if>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'contractEndTime\')}'});" class="form-control ${oprt=='edit' || oprt=='create' ? 'required' : ''}" style="padding-left:3px;padding-right:3px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label"><em class="required">*</em>合同终止时间</label>
-                        <div class="col-sm-8">
-                            <input type="text" name=contractEndTime id="contractEndTime" value="<c:if test="${oprt=='edit' || oprt=='create'}"><fmt:formatDate value="${bean.contractEndTime}" pattern="yyyy-MM-dd"/></c:if>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'contractCreateTime\')}'});" class="form-control ${oprt=='edit' || oprt=='create' ? 'required' : ''}" style="padding-left:3px;padding-right:3px;"/>
                         </div>
                     </div>
                 </div>
@@ -135,9 +89,35 @@ function confirmDelete() {
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">备注信息</label>
+                        <label class="col-sm-4 control-label"><em class="required">*</em>联系人</label>
+                        <div class="col-sm-8">
+                            <input type="hidden" id="contact1Phone" name="contact1Phone" value="${bean.contact1Phone}"/>
+                            <input type="hidden" id="contact1Qq" name="contact1Qq" value="${bean.contact1Qq}"/>
+                            <select class="form-control" name="contact1" id="contact1" onclick="selectcontract();">
+                            <option value="${bean.contact1Phone}" selected="selected">${bean.contact1}</option>
+                           </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <c:if test="${oprt=='edit'}">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">返回内容</label>
                         <div class="col-sm-10">
-                            <f:textarea class="form-control" name="remark" value="${oprt=='edit' || oprt=='create' ? bean.remark : ''}" maxlength="500" rows="3" />
+                            <f:textarea class="form-control" name="message" value="${oprt=='edit' || oprt=='create' ? bean.message : ''}" maxlength="50" rows="3" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </c:if>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><em class="required">*</em>发送内容</label>
+                        <div class="col-sm-10">
+                            <f:textarea class="form-control" name="smsContent" value="${oprt=='edit' || oprt=='create' ? bean.smsContent : ''}" maxlength="50" rows="3" />
                         </div>
                     </div>
                 </div>
@@ -155,17 +135,45 @@ function confirmDelete() {
 </div>
 <script type="text/javascript">
 function showSchool() {
-    $.getJSON("../customer/customerList.do", { areaid: $("#areaId").val()}, function(json){
+    $.getJSON("../customer/customerAllList.do", { areaid: $("#areaId").val()}, function(json){
          if(json && json.length > 0){
              var htmlString = "<option value=''>选择学校</option>";
                 $.each(json, function(index, domEle) {
-                htmlString += "<option value='"+domEle.id+"'>"+domEle.schoolName+"</option>";
+                htmlString += "<option value='"+domEle.id+"' contactList='"+JSON.stringify(domEle)+"'>"+domEle.schoolName+"</option>";
             });
-          $("#customer_select").html(htmlString);
+          $("#customerId").html(htmlString);
          }else{
-            $("#customer_select").html("");
+            $("#customerId").html("");
          }
     });
+}
+function selectcontract() {
+    var contractPhone = $("#contact1").find("option:selected").attr("value");
+    $("#contact1Phone").val(contractPhone);
+}
+function showContact() {
+    var contactList = $("#customerId").find("option:selected").attr("contactlist");
+    if(contactList){
+        contactList = jQuery.parseJSON(contactList);
+        var contactString ="<option value=''>选择联系人</option>";;
+        if(contactList){
+           if(contactList.contact1Phone){
+             contactString += "<option value='"+contactList.contact1Phone+"'>"+contactList.contact1+"</option>";
+           }
+           if(contactList.contact2Phone){
+            contactString += "<option value='"+contactList.contact2Phone+"'>"+contactList.contact2+"</option>";
+           }
+           if(contactList.contact3Phone){
+            contactString += "<option value='"+contactList.contact3Phone+"'>"+contactList.contact3+"</option>";
+           }
+           if(contactList.contact4Phone){
+               contactString += "<option value='"+contactList.contact4Phone+"'>"+contactList.contact4+"</option>";
+           }
+            $("#contact1").html(contactString);
+        }else{
+           $("#contact1").html("");
+        }
+    }
 }
 </script>
 </body>

@@ -47,32 +47,20 @@ function optDelete(form) {
 <body class="skin-blue content-body">
 <jsp:include page="/WEB-INF/views/commons/show_message.jsp"/>
 <div class="content-header">
-    <h1><s:message code="customer.management"/> - <s:message code="list"/> <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
+    <h1><s:message code="sms.management"/> - <s:message code="list"/> <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
 </div>
 <div class="content">
     <div class="box box-primary">
         <div class="box-body table-responsive">
             <form class="form-inline ls-search" action="list.do" method="get">
                 <div class="form-group">
-                  <label>名字</label>
-                  <input class="form-control input-sm" type="text" name="search_CONTAIN_name" value="${search_CONTAIN_name[0]}"/>
-                </div>
-                <div class="form-group">
-                <select class="form-control input-sm" id="search_EQ_clearance_Boolean" name="search_EQ_clearance_Boolean">
-                    <option value=""><s:message code="allSelect"/></option>
-                    <option <c:if test="${search_EQ_clearance_Boolean[0] eq 'true'}"> selected="selected"</c:if> value="true">已回款</option>
-                    <option <c:if test="${search_EQ_clearance_Boolean[0] eq 'false'}"> selected="selected"</c:if> value="false">未回款</option>
-                </select>
-                </div>
-                <div class="form-group">
-                  <label for="search_EQ_areaId">区域</label>
-                <select class="form-control input-sm" id="search_EQ_areaId" name="search_EQ_areaId">
+                  <label for="search_EQ_areaId_Integer">区域</label>
+                <select class="form-control input-sm" id="search_EQ_areaId_Integer" name="search_EQ_areaId_Integer" onchange="showSchool();">
                     <option value="" ><s:message code="allSelect"/></option>
-                    <c:forEach var="attr" items="${dictList}">
+                    <c:forEach var="attr" items="${areaList}">
                       <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId[0]}"> selected="selected"</c:if>>
+                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>
                       <c:choose>
-<%--                          <c:when test="${ fn:length(attr.treeNumber) == 9}">|----</c:when> --%>
                          <c:when test="${ fn:length(attr.treeNumber) == 14}">&#8711;</c:when>
                          <c:when test="${ fn:length(attr.treeNumber) == 19}">&emsp;&emsp;</c:when>
                        </c:choose>
@@ -80,27 +68,19 @@ function optDelete(form) {
                       </c:forEach>
                 </select>
                 </div>
+                <div class="form-group">
+                  <label for="search_EQ_customer.id">学校列表</label>
+                    <select class="form-control input-sm" id="search_EQ_customerId_Integer" name="search_EQ_customerId_Integer">
+                    </select>
+                </div>
               <button class="btn btn-default btn-sm" type="submit"><s:message code="search"/></button>
             </form>
             <form method="post">
                 <tags:search_params/>
                 <div class="btn-toolbar ls-btn-bar">
                     <div class="btn-group">
-                        <shiro:hasPermission name="core:sysdict:create">
+                        <shiro:hasPermission name="core:sms:create">
                         <button class="btn btn-default" type="button" onclick="location.href='create.do?${searchstring}';"><s:message code="create"/></button>
-                        </shiro:hasPermission>
-                    </div>
-                    <div class="btn-group">
-                        <shiro:hasPermission name="core:sysdict:copy">
-                        <button class="btn btn-default" type="button" onclick="return optSingle('#copy_opt_');"><s:message code="copy"/></button>
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="core:sysdict:edit">
-                        <button class="btn btn-default" type="button" onclick="return optSingle('#edit_opt_');"><s:message code="edit"/></button>
-                        </shiro:hasPermission>
-                    </div>
-                    <div class="btn-group">
-                        <shiro:hasPermission name="core:sysdict:delete">
-                        <button class="btn btn-default" type="button" onclick="return optDelete(this.form);"><s:message code="delete"/></button>
                         </shiro:hasPermission>
                     </div>
                 </div>
@@ -110,18 +90,19 @@ function optDelete(form) {
                     <th width="25"><input type="checkbox" onclick="Cms.check('ids',this.checked);"/></th>
                     <th width="160"><s:message code="operate"/></th>
                     <th width="30" class="ls-th-sort"><span class="ls-sort" pagesort="id">ID</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="name">客户名称</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contact1">联系人</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contact1Phone">联系电话</span></th>
-                    <th class="ls-th-sort"><span class="ls-sort" pagesort="clearance">是否回款</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="areaName">客户名称</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contact1">接收人</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="contact1Phone">接收电话</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="createDatetime">发送日期</span></th>
+                    <th class="ls-th-sort"><span class="ls-sort" pagesort="message">发送状态</span></th>
                   </tr>
                   </thead>
                   <tbody>
                   <c:forEach var="bean" varStatus="status" items="${pagedList.content}">
-                  <tr<shiro:hasPermission name="core:sysdict:edit"> ondblclick="location.href=$('#edit_opt_${bean.id}').attr('href');"</shiro:hasPermission>>
+                  <tr<shiro:hasPermission name="core:sms:edit"> ondblclick="location.href=$('#edit_opt_${bean.id}').attr('href');"</shiro:hasPermission>>
                     <td><c:if test="${bean.id!=0}"><input type="checkbox" name="ids" value="${bean.id}"/></c:if></td>
                     <td align="center">
-                            <shiro:hasPermission name="core:sysdict:copy">
+                            <shiro:hasPermission name="core:sms:copy">
                       <c:choose>
                         <c:when test="${bean.id < 1}">
                           <span class="disabled"><s:message code="copy"/></span>
@@ -131,31 +112,23 @@ function optDelete(form) {
                         </c:otherwise>
                       </c:choose>
                       </shiro:hasPermission>
-                      <shiro:hasPermission name="core:sysdict:edit">
+                      <shiro:hasPermission name="core:sms:edit">
                       <a id="edit_opt_${bean.id}" href="edit.do?id=${bean.id}&${searchstring}" class="ls-opt"><s:message code="edit"/></a>
                       </shiro:hasPermission>
                      </td>
                     <td><c:out value="${bean.id}"/></td>
-                    <td><c:out value="${bean.name}"/></td>
+                    <td><c:out value="${bean.customerName}"/></td>
                     <td><c:out value="${bean.contact1}"/></td>
                     <td><c:out value="${bean.contact1Phone}"/></td>
-                    <td>  
-                    <c:choose>
-                        <c:when test="${bean.clearance}">
-                          已回款
-                        </c:when>
-                        <c:otherwise>
-                             未回款
-                        </c:otherwise>
-                      </c:choose>
-                      </td>
+                    <td><fmt:formatDate value="${bean.createDatetime}" pattern="yyyy-MM-dd HH:mm"/></td>
+                    <td><c:out value="${bean.message}"/></td>
                   </tr>
                   </c:forEach>
                   </tbody>
                 </table>
-            <c:if test="${fn:length(pagedList.content) le 0}"> 
-            <div class="ls-norecord"><s:message code="recordNotFound"/></div>
-            </c:if>
+                <c:if test="${fn:length(pagedList.content) le 0}"> 
+                <div class="ls-norecord"><s:message code="recordNotFound"/></div>
+                </c:if>
             </form>
             <form action="list.do" method="get" class="ls-page">
                 <tags:search_params excludePage="true"/>
@@ -165,4 +138,19 @@ function optDelete(form) {
     </div>
 </div>
 </body>
+<script type="text/javascript">
+function showSchool() {
+    $.getJSON("../customer/customerList.do", { areaid: $("#search_EQ_areaId_Integer").val()}, function(json){
+         if(json && json.length > 0){
+             var htmlString = "<option value=''>选择学校</option>";
+                $.each(json, function(index, domEle) {
+                htmlString += "<option value='"+domEle.id+"'>"+domEle.schoolName+"</option>";
+            });
+          $("#search_EQ_customerId_Integer").html(htmlString);
+         }else{
+            $("#search_EQ_customerId_Integer").html("");
+         }
+    });
+}
+</script>
 </html>

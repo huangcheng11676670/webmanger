@@ -95,6 +95,12 @@ public class SentimentController {
         modelMap.addAttribute("pagedList", pagedList);
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
         modelMap.addAttribute("areaList", areaList);
+        List<SysDict> infoLevelList = sysDictService.findListByType(SysDict.INFO_LEVEL);
+        modelMap.addAttribute("infoLevelList", infoLevelList);
+        List<SysDict> infoTypelList = sysDictService.findListByType(SysDict.INFO_TYPE);
+        modelMap.addAttribute("infoTypelList", infoTypelList);
+        List<SysDict> schoolLevelList = sysDictService.findListByType(SysDict.SCHOOL_LEVEL);
+        modelMap.addAttribute("schoolLevelList", schoolLevelList);
         return "core/sentiment/sentiment_list";
     }
 
@@ -114,6 +120,12 @@ public class SentimentController {
         modelMap.addAttribute("pagedList", pagedList);
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
         modelMap.addAttribute("areaList", areaList);
+        List<SysDict> infoLevelList = sysDictService.findListByType(SysDict.INFO_LEVEL);
+        modelMap.addAttribute("infoLevelList", infoLevelList);
+        List<SysDict> infoTypelList = sysDictService.findListByType(SysDict.INFO_TYPE);
+        modelMap.addAttribute("infoTypelList", infoTypelList);
+        List<SysDict> schoolLevelList = sysDictService.findListByType(SysDict.SCHOOL_LEVEL);
+        modelMap.addAttribute("schoolLevelList", schoolLevelList);
         return "core/sentiment/sentiment_case_list";
     }
 

@@ -66,53 +66,54 @@ function optDelete(form) {
                   <input class="form-control input-sm" type="text" id="search_GTE_contractEndTime_Date" name="search_LTE_contractEndTime_Date" value="${search_LTE_contractEndTime_Date[0]}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'search_GTE_contractCreateTime_Date\')}'});"/>
                 </div>
                 <div class="form-group">
-                  <label for="search_EQ_areaId_Integer">投诉</label>
-                <select class="form-control input-sm" id="search_EQ_areaId_Integer" name="search_EQ_areaId_Integer">
+                  <label for="search_EQ_infoType_Integer">投诉</label>
+                <select class="form-control input-sm" id="search_EQ_infoType_Integer" name="search_EQ_infoType_Integer">
                     <option value="" ><s:message code="allSelect"/></option>
-                    <c:forEach var="attr" items="${areaList}">
+                    <c:forEach var="attr" items="${infoTypelList}">
                       <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>${attr.label}</option>
+                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_infoType_Integer[0]}"> selected="selected"</c:if>>${attr.label}</option>
                       </c:forEach>
                 </select>
                 </div>
                 <div class="form-group">
-                  <label for="search_EQ_areaId_Integer">舆情等级</label>
-                <select class="form-control input-sm" id="search_EQ_areaId_Integer" name="search_EQ_areaId_Integer">
+                  <label for="search_EQ_infoLevel_Integer">舆情等级</label>
+                <select class="form-control input-sm" id="search_EQ_infoLevel_Integer" name="search_EQ_infoLevel_Integer">
                     <option value="" ><s:message code="allSelect"/></option>
-                    <c:forEach var="attr" items="${areaList}">
+                    <c:forEach var="attr" items="${infoLevelList}">
                       <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>${attr.label}</option>
+                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_infoLevel_Integer[0]}"> selected="selected"</c:if>>${attr.label}</option>
                       </c:forEach>
                 </select>
                 </div>
                 <div class="form-group">
-                  <label for="search_EQ_areaId_Integer">学段分类</label>
-                <select class="form-control input-sm" id="search_EQ_areaId_Integer" name="search_EQ_areaId_Integer">
+                  <label for="search_EQ_schoolLevel_Integer">学段分类</label>
+                <select class="form-control input-sm" id="search_EQ_schoolLevel_Integer" name="search_EQ_schoolLevel_Integer">
                     <option value="" ><s:message code="allSelect"/></option>
-                    <c:forEach var="attr" items="${areaList}">
+                    <c:forEach var="attr" items="${schoolLevelList}">
                       <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>${attr.label}</option>
+                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_schoolLevel_Integer[0]}"> selected="selected"</c:if>>${attr.label}</option>
                       </c:forEach>
                 </select>
                 </div>
                 <div class="form-group">
                   <label for="search_EQ_areaId_Integer">区域</label>
-                <select class="form-control input-sm" id="search_EQ_areaId_Integer" name="search_EQ_areaId_Integer">
+                <select class="form-control input-sm" id="search_EQ_areaId_Integer" name="search_EQ_areaId_Integer" onchange="showSchool();">
                     <option value="" ><s:message code="allSelect"/></option>
                     <c:forEach var="attr" items="${areaList}">
                       <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>${attr.label}</option>
+                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>
+                      <c:choose>
+                         <c:when test="${ fn:length(attr.treeNumber) == 14}">&#8711;</c:when>
+                         <c:when test="${ fn:length(attr.treeNumber) == 19}">&emsp;&emsp;</c:when>
+                       </c:choose>
+                      ${attr.label}</option>
                       </c:forEach>
                 </select>
                 </div>
                 <div class="form-group">
-                  <label for="search_EQ_areaId_Integer">学校列表</label>
-                <select class="form-control input-sm" id="search_EQ_areaId_Integer" name="search_EQ_areaId_Integer">
-                    <option value="" ><s:message code="allSelect"/></option>
-                    <c:forEach var="attr" items="${areaList}">
-                      <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>${attr.label}</option>
-                      </c:forEach>
+                  <label for="search_EQ_customer.id">学校列表</label>
+                <select class="form-control input-sm" id="search_EQ_customer" name="search_EQ_customer.id">
+
                 </select>
                 </div>
               <button class="btn btn-default btn-sm" type="submit"><s:message code="search"/></button>
@@ -193,4 +194,19 @@ function optDelete(form) {
     </div>
 </div>
 </body>
+<script type="text/javascript">
+function showSchool() {
+    $.getJSON("../customer/customerList.do", { areaid: $("#search_EQ_areaId_Integer").val()}, function(json){
+         if(json && json.length > 0){
+             var htmlString = "<option value=''>选择学校</option>";
+                $.each(json, function(index, domEle) {
+                htmlString += "<option value='"+domEle.id+"'>"+domEle.schoolName+"</option>";
+            });
+          $("#search_EQ_customer").html(htmlString);
+         }else{
+            $("#search_EQ_customer").html("");
+         }
+    });
+}
+</script>
 </html>

@@ -26,7 +26,12 @@
                 <select class="form-control input-sm" id="areaId_select" name="areaId_select" onchange="showSchool();">
                     <c:forEach var="attr" items="${areaList}">
                       <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>${attr.label}</option>
+                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>
+                        <c:choose>
+                         <c:when test="${ fn:length(attr.treeNumber) == 14}">&#8711;</c:when>
+                         <c:when test="${ fn:length(attr.treeNumber) == 19}">&emsp;&emsp;</c:when>
+                       </c:choose>
+                      ${attr.label}</option>
                       </c:forEach>
                 </select>
                 </div>

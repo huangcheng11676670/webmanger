@@ -66,3 +66,14 @@ search   查询语句前缀
 EQ   查询比较符号
 clearance 查询字段对应域对象模型字段值
 Boolean 查询字段类型
+
+================================
+                   对象查询
+================================
+<label for="search_EQ_JuserRoles.role.id"><s:message code="user.role"/></label>
+<select class="form-control input-sm" id="search_EQ_JuserRoles.role.id" name="search_EQ_JuserRoles.role.id">
+    <option value=""><s:message code="allSelect"/></option>
+    <c:forEach var="role" items="${roleList}">
+		<option value="${role.id}"<c:if test="${role.id eq requestScope['search_EQ_JuserRoles.role.id'][0]}"> selected="selected"</c:if>>${role.name}</option>
+    </c:forEach>
+</select>

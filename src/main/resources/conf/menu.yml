@@ -59,15 +59,15 @@
     - delete@core:contract:delete
 7:
   name: sms.management
-  url: core/contract/list.do
-  perms: core:contract:list
+  url: core/sms/list.do
+  perms: core:sms:list
   ops:
-    - create@core:contract:create
-    - copy@core:contract:copy
-    - edit@core:contract:edit
-    - save@core:contract:save
-    - update@core:contract:update
-    - delete@core:contract:delete
+    - create@core:sms:create
+    - copy@core:sms:copy
+    - edit@core:sms:edit
+    - save@core:sms:save
+    - update@core:sms:update
+    - delete@core:sms:delete
 8:
   name: navigation.user
   perms: nav_user

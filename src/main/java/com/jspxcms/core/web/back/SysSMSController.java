@@ -1,12 +1,12 @@
 package com.jspxcms.core.web.back;
 
 import static com.jspxcms.core.constant.Constants.CREATE;
+import static com.jspxcms.core.constant.Constants.DELETE_SUCCESS;
 import static com.jspxcms.core.constant.Constants.EDIT;
 import static com.jspxcms.core.constant.Constants.MESSAGE;
 import static com.jspxcms.core.constant.Constants.OPRT;
 import static com.jspxcms.core.constant.Constants.SAVE_SUCCESS;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,90 +24,94 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
-import com.jspxcms.core.domain.Customer;
+import com.jspxcms.core.domain.SysSMS;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
-import com.jspxcms.core.dto.SchoolListDto;
-import com.jspxcms.core.service.CustomerService;
+import com.jspxcms.core.service.SysSMSService;
 import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.support.Backends;
 import com.jspxcms.core.support.Context;
 
 /**
- *客户
+ * 短信管理
  */
 @Controller
-@RequestMapping("/core/customer")
-public class CustomerController {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+@RequestMapping("/core/sms")
+public class SysSMSController {
+    private static final Logger logger = LoggerFactory.getLogger(SysSMSController.class);
 
     @Autowired
     private OperationLogService logService;
 
     @Autowired
-    private CustomerService service;
+    private SysSMSService service;
 
     @Autowired
     private SysDictService sysDictService;
 
     @ModelAttribute("bean")
-    public Customer preloadBean(@RequestParam(required = false) Integer oid) {
+    public SysSMS preloadBean(@RequestParam(required = false) Integer oid) {
         return oid != null ? service.get(oid) : null;
     }
 
-    @RequiresPermissions("core:customer:list")
+    @RequiresPermissions("core:sms:list")
     @RequestMapping("list.do")
     public String list(@PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable,
             HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
-        //List<Customer> pagedList = service.findList(siteId, params, pageable.getSort());
-        Page<Customer> pagedList = service.findPage(siteId, params, pageable);
+        Page<SysSMS> pagedList = service.findPage(siteId, params, pageable);
         modelMap.addAttribute("pagedList", pagedList);
-        List<SysDict> dictList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("dictList", dictList);
-        return "core/customer/customer_list";
+        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);
+        return "core/sms/sms_list";
     }
 
-    @RequiresPermissions("core:customer:create")
+    @RequiresPermissions("core:sms:create")
     @RequestMapping("create.do")
     public String create(Integer id, HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         if (id != null) {
-            Customer bean = service.get(id);
+            SysSMS bean = service.get(id);
             Backends.validateDataInSite(bean, siteId);
             modelMap.addAttribute("bean", bean);
         }
+/*        List<Customer> dbCustomerList = customerService.findList(siteId);
+        modelMap.addAttribute("customerList", dbCustomerList);*/
+        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);
         modelMap.addAttribute(OPRT, CREATE);
-        return "core/customer/customer_form";
+        return "core/sms/sms_form";
     }
 
-    @RequiresPermissions("core:customer:edit")
+    @RequiresPermissions("core:sms:edit")
     @RequestMapping("edit.do")
     public String edit(Integer id, @PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable,
             HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
-        Customer bean = service.get(id);
+        SysSMS bean = service.get(id);
         Backends.validateDataInSite(bean, siteId);
         modelMap.addAttribute("bean", bean);
-        modelMap.addAttribute("area",  sysDictService.get(bean.getAreaId()));
+       /* List<Customer> dbCustomerList = customerService.findList(siteId);
+        modelMap.addAttribute("customerList", dbCustomerList);*/
+        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);
         modelMap.addAttribute(OPRT, EDIT);
-        return "core/customer/customer_form";
+        return "core/sms/sms_form";
     }
 
-    @RequiresPermissions("core:customer:save")
+    @RequiresPermissions("core:sms:save")
     @RequestMapping("save.do")
-    public String save(Customer bean, String redirect, HttpServletRequest request, RedirectAttributes ra) {
+    public String save(SysSMS bean, String redirect, HttpServletRequest request, RedirectAttributes ra) {
         Integer siteId = Context.getCurrentSiteId();
         service.save(bean, siteId);
-        logService.operation("opr.Customer.add", bean.getName(), null, bean.getId(), request);
-        logger.info("save Customer, title={}.", bean.getName());
+        logService.operation("opr.SysSMS.add", bean.getContact1Phone(), null, bean.getId(), request);
+        logger.info("save SysSMS, title={}.", bean.getContact1Phone());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);
         if (Constants.REDIRECT_LIST.equals(redirect)) {
             return "redirect:list.do";
@@ -119,15 +123,17 @@ public class CustomerController {
         }
     }
 
-    @RequiresPermissions("core:customer:update")
+    @RequiresPermissions("core:sms:update")
     @RequestMapping("update.do")
-    public String update(@ModelAttribute("bean") Customer bean, Integer position, String redirect,
+    public String update(@ModelAttribute("bean") SysSMS bean, Integer position, String redirect,
+            Integer sysDictTypeId,
+            Integer customerId,
             HttpServletRequest request, RedirectAttributes ra) {
         Site site = Context.getCurrentSite();
         Backends.validateDataInSite(bean, site.getId());
-        service.update(bean);
-        logService.operation("opr.customer.edit", bean.getName(), null, bean.getId(), request);
-        logger.info("update CustomerGroup, title={}.", bean.getName());
+        service.update(bean, site.getId(), sysDictTypeId, customerId);
+        logService.operation("opr.SysSMS.edit", bean.getContact1Phone(), null, bean.getId(), request);
+        logger.info("update SysSMSGroup, title={}.", bean.getContact1Phone());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);
         if (Constants.REDIRECT_LIST.equals(redirect)) {
             return "redirect:list.do";
@@ -138,55 +144,15 @@ public class CustomerController {
         }
     }
 
-    @RequiresPermissions("core:customer:delete")
+    @RequiresPermissions("core:sms:delete")
     @RequestMapping("delete.do")
     public String delete(Integer[] ids, HttpServletRequest request, RedirectAttributes ra) {
-       /* Customer[] beans = service.delete(ids);
-        for (Customer bean : beans) {
-            logService.operation("opr.Customer_group.delete", bean.getValue(), null, bean.getId(), request);
-            logger.info("delete Customer, title={}.", bean.getValue());
+        List<SysSMS> beans = service.delete(ids);
+        for (SysSMS bean : beans) {
+            logService.operation("opr.SysSMS_group.delete", bean.getContact1Phone(), null, bean.getId(), request);
+            logger.info("delete SysSMS, title={}.", bean.getContact1Phone());
         }
-        ra.addFlashAttribute(MESSAGE, DELETE_SUCCESS);*/
+        ra.addFlashAttribute(MESSAGE, DELETE_SUCCESS);
         return "redirect:list.do";
-    }
-    
-    @ResponseBody
-    @RequiresPermissions("core:customer:list")
-    @RequestMapping("customerList.do")
-    public Object autogetinfo(@RequestParam(name="areaid", defaultValue="9")Integer areaid) {
-        List<SchoolListDto> listDto = new ArrayList<SchoolListDto>();
-           List<Customer> dbCustomerList = service.findByAreaId(areaid);
-           if(dbCustomerList != null) {
-               dbCustomerList.forEach(item -> {
-                   listDto.add(new SchoolListDto(item.getName(), item.getId()));
-               });
-           }
-        return listDto;
-    }
-    @ResponseBody
-    @RequiresPermissions("core:customer:list")
-    @RequestMapping("customerAllList.do")
-    public Object customerAllList(@RequestParam(name="areaid", defaultValue="9")Integer areaid) {
-        List<SchoolListDto> listDto = new ArrayList<SchoolListDto>();
-        List<Customer> dbCustomerList = service.findByAreaId(areaid);
-        if(dbCustomerList != null) {
-            dbCustomerList.forEach(item -> {
-                listDto.add(new SchoolListDto(item.getName(), item.getId(),
-                        item.getContact1(),
-                        item.getContact1Phone(),
-                        item.getContact1QQ(),
-                        item.getContact2(),
-                        item.getContact2Phone(),
-                        item.getContact2QQ(),
-                        item.getContact3(),
-                        item.getContact3Phone(),
-                        item.getContact3QQ(),
-                        item.getContact4(),
-                        item.getContact4Phone(),
-                        item.getContact4QQ()
-                        ));
-            });
-        }
-     return listDto;
     }
 }
