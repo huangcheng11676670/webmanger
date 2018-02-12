@@ -89,7 +89,7 @@ function confirmDelete() {
                             </select>
                         </div>
                         <div class="col-sm-5">
-                        <select class="form-control" name="customer.id" id="customer_select" >
+                        <select class="form-control" name="customerId" id="customer_select" >
                             <option value="${bean.customer.id}" selected="selected">${bean.customer.name}</option>
                         </select>
                         </div>

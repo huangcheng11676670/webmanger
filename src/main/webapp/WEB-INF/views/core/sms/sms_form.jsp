@@ -175,11 +175,11 @@ function showSchool() {
 function selectcontract() {
     var contractPhone = $("#contact1").find("option:selected").attr("phone");
     $("#contact1Phone").val(contractPhone);
-    var customerName = $("#contact1").find("option:selected").html();
-    $("#customerName").val(customerName);
 }
 function showContact() {
     var contactList = $("#customerId").find("option:selected").attr("contactlist");
+    var customerName = $("#customerId").find("option:selected").html();
+    $("#customerName").val(customerName);
     if(contactList){
         contactList = jQuery.parseJSON(contactList);
         var contactString ="<option value=''>选择联系人</option>";;

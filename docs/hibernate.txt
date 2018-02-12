@@ -9,3 +9,18 @@ hibernate.cfg.xml配置项，
 Hibernate的提示错误 
 Caused by: org.hibernate.HibernateException: identifier of an instance of .[类名]. is alterde from [数字] to [数字]
 原因：是由于在一个事务中更新了主键,而主键是不能被更新的.
+对应的bean
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "f_customer_id", nullable = false)
+    public Customer getCustomer() {
+        return this.customer;
+    }
+jsp如下关键是customerId
+<select class="form-control" name="customerId" id="customer_select" >
+    <option value="${bean.customer.id}" selected="selected">${bean.customer.name}</option>
+</select>
+service方法处理
+if(customerId != null) {
+    bean.setCustomer(customerService.get(customerId));
+}
+bean = dao.save(bean);
