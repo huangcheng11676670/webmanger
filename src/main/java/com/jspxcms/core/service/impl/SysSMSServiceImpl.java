@@ -1,19 +1,27 @@
 package com.jspxcms.core.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.service.BaseServiceImpl;
+import com.jspxcms.common.util.AliyunSMSUtils;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysSMS;
 import com.jspxcms.core.listener.SiteDeleteListener;
@@ -30,6 +38,12 @@ import com.jspxcms.core.service.SysSMSService;
 public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implements SysSMSService, SiteDeleteListener {
 
     private SysSMSDao dao;
+
+    @Resource(name="aliyunSMSUtils")
+    private AliyunSMSUtils aliyunSMSUtils;
+    
+    @Autowired  
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;  
 
     @Autowired
     public void setDao(SysSMSDao dao) {
@@ -63,10 +77,22 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
     }
 
     @Transactional
-    public void save(SysSMS bean, Integer siteId) {
+    public void save(final SysSMS bean, Integer siteId) {
         Site site = siteService.get(siteId);
+        bean.setAreaName(bean.getAreaName().trim());
         bean.setSite(site);
-        bean = dao.save(bean);
+        bean.setCreateDatetime(new Date());
+        bean.setMessage("发送中...");
+        SysSMS dbBean = dao.save(bean);
+        //发送短信
+        threadPoolTaskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                SendSmsResponse response = aliyunSMSUtils.sendSms(bean.getContact1Phone(), bean.getSmsContent());
+                dbBean.setMessage(response.getMessage());
+                dao.save(dbBean);
+            }
+        });  
     }
 
     @Transactional

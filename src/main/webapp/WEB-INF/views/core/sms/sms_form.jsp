@@ -16,11 +16,27 @@ $(function() {
     $("#validForm").validate({
         rules: {
          smsContent: {
-                required: true,
-                rangelength:[5,30]
-               }
+             required: true,
+             rangelength:[5,10]
+           },
+         contact1Phone: {
+             required: true,
+             maxlength:11,
+             minlength:11,
+             isphoneNum:true
+           }
         },
         messages: {
+            smsContent:{
+                required:"*请输入短信内容",
+                rangelength:"内容长度在5到10个字"
+            },
+            phoneNum:{
+                required:"*请输入手机号",
+                maxlength:"*请填写11位的手机号",
+                minlength:"*请填写11位的手机号",
+                isphoneNum:"请填写正确的手机号码"
+            }
         }
     });
     $("input[name='name']").focus();
@@ -48,11 +64,11 @@ function confirmDelete() {
                         <button class="btn btn-default" type="button" onclick="location.href='create.do?${searchstring}';"<c:if test="${oprt=='create'}"> disabled="disabled"</c:if>><s:message code="create"/></button>
                         </shiro:hasPermission>
                     </div>
-                    <div class="btn-group">
+<%--                     <div class="btn-group">
                         <shiro:hasPermission name="core:sms:delete">
                         <button class="btn btn-default" type="button" onclick="if(confirmDelete()){location.href='delete.do?ids=${bean.id}&queryParentId=${queryParentId}&${searchstring}';}"<c:if test="${oprt=='create'}"> disabled="disabled"</c:if>><s:message code="delete"/></button>
                         </shiro:hasPermission>
-                    </div>
+                    </div> --%>
                     <div class="btn-group">
                         <button class="btn btn-default" type="button" onclick="location.href='list.do?showDescendants=${showDescendants}&${searchstring}';"><s:message code="return"/></button>
                     </div>
@@ -87,15 +103,22 @@ function confirmDelete() {
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><em class="required">*</em>联系人</label>
                         <div class="col-sm-8">
-                            <input type="hidden" id="contact1Phone" name="contact1Phone" value="${bean.contact1Phone}"/>
                             <input type="hidden" id="contact1Qq" name="contact1Qq" value="${bean.contact1Qq}"/>
                             <select class="form-control" name="contact1" id="contact1" onclick="selectcontract();">
-                            <option value="${bean.contact1Phone}" selected="selected">${bean.contact1}</option>
+                            <option value="${bean.contact1}" selected="selected">${bean.contact1}</option>
                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><em class="required">*</em>联系电话</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="contact1Phone" name="contact1Phone" value="${bean.contact1Phone}"/>
                         </div>
                     </div>
                 </div>
@@ -123,13 +146,13 @@ function confirmDelete() {
                 </div>
             </div>
             </div>
-            <div class="box-footer">
+          <c:if test="${oprt=='create'}">
+          <div class="box-footer">
           <button class="btn btn-primary" type="submit"><s:message code="save"/></button>
           <button class="btn btn-default" type="submit" onclick="$('#redirect').val('list');"><s:message code="saveAndReturn"/></button>
-          <c:if test="${oprt=='create'}">
           <button class="btn btn-default" type="submit" onclick="$('#redirect').val('create');"><s:message code="saveAndCreate"/></button>
-             </c:if>
-            </div>
+          </div>
+         </c:if>
         </form>
     </div>
 </div>
@@ -146,10 +169,14 @@ function showSchool() {
             $("#customerId").html("");
          }
     });
+    var areaName = $("#areaId").find("option:selected").html();
+    $("#areaName").val(areaName);
 }
 function selectcontract() {
-    var contractPhone = $("#contact1").find("option:selected").attr("value");
+    var contractPhone = $("#contact1").find("option:selected").attr("phone");
     $("#contact1Phone").val(contractPhone);
+    var customerName = $("#contact1").find("option:selected").html();
+    $("#customerName").val(customerName);
 }
 function showContact() {
     var contactList = $("#customerId").find("option:selected").attr("contactlist");
@@ -158,16 +185,16 @@ function showContact() {
         var contactString ="<option value=''>选择联系人</option>";;
         if(contactList){
            if(contactList.contact1Phone){
-             contactString += "<option value='"+contactList.contact1Phone+"'>"+contactList.contact1+"</option>";
+             contactString += "<option value='"+contactList.contact1+"' phone='"+contactList.contact1Phone+"'>"+contactList.contact1+"</option>";
            }
            if(contactList.contact2Phone){
-            contactString += "<option value='"+contactList.contact2Phone+"'>"+contactList.contact2+"</option>";
+             contactString += "<option value='"+contactList.contact2+"' phone='"+contactList.contact2Phone+"'>"+contactList.contact2+"</option>";
            }
            if(contactList.contact3Phone){
-            contactString += "<option value='"+contactList.contact3Phone+"'>"+contactList.contact3+"</option>";
+             contactString += "<option value='"+contactList.contact3+"' phone='"+contactList.contact3Phone+"'>"+contactList.contact3+"</option>";
            }
            if(contactList.contact4Phone){
-               contactString += "<option value='"+contactList.contact4Phone+"'>"+contactList.contact4+"</option>";
+             contactString += "<option value='"+contactList.contact4+"' phone='"+contactList.contact4Phone+"'>"+contactList.contact4+"</option>";
            }
             $("#contact1").html(contactString);
         }else{

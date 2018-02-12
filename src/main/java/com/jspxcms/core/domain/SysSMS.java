@@ -78,12 +78,12 @@ public class SysSMS implements Siteable, java.io.Serializable {
     }
 
     @Column(name = "f_customer_id", nullable = false)
-    public long getCustomerId() {
+    public Integer getCustomerId() {
         return this.customerId;
     }
 
-    public void setCustomerId(Integer FCustomerId) {
-        this.customerId = FCustomerId;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
     @Column(name = "f_customer_name", length = 150)
@@ -91,8 +91,8 @@ public class SysSMS implements Siteable, java.io.Serializable {
         return this.customerName;
     }
 
-    public void setCustomerName(String FCustomerName) {
-        this.customerName = FCustomerName;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     @Column(name = "f_contact1", length = 30)
