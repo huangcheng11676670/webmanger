@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.service.BaseServiceImpl;
+import com.jspxcms.common.util.DateUtils;
 import com.jspxcms.core.domain.Sentiment;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.dto.ReportSentimentNumDto;
@@ -34,6 +35,7 @@ import com.jspxcms.core.repository.SentimentDao;
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.SentimentService;
 import com.jspxcms.core.service.SiteService;
+import com.jspxcms.core.support.Context;
 
 /**
  * SentimentServiceImpl
@@ -83,6 +85,7 @@ public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> im
                 if (siteId != null) {
                     pred = cb.and(pred, cb.equal(root.get("site").<Integer>get("id"), siteId));
                 }
+                pred = cb.and(pred, cb.equal(root.get("user").<Integer>get("id"), Context.getCurrentUser().getId()));
                 return pred;
             }
         };
@@ -236,5 +239,18 @@ public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> im
     @Override
     public Long countTotal() {
         return dao.count();
+    }
+
+    @Override
+    public Long countTotalByUserId(Integer userId){
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT COUNT(*) FROM cms_yq_sentiment sentiment0_ WHERE DATE_FORMAT(sentiment0_.f_create_datetime, '%Y-%m') = '");
+        query.append(DateUtils.getYearAndMonth(new Date()));
+        query.append("' and sentiment0_.f_user_id = "+userId);
+      //执行原生SQL
+      Query nativeQuery = em.createNativeQuery(query.toString());
+      //返回对象
+      Object resultList = nativeQuery.getSingleResult();
+      return ((BigInteger)resultList).longValue();
     }
 }

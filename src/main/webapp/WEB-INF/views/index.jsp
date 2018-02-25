@@ -66,6 +66,9 @@
               <span id="notificationCount" class="label label-warning"></span>
             </a>
             </li> --%>
+            <li>
+                    <a>本月采集的舆情条数:${sentimentCount}条</a>
+            </li>
             <li class="user-menu">
             <a href="javascript:;">
               <!-- The user image in the navbar-->

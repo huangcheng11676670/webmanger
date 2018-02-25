@@ -1,0 +1,101 @@
+static\js\jspxcms_choose.js
+
+Cms.f7.area("areaId","areaName",{
+    settings: {"title": "选择地区"},
+    params: {
+        "treeNumber": "0000"
+    }
+});
+
+/**
+ * 地区单选
+ */
+Cms.f7.area = function(name, focus, options) {
+    options = options || {};
+    var url = CTX + CMSCP + "/core/area/choose_area_tree.do";
+    var settings = {title:"Area Select",width:350,height:450};
+    options.settings = $.extend(settings, options.settings);
+    var names = ["Number","Name"];
+    var f7 = Cms.F7Single(url,name,names,focus,options);
+};
+
+Cms.F7Single = function(url, name, names, focus, options) {
+    options = options || {};
+    var idField = $("#" + name);
+    var f7Button = $("#" + name + "Button");
+    var fields = [];
+    for(var i = 0,len=names.length;i<len;i++) {
+        fields[i] = $("#" + name + names[i]);
+    }
+    var idValue;
+    var values = [];
+    
+    var dialogDiv = null;
+
+    var destroy = function() {
+        dialogDiv.dialog("destroy");
+        dialogDiv.empty();
+    };
+    var applayValue = function() {
+        idValue = $("#f7_id").val();
+        idField.val(idValue);
+        for(var i = 0,len=names.length;i<len;i++) {
+            values[i] = $("#f7_id_"+names[i]).val();
+            fields[i].val(values[i]);
+        }
+    };
+    var doFocus = function() {
+        if(focus) {
+            $("#"+focus).focus();
+        }
+    };
+
+    var settings = {
+        title : "F7 Select",
+        width : 350,
+        height : 450,
+        modal : true,
+        position : {
+            my : "center top",
+            at : "center top",
+            of : window
+        },
+        close : destroy,
+        buttons : [ {
+            id : "f7_ok",
+            text : "确认",
+            click : function() {
+                applayValue();
+                destroy();
+                if(options.callbacks && typeof options.callbacks.ok=="function") {
+                    options.callbacks.ok(idValue,values);
+                }
+                doFocus();
+            }
+        }, {
+            text : "取消",
+            click : function() {
+                destroy();
+                if(options.callbacks && typeof options.callbacks.cancel=="function") {
+                    options.callbacks.cancel();
+                }
+                doFocus();
+            }
+        } ]
+    };
+    $.extend(settings, options.settings);
+
+    f7Button.click(function() {
+        var params = {"d":new Date()*1};
+        if(idField.val()!="") {
+            params.id = idField.val();
+        }
+        $.extend(params, options.params);
+        if (!dialogDiv) {
+            dialogDiv = $("<div style='display:none;'>").appendTo(document.body);
+        }
+        dialogDiv.load(url + "?" + $.param(params), function() {
+            dialogDiv.dialog(settings);
+        });
+    });
+};

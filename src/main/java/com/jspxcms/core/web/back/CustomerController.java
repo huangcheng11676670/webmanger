@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,6 @@ import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
 import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Site;
-import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.dto.SchoolListDto;
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
@@ -67,11 +67,13 @@ public class CustomerController {
             HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
-        //List<Customer> pagedList = service.findList(siteId, params, pageable.getSort());
         Page<Customer> pagedList = service.findPage(siteId, params, pageable);
         modelMap.addAttribute("pagedList", pagedList);
-        List<SysDict> dictList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("dictList", dictList);
+/*        List<SysDict> dictList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("dictList", dictList);*/
+        if(params.get("EQ_areaId") != null && params.get("EQ_areaId").length > 0 && StringUtils.isNotBlank(params.get("EQ_areaId")[0])) {
+            modelMap.addAttribute("area",  sysDictService.get(Integer.valueOf(params.get("EQ_areaId")[0])));
+        }
         return "core/customer/customer_list";
     }
 

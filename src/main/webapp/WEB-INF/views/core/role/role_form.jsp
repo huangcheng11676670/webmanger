@@ -114,7 +114,7 @@ function confirmDelete() {
 	          </div>
 	        </div>
 	      </div>
-				<div class="row">
+				<div class="row" style="display: none;">
 					<div class="col-sm-12">
 						<div class="form-group form-inline">
 	            <label class="col-sm-2 control-label"><s:message code="role.nodePerms"/></label>
@@ -155,7 +155,7 @@ function confirmDelete() {
 	          </div>
 	        </div>
 	      </div>
-				<div class="row">
+				<div class="row"  style="display: none;">
 					<div class="col-sm-12">
 						<div class="form-group form-inline">
 	            <label class="col-sm-2 control-label"><s:message code="role.infoPerms"/></label>

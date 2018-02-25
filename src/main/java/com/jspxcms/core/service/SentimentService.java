@@ -52,6 +52,11 @@ public interface SentimentService extends IBaseService<Sentiment, Integer>{
      */
     public Long countTotal();
     /**
+     * 舆情总数
+     * @return
+     */
+    public Long countTotalByUserId(Integer userId);
+    /**
      * 分页展示
      * @param siteId
      * @param params

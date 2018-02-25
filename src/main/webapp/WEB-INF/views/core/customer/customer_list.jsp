@@ -59,26 +59,31 @@ function optDelete(form) {
                 </div>
                 <div class="form-group">
                 <select class="form-control input-sm" id="search_EQ_clearance_Boolean" name="search_EQ_clearance_Boolean">
-                    <option value=""><s:message code="allSelect"/></option>
+                    <option value="">是否回款</option>
                     <option <c:if test="${search_EQ_clearance_Boolean[0] eq 'true'}"> selected="selected"</c:if> value="true">已回款</option>
                     <option <c:if test="${search_EQ_clearance_Boolean[0] eq 'false'}"> selected="selected"</c:if> value="false">未回款</option>
                 </select>
                 </div>
                 <div class="form-group">
                   <label for="search_EQ_areaId">区域</label>
-                <select class="form-control input-sm" id="search_EQ_areaId" name="search_EQ_areaId">
-                    <option value="" ><s:message code="allSelect"/></option>
-                    <c:forEach var="attr" items="${dictList}">
-                      <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId[0]}"> selected="selected"</c:if>>
-                      <c:choose>
-<%--                          <c:when test="${ fn:length(attr.treeNumber) == 9}">|----</c:when> --%>
-                         <c:when test="${ fn:length(attr.treeNumber) == 14}">&#8711;</c:when>
-                         <c:when test="${ fn:length(attr.treeNumber) == 19}">&emsp;&emsp;</c:when>
-                       </c:choose>
-                      ${attr.label}</option>
-                      </c:forEach>
-                </select>
+                    <c:set var="areaName"><c:choose><c:when test="${empty area}">选择地区</c:when><c:otherwise><c:out value="${area.label}"/></c:otherwise></c:choose></c:set>
+                    <f:hidden id="search_EQ_areaId" name="search_EQ_areaId" value="${search_EQ_areaId[0]}"/>
+                    <div class="input-group">
+                        <f:text class="form-control" id="search_EQ_areaIdName" value="${areaName}" readonly="readonly"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="search_EQ_areaIdButton" type="button" style="margin-top: 0px;"><s:message code='choose'/></button>
+                        </span>
+                    </div>
+                    <script type="text/javascript">
+                    $(function(){
+                        Cms.f7.area("search_EQ_areaId","areaName",{
+                            settings: {"title": "选择地区"},
+                            params: {
+                                "treeNumber": "0000"
+                            }
+                        });
+                    });
+                    </script>
                 </div>
               <button class="btn btn-default btn-sm" type="submit"><s:message code="search"/></button>
             </form>
