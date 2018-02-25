@@ -77,3 +77,59 @@ Boolean 查询字段类型
 		<option value="${role.id}"<c:if test="${role.id eq requestScope['search_EQ_JuserRoles.role.id'][0]}"> selected="selected"</c:if>>${role.name}</option>
     </c:forEach>
 </select>
+
+
+================================
+SpringDataJpa的Specification查询
+================================
+spring data jpa 通过创建方法名来做查询，只能做简单的查询，那如果我们要做复杂一些的查询呢，
+多条件分页怎么办，这里，spring data jpa为我们提供了JpaSpecificationExecutor接口，
+只要简单实现toPredicate方法就可以实现复杂的查询
+
+其中Specification就是需要我们传进去的参数，它是一个接口
+
+Specification<Sentiment> sp = new Specification<Sentiment>() {
+
+       @Override
+        public Predicate toPredicate(Root<Task> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+     //1.混合条件查询
+          /*Path<String> exp1 = root.get("taskName");
+            Path<Date>  exp2 = root.get("createTime");
+            Path<String> exp3 = root.get("taskDetail");
+            Predicate predicate = cb.and(cb.like(exp1, "%taskName%"),cb.lessThan(exp2, new Date()));
+            return cb.or(predicate,cb.equal(exp3, "kkk"));
+
+            类似的sql语句为:
+            Hibernate: 
+                select
+                    count(task0_.id) as col_0_0_ 
+                from
+                    tb_task task0_ 
+                where
+                    (
+                        task0_.task_name like ?
+                    ) 
+                    and task0_.create_time<? 
+                    or task0_.task_detail=?
+            */
+
+    //2.多表查询
+        /*Join<Task,Project> join = root.join("project", JoinType.INNER);
+            Path<String> exp4 = join.get("projectName");
+            return cb.like(exp4, "%projectName%");
+
+            Hibernate: 
+            select
+                count(task0_.id) as col_0_0_ 
+            from
+                tb_task task0_ 
+            inner join
+                tb_project project1_ 
+                    on task0_.project_id=project1_.id 
+            where
+                project1_.project_name like ?*/ 
+           return null ;  
+        }
+    }
+}

@@ -59,6 +59,14 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
     public static String getYearAndMonthString(Date date) {
         return getDate(date, "yyyy/MMdd/");
     }
+    /**
+     * yyyy-MM
+     * @param date
+     * @return
+     */
+    public static String getYearAndMonth(Date date) {
+        return getDate(date, "yyyy-MM");
+    }
     
     public static Date getDateString(String dateString) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  

@@ -1,0 +1,6 @@
+====================================
+获取当前用户
+====================================
+com.jspxcms.core.support.Context
+
+User user = Context.getCurrentUser();

@@ -3,13 +3,17 @@ package com.jspxcms.core.service.impl;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.jspxcms.common.util.AliyunSMSUtils;
 import com.jspxcms.core.AbstractServiceTest;
@@ -53,8 +57,19 @@ public class SentimentServiceTest extends AbstractServiceTest {
         BigInteger dbList = contractService.reportContractNewNumNativeQuery(14, "2017-12");
         System.out.println(dbList);
     }
-    @Test
+    //@Test
     public void smsTest() {
         aliyunSMSUtils.sendSMS_125116385("13880554256", "姓名", "华阳中学吧", "请问一下华中的转学考试难不难？http://tieba.baidu.com/p/5541435045");
+    }
+
+    //@Test
+    public void findPageTest() {
+        Map<String, String[]> params = new HashMap<String, String[]>();
+        Pageable pageable = new PageRequest(0, 10);
+        sentimentService.findPage(1, params, pageable);
+    }
+    @Test
+    public void countTotalByUserId() {
+        sentimentService.countTotalByUserId(9);
     }
 }

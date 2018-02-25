@@ -17,7 +17,7 @@ $(function() {
         rules: {
          smsContent: {
              required: true,
-             rangelength:[5,10]
+             rangelength:[5,200]
            },
          contact1Phone: {
              required: true,
