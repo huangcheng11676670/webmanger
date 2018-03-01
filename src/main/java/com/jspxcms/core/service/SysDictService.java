@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.jspxcms.core.domain.SysDict;
+import com.jspxcms.core.dto.TreeDto;
 
 /**
  * SysDictService
@@ -19,6 +20,10 @@ public interface SysDictService {
     public List<SysDict> findList(Integer siteId);
 
     public List<SysDict> findAreaListByTree(String treeNumber);
+
+    public void findAreaListByPid(TreeDto treeParent, Integer pid);
+    //获取四川省
+    public TreeDto findAreaListBySichuan();
     
     public List<SysDict> findListByType(String type);
 

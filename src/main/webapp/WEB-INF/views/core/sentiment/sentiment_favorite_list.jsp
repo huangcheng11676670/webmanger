@@ -40,13 +40,16 @@
                     <select class="form-control input-sm" style="min-width: 200px;" id="school_select" name="school_select" onchange="showFavorite();">
                     </select>
                 </div>
-              <!-- <button class="btn btn-default btn-sm" type="button" id="search_info_btn" >采集舆情</button> -->
+                <button class="btn btn-default btn-sm" type="button" id="add_info_btn"  style="display: none;" onclick="doAddInfo();">采集舆情</button>
             </form>
             <div class="container-fluid">
             <div class="row" id="favorite_list">
             </div>
             </div>
         </div>
+    </div>
+    <div class="box box-primary">
+     <iframe src="" id="iframepage" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"  width="100%"></iframe>  
     </div>
 </div>
 </body>
@@ -75,7 +78,7 @@ function showFavorite() {
          if(json && json.length > 0){
              var htmlString = "";
                 $.each(json, function(index, domEle) {
-                htmlString += "<button style='margin:10px;' type='button' class='btn btn-primary btn-lg' onclick='goPage("+domEle.id+")'>"+domEle.name+"</button>";
+                htmlString += "<a class='btn btn-primary btn-lg' href='#' role='button'>"+domEle.name+"</a><button style='margin:10px;' type='button' class='btn btn-primary btn-lg' onclick='goPage("+domEle.id+")'>"+domEle.name+"</button>";
             });
                 htmlString += "";
           $("#favorite_list").html(htmlString);
@@ -85,8 +88,15 @@ function showFavorite() {
          }
     });
 }
+var favoriteId;
+function doAddInfo(){
+	 window.location.href="create.do?favoriteId="+favoriteId;
+}
 function goPage(id){
-     window.location.href="create.do?favoriteId="+id;
+    $("#add_info_btn").show();
+    favoriteId = id;
+    $("#iframepage").attr("src", "create.do?favoriteId="+id)
+    // window.location.href="create.do?favoriteId="+id;
 }
 </script>
 </html>

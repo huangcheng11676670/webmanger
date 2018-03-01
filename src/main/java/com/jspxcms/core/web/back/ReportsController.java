@@ -1,6 +1,7 @@
 package com.jspxcms.core.web.back;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +16,9 @@ import com.jspxcms.common.util.DateUtils;
 import com.jspxcms.common.util.MessageUtils;
 import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.domain.SysFavorite;
+import com.jspxcms.core.domain.User;
 import com.jspxcms.core.dto.ReportSentimentNumDto;
+import com.jspxcms.core.dto.ReportUserSentimentDto;
 import com.jspxcms.core.dto.ReportContractDto;
 import com.jspxcms.core.dto.ReportCountAndIdDto;
 import com.jspxcms.core.service.ContractService;
@@ -23,6 +26,7 @@ import com.jspxcms.core.service.SentimentService;
 //github.com/huangcheng11676670/webmanger.git
 import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.service.SysFavoriteService;
+import com.jspxcms.core.service.UserService;
 
 /**
  * 报表管理
@@ -41,6 +45,10 @@ public class ReportsController {
 
     @Autowired
     private ContractService contractService;
+    
+    @Autowired
+    private UserService userService;
+    
     /**
      * 业务数据
      * @param modelMap
@@ -188,6 +196,54 @@ public class ReportsController {
             e.printStackTrace();
         }
         List<ReportContractDto> dtoList = contractService.reportContractAreaNativeQuery(areaId, startDate, endDate);
+        return MessageUtils.sucessMsg("获取成功", dtoList);
+    }
+    /**
+     * 监测员数据
+     * @param modelMap
+     * @return
+     */
+    @RequiresPermissions("core:reports:list")
+    @RequestMapping("userList.do")
+    public String userList(Model modelMap) {
+        List<User> userList = userService.selectAll();
+        modelMap.addAttribute("userList", userList);
+        return "core/reports/reports_user_list";
+    }
+    
+    /**
+     * 员工舆情采集数据统计
+     * @param userid
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    @ResponseBody
+    @RequiresPermissions("core:reports:list")
+    @RequestMapping("user_bar_data.do")
+    public Object userBarData(Integer userId, String startDate, String endDate) {
+        if(StringUtils.isBlank(startDate)){
+            return MessageUtils.failMsg("开始日期不能为空");
+        }
+        if(StringUtils.isBlank(endDate)){
+            return MessageUtils.failMsg("结束日期不能为空");
+        }
+        //日期间隔不能超过一个月
+        try {
+            int dayNum = DateUtils.daysBetween(DateUtils.getDateString(startDate), DateUtils.getDateString(endDate));
+            if(dayNum > 365) {
+                return MessageUtils.failMsg("日期不能超过1年");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<ReportUserSentimentDto> dtoList = contractService.reportUserSentimentNativeQuery(userId, startDate, endDate);
+        dtoList.forEach(item -> {
+            SysFavorite dbSysFavorite = sysFavoriteService.get(item.getFavoriteId());
+            if(dbSysFavorite != null) {
+                item.setFavoriteName(dbSysFavorite.getFavoriteName());
+            }
+        });
         return MessageUtils.sucessMsg("获取成功", dtoList);
     }
 }

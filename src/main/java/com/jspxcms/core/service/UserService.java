@@ -89,4 +89,9 @@ public interface UserService {
     public User delete(Integer id);
 
     public User[] delete(Integer[] ids);
+    /**
+     * 选择所有
+     * @return
+     */
+    public List<User> selectAll();
 }

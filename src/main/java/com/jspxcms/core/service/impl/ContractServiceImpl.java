@@ -1,6 +1,7 @@
 package com.jspxcms.core.service.impl;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,8 @@ import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.core.domain.Contract;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.dto.ReportContractDto;
+import com.jspxcms.core.dto.ReportCountAndIdDto;
+import com.jspxcms.core.dto.ReportUserSentimentDto;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.ContractDao;
 import com.jspxcms.core.service.ContractService;
@@ -134,5 +137,33 @@ public class ContractServiceImpl extends BaseServiceImpl<Contract, Integer> impl
     @Override
     public Long endContractNum() {
         return dao.endContractNum();
+    }
+
+    @Override
+    public List<ReportUserSentimentDto> reportUserSentimentNativeQuery(Integer userId, String startDate,
+            String endDate) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT COUNT(*), sentiment0_.f_favorite_id");
+        query.append(" FROM cms_yq_sentiment sentiment0_ WHERE 1=1");
+        query.append(" AND f_user_id = "+userId);
+        if(StringUtils.isNotBlank(startDate)) {
+            query.append(" AND cast( sentiment0_.f_create_datetime AS DATE ) >= '"+startDate+"'");
+        }
+        if(StringUtils.isNotBlank(endDate)) {
+            query.append(" AND cast( sentiment0_.f_create_datetime AS DATE ) <= '"+endDate+"'");
+        }
+        query.append(" GROUP BY sentiment0_.f_favorite_id ");
+    
+      //执行原生SQL
+      Query nativeQuery = em.createNativeQuery(query.toString());
+      //返回对象
+      @SuppressWarnings("unchecked")
+      List<Object> resultList = nativeQuery.getResultList();
+      List<ReportUserSentimentDto> dtoList = new ArrayList<ReportUserSentimentDto>();
+      resultList.forEach(item -> {
+          Object[] cells = (Object[]) item;
+          dtoList.add( new ReportUserSentimentDto((BigInteger)cells[0], (Integer)cells[1]));
+      });
+      return dtoList;
     }
 }

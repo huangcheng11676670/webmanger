@@ -25,6 +25,7 @@ import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.util.Strings;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
+import com.jspxcms.core.dto.TreeDto;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.SysDictDao;
 import com.jspxcms.core.service.SiteService;
@@ -181,6 +182,32 @@ public class SysDictServiceImpl implements SysDictService, SiteDeleteListener {
             return dbSysDict.getLabel();
         }else {
             return "";
+        }
+    }
+
+    @Override
+    public TreeDto findAreaListBySichuan() {
+        TreeDto dto = new TreeDto();
+        dto.setId("9");
+        dto.setName("四川省");
+        dto.setOpen(true);
+        findAreaListByPid(dto, 9);
+        return dto;
+    }
+    @Override
+    public void findAreaListByPid(TreeDto treeParent, Integer pid) {
+        List<SysDict> dtoList = dao.findByParentIdAndType(pid, SysDict.AREA_TYPE, new Sort("treeNumber"));
+        if(dtoList.size() > 0) {
+            List<TreeDto> treeDtoList = new ArrayList<TreeDto>();
+            dtoList.forEach(item -> {
+                TreeDto dto = new TreeDto();
+                dto.setId(String.valueOf(item.getId()));
+                dto.setName(item.getLabel());
+                dto.setPid(String.valueOf(item.getParentId()));
+                treeDtoList.add(dto);
+                findAreaListByPid(dto, item.getId());
+            });
+            treeParent.setChildren(treeDtoList);
         }
     }
 }

@@ -20,7 +20,7 @@
     <div class="content">
         <ul class="nav nav-tabs">
           <li role="presentation" class="active"><a href="#">业务数据</a></li>
-          <li role="presentation"><a href="#">监测员数据</a></li>
+          <li role="presentation"><a href="userList.do">监测员数据</a></li>
           <li role="presentation"><a href="saleList.do">销售业绩</a></li>
         </ul>
         <div class="row">

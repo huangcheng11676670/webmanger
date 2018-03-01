@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import com.jspxcms.common.service.IBaseService;
 import com.jspxcms.core.domain.Contract;
 import com.jspxcms.core.dto.ReportContractDto;
+import com.jspxcms.core.dto.ReportUserSentimentDto;
 
 /**
  * ContractService
@@ -50,4 +51,13 @@ public interface ContractService extends IBaseService<Contract, Integer>{
      * @return
      */
     public Page<Contract> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable);
+    /**
+     * 统计时间范围内，操作员录入的舆情总数
+     * @param areaId
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public List<ReportUserSentimentDto> reportUserSentimentNativeQuery(Integer userId, String startDate,
+            String endDate);
 }

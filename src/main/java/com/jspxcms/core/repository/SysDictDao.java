@@ -54,4 +54,7 @@ public interface SysDictDao extends Repository<SysDict, Integer> {
 
    @Cacheable
     public List<SysDict> findByType(String areaType, Sort sort);
+
+   @Cacheable
+   public List<SysDict> findByParentIdAndType(Integer pid, String areaType, Sort sort);
 }

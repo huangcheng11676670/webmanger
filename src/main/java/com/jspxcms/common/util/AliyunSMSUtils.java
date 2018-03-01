@@ -60,7 +60,7 @@ public class AliyunSMSUtils {
     }
 
     /**
-     * SMS_125025696
+     * SMS_125116385
      * 尊敬的${name}领导,我们在${from}监测到一条舆情,内容概述${content}
      * @param phone
      * @param message
@@ -84,7 +84,8 @@ public class AliyunSMSUtils {
         //必填:短信模板-可在短信控制台中找到
         request.setTemplateCode("SMS_125116385");
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
-        request.setTemplateParam("{\"name\":\""+name+"\",\"from\":\""+from+"\",\"content\":\""+content+"\"}");
+        String param =String.format("{\"name\":\"%s\", \"from\":\"%s\", \"content\":\"%s\"}", name, from, content);   
+        request.setTemplateParam(param);
         //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
         request.setOutId("yourOutId");
         //hint 此处可能会抛出异常，注意catch
@@ -199,9 +200,9 @@ public class AliyunSMSUtils {
     }
 
     public static void main(String[] args) throws ClientException, InterruptedException {
-        AliyunSMSUtils smsUtils = new AliyunSMSUtils("","");
+        AliyunSMSUtils smsUtils = new AliyunSMSUtils("LTAInlLs8wOBu4F6","AiBYzzdsNRR99E10UIX6rbAXDapMp5");
         //发短信
-        SendSmsResponse response = smsUtils.sendSms();
+        SendSmsResponse response = smsUtils.sendSMS_125116385("13880554256", "莫总", "成都七中", "求成都七中2018届高三上学期期末测试语文试题的作文思路http://tieba.baidu.com/p/5555365980 ");
         System.out.println("短信接口返回的数据----------------");
         System.out.println("Code=" + response.getCode());
         System.out.println("Message=" + response.getMessage());

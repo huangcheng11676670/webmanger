@@ -533,4 +533,8 @@ public class UserServiceImpl implements UserService, OrgDeleteListener, MemberGr
         this.dao = dao;
     }
 
+    @Override
+    public List<User> selectAll() {
+        return dao.findByStatus(0);
+    }
 }

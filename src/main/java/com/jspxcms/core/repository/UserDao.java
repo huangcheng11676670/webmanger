@@ -66,4 +66,6 @@ public interface UserDao extends Repository<User, Integer>, UserDaoPlus {
 
     @Query("select count(*) from User bean where bean.status = 0")
     public long countByStatus();
+
+    public List<User> findByStatus(Integer status);
 }

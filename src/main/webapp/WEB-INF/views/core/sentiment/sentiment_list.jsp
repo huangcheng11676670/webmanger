@@ -97,24 +97,12 @@ function optDelete(form) {
                 </div>
                 <div class="form-group">
                   <label for="search_EQ_areaId_Integer">区域</label>
-                <select class="form-control input-sm" id="search_EQ_areaId_Integer" name="search_EQ_areaId_Integer" onchange="showSchool();">
-                    <option value="" ><s:message code="allSelect"/></option>
-                    <c:forEach var="attr" items="${areaList}">
-                      <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>
-                      <c:choose>
-                         <c:when test="${ fn:length(attr.treeNumber) == 14}">&#8711;</c:when>
-                         <c:when test="${ fn:length(attr.treeNumber) == 19}">&emsp;&emsp;</c:when>
-                       </c:choose>
-                      ${attr.label}</option>
-                      </c:forEach>
-                </select>
+                  <input type="text" id="search_EQ_areaId_Integer" value="${search_EQ_areaId_Integer[0]}" name="search_EQ_areaId_Integer" class="myselectstyle">
                 </div>
                 <div class="form-group">
                   <label for="search_EQ_customer.id">学校列表</label>
-                <select class="form-control input-sm" id="search_EQ_customer" name="search_EQ_customer.id">
-
-                </select>
+                  <select class="form-control input-sm" id="search_EQ_customer" name="search_EQ_customer.id">
+                  </select>
                 </div>
               <button class="btn btn-default btn-sm" type="submit"><s:message code="search"/></button>
             </form>
@@ -208,5 +196,8 @@ function showSchool() {
          }
     });
 }
+$(document).ready(function() {
+    $("#search_EQ_areaId_Integer").myselect(showSchool);
+});
 </script>
 </html>

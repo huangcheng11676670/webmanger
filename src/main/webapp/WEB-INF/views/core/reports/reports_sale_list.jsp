@@ -20,7 +20,7 @@
     <div class="content">
         <ul class="nav nav-tabs">
           <li role="presentation" ><a href="list.do">业务数据</a></li>
-          <li role="presentation"><a href="#">监测员数据</a></li>
+          <li role="presentation"><a href="userList.do">监测员数据</a></li>
           <li role="presentation" class="active"><a href="#">销售业绩</a></li>
         </ul>
         <div class="row">
@@ -41,8 +41,8 @@
                         </select>
                         </div>
                         <div class="form-group">
-                        <input class="form-control input-sm" type="text"  id="search_createTime_Date_bar" onclick="WdatePicker({dateFmt: 'yyyy-MM', isShowToday: false, isShowClear: false, maxDate:'#F{$dp.$D(\'search_endTime_Date_bar\')}'});" />
-                        至<input class="form-control input-sm" type="text" id="search_endTime_Date_bar" onclick="WdatePicker({dateFmt:'yyyy-MM', isShowToday: false, isShowClear: false, minDate:'#F{$dp.$D(\'search_createTime_Date_bar\')}'});"/>
+                        <input class="form-control input-sm" type="text"  id="search_createTime_Date_bar" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd', isShowToday: false, isShowClear: false, maxDate:'#F{$dp.$D(\'search_endTime_Date_bar\')}'});" />
+                        至<input class="form-control input-sm" type="text" id="search_endTime_Date_bar" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', isShowToday: false, isShowClear: false, minDate:'#F{$dp.$D(\'search_createTime_Date_bar\')}'});"/>
                         </div>
                          <button type="button" class="btn btn-primary" onclick="searchReport_bar();">查询</button>
                         </form>
