@@ -183,6 +183,9 @@ function optDelete(form) {
 </div>
 </body>
 <script type="text/javascript">
+/* var zNodes = [
+<c:forEach var="attr" items="${areaList}">{id:${attr.id}, pId: ${attr.parentId}, name:"${attr.label}"<c:if test="${attr.id == 8 || attr.id == 9}">, open:true</c:if>},</c:forEach>
+]; */
 function showSchool() {
     $.getJSON("../customer/customerList.do", { areaid: $("#search_EQ_areaId_Integer").val()}, function(json){
          if(json && json.length > 0){

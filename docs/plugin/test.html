@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>ComboZtree Demo</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+
+        <!-- jQuery -->
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- zTree -->
+        <script type="text/javascript" src="../js/jquery.ztree.core.js"></script>
+        <script type="text/javascript" src="myselect.js"></script>
+    </head>
+
+    <body>
+        <div class="container bs-docs-container">
+        <!--
+            <div class="row">
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="hidden" id="city" name="city" value="">
+                    <input type="text" class="form-control" readonly="true" id="city_input" value="选择城市">
+                    <div class="input-group-btn "><button type="button" class="btn btn-default" onClick="$('#city_tree_div').toggle();"><span class="caret"></span></button></div>
+                    <div id="city_tree_div" class="menuContent dropdown-menu" style="display:none; position: absolute;width: 338px;">
+                        <ul id="city_tree_show" class="ztree" style="margin-top:0; width:160px;"></ul>
+                    </div>
+                </div>
+            </div>
+            </div>
+            -->
+            <div class="row">
+            <div class="col-sm-4">
+                <div class="input-group">
+                <input type="text" id="shengfen" name="shengfen" value="6" class="myselectstyle">
+                </div>
+                <div class="input-group">
+                <input type="text" id="shengfen1" name="shengfen1" value="44" class="myselectstyle">
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+        var zNodes = [
+            {id:1, pId:0, name:"北京"},
+            {id:2, pId:0, name:"天津"},
+            {id:3, pId:0, name:"上海"},
+            {id:6, pId:0, name:"重庆"},
+            {id:4, pId:0, name:"河北省", open:true},
+            {id:41, pId:4, name:"石家庄"},
+            {id:42, pId:4, name:"保定"},
+            {id:43, pId:4, name:"邯郸"},
+            {id:44, pId:4, name:"承德"},
+            {id:5, pId:0, name:"广东省", open:true},
+            {id:51, pId:5, name:"广州"},
+            {id:52, pId:5, name:"深圳"},
+            {id:53, pId:5, name:"东莞"},
+            {id:54, pId:5, name:"佛山"},
+            {id:6, pId:0, name:"福建省", open:true},
+            {id:61, pId:6, name:"福州"},
+            {id:62, pId:6, name:"厦门"},
+            {id:63, pId:6, name:"泉州"},
+            {id:64, pId:6, name:"三明"},
+        ];
+/**
+        var multiSetting = {
+            view: {
+                dblClickExpand: false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: onClick
+            }
+
+        };
+*/
+        $(document).ready(function() {
+            //$.fn.zTree.init($("#city_tree_show"), multiSetting, zNodes);
+            /*
+            $("#select_btn").click(function(){
+                $("#tree_div").toggle();
+            });
+            */
+            $("#shengfen").myselect(zNodes, doMyJob);
+            $("#shengfen1").myselect(zNodes, doMyJob);
+        });
+        function doMyJob() {
+            alert($("#shengfen").val());
+        }
+        function onClick1(e, treeId, treeNode) {
+            console.log(treeNode.id+"====pid"+treeNode.pId);
+            $("#city_tree_div").hide();
+            $("#city_input").val(treeNode.name);
+            $("#city").val(treeNode.id);
+            alert("333");
+        }
+        </script>
+    </body>
+</html>
