@@ -93,8 +93,8 @@ public class SentimentController {
             item.setInfoTypeShow(sysDictService.getLabelById(item.getInfoType()));
         });
         modelMap.addAttribute("pagedList", pagedList);
-        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+/*        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);*/
         List<SysDict> infoLevelList = sysDictService.findListByType(SysDict.INFO_LEVEL);
         modelMap.addAttribute("infoLevelList", infoLevelList);
         List<SysDict> infoTypelList = sysDictService.findListByType(SysDict.INFO_TYPE);

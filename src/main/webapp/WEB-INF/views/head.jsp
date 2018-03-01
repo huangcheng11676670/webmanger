@@ -50,3 +50,4 @@ window.UEDITOR_HOME_URL = "${ctx}/static/vendor/ueditor/";
 <script src="${ctx}/static/vendor/echarts.common.min.js"></script>
 <script src="${ctx}/static/js/plugins.js"></script>
 <script src="${ctx}/static/js/jspxcms_choose.js"></script>
+<script src="${ctx}/static/vendor/ztree/myCitySelect.js"></script>
