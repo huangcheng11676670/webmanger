@@ -48,3 +48,16 @@ em.required{color:red;font-style:normal;}
 .ztree li span.button.dir_ico_open{margin-right:2px; background-position:-110px 0; vertical-align:top; *vertical-align:middle}
 .ztree li span.button.dir_ico_close{margin-right:2px; background-position:-110px 0; vertical-align:top; *vertical-align:middle}
 .ztree li span.button.dir_ico_docu{margin-right:2px; background-position:-110px 0; vertical-align:top; *vertical-align:middle}
+
+.myCityZtree{
+    overflow-y:auto; 
+    display:none; 
+    position:fixed; 
+    width: 338px;
+    height:400px;
+    z-index: 9999;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}

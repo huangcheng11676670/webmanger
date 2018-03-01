@@ -179,7 +179,7 @@ public class SysFavoriteController {
            List<SysFavorite> dbCustomerList = service.findByCustomerId(schoolid);
            if(dbCustomerList != null) {
                dbCustomerList.forEach(item -> {
-                   listDto.add(new FaviruteListDto(item.getFavoriteName(), item.getId()));
+                   listDto.add(new FaviruteListDto(item.getFavoriteName(), item.getId(), item.getCustomerUrl()));
                });
            }
         return listDto;

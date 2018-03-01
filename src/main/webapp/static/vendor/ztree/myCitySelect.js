@@ -3,11 +3,12 @@
 ];
 $.fn.myselect = function(myonClick){
     if(this.hasClass("myselectstyle")){
+        let topvalue = this.offset().top + 40;
+        let letvalue = this.offset().left; 
         let inputID = this.attr("id");
         let inputValue = this.attr("value");
         this.hide();
-
-        let comboboxString = '<input type="text" class="form-control" readonly="true" id="'+inputID+'_label" value="选择城市"><button type="button" class="btn btn-default" onClick="$(\'#'+inputID+'_tree_div\').toggle();" style="margin-top: 1px;"><span class="caret"></span></button><div id="'+inputID+'_tree_div" class="dropdown-menu" style="top:auto; left:auto; display:none; position: absolute;width: 338px; z-index: 9999;"><div onClick="$(\'#'+inputID+'_tree_div\').hide();" style="padding-right:5px;"><button type="button" class="close" aria-hidden="true">&times;</button></div><ul id="'+inputID+'_tree_show" class="ztree" style="margin-top:0; width:160px;"></ul></div>';
+        let comboboxString = '<div class="input-group"><input type="text" class="form-control" readonly="true" id="'+inputID+'_label" value="选择城市"><span class="input-group-btn"><button type="button" class="btn btn-default" onClick="$(\'#'+inputID+'_tree_div\').toggle();" style="margin-top: 0px;"><span class="caret"></span></button></span><div class="myCityZtree" id="'+inputID+'_tree_div" style="left:'+letvalue+'px; top:'+topvalue+'px; "><div onClick="$(\'#'+inputID+'_tree_div\').hide();" style="padding-right:5px;"><button type="button" class="close" aria-hidden="true">&times;</button></div><ul id="'+inputID+'_tree_show" class="ztree" style="margin-top:0; width:160px;"></ul></div></div>';
         $(comboboxString).insertAfter(this);
         _defaultSetting  = {
             view: {

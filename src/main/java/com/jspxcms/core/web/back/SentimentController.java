@@ -132,9 +132,9 @@ public class SentimentController {
     @RequiresPermissions("core:sentiment:list")
     @RequestMapping("favoriteList.do")
     public String favoriteList(org.springframework.ui.Model modelMap) {
-        modelMap.addAttribute("pagedList", sysFavoriteService.findAll());
+      /*  modelMap.addAttribute("pagedList", sysFavoriteService.findAll());
         List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+        modelMap.addAttribute("areaList", areaList);*/
         return "core/sentiment/sentiment_favorite_list";
     }
 
