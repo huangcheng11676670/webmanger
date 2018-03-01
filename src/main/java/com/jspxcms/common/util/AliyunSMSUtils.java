@@ -200,7 +200,7 @@ public class AliyunSMSUtils {
     }
 
     public static void main(String[] args) throws ClientException, InterruptedException {
-        AliyunSMSUtils smsUtils = new AliyunSMSUtils("LTAInlLs8wOBu4F6","AiBYzzdsNRR99E10UIX6rbAXDapMp5");
+        AliyunSMSUtils smsUtils = new AliyunSMSUtils("","");
         //发短信
         SendSmsResponse response = smsUtils.sendSMS_125116385("13880554256", "莫总", "成都七中", "求成都七中2018届高三上学期期末测试语文试题的作文思路http://tieba.baidu.com/p/5555365980 ");
         System.out.println("短信接口返回的数据----------------");

@@ -1,0 +1,44 @@
+echarts.js
+static/vendor/echarts.common.min.js
+
+===================================
+       柱状图
+===================================
+http://echarts.baidu.com/examples/editor.html?c=bar-simple  柱状图
+
+option = {
+    xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [120, 200, 150, 80, 70, 110, 130],
+        type: 'bar'
+    }]
+};
+myChart.setOption(option);
+//异步加载
+var myChart = echarts.init(document.getElementById('main'));
+$.get('data.json').done(function (data) {
+    myChart.setOption({
+        title: {
+            text: '异步数据加载示例'
+        },
+        tooltip: {},
+        legend: {
+            data:['销量']
+        },
+        xAxis: {
+            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    });
+});
