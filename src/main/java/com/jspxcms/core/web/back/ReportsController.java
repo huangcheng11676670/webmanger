@@ -277,12 +277,15 @@ public class ReportsController {
             e.printStackTrace();
         }
         List<ReportUserTimeDto> dtoList = userViewTimeService.reportUserTimeNativeQuery(userId, startDate, endDate);
+<<<<<<< HEAD
         dtoList.forEach(item -> {
             SysFavorite dbSysFavorite = sysFavoriteService.get(item.getFavoriteId().intValue());
             if(dbSysFavorite != null) {
                 item.setFavoriteName(dbSysFavorite.getFavoriteName());
             }
         });
+=======
+>>>>>>> branch 'master' of https://github.com/huangcheng11676670/webmanger.git
         return MessageUtils.sucessMsg("获取成功", dtoList);
     }
 }
