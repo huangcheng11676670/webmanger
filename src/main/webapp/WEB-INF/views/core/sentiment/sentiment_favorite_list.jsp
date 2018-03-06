@@ -74,7 +74,7 @@ function showFavorite() {
          if(json && json.length > 0){
              var htmlString = "";
                 $.each(json, function(index, domEle) {
-                htmlString += "<button style='margin:10px;' type='button' class='btn btn-primary btn-lg' onclick='goPage("+domEle.id+",\""+domEle.customerUrl+"\")'>"+domEle.name+"</button>";
+                htmlString += "<button style='margin:10px;' type='button' class='btn btn-primary btn-lg' onclick='goPage("+domEle.id+",\""+domEle.name+"\",\""+domEle.customerUrl+"\")'>"+domEle.name+"</button>";
             });
                 htmlString += "";
           $("#favorite_list").html(htmlString);
@@ -88,10 +88,17 @@ var favoriteId;
 function doAddInfo(){
      window.location.href="create.do?favoriteId="+favoriteId;
 }
-function goPage(id, url){
+function goPage(id, name, url){
     $("#add_info_btn").show();
     if(favoriteId){
-        //ajax记录停留时间
+        if(view_time_num > 1){
+            //ajax记录停留时间
+            $.post("/cmscp/core/viewtime/save.do", {favoriteId: favoriteId, favoriteName: name, minuteNum: view_time_num}, function(data){
+                   if(data.status){
+                         console.log(data.msg);
+                   }
+             });
+       }
     }
     favoriteId = id;
     /* $("#iframepage").load(url, {},function(){

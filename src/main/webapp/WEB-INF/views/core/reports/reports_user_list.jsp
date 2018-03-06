@@ -53,6 +53,36 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                    <form class="form-inline">
+                        <div class="form-group">
+                        <i class="glyphicon glyphicon-stats"></i>
+                        <h3 class="box-title">分类浏览时长</h3>
+                        </div>
+                        <div class="form-group">
+                        <select class="form-control input-sm" id="userId_select_bar1">
+                            <c:forEach var="attr" items="${userList}">
+                              <c:set var="idstr">${attr.id}</c:set>
+                              <option value="${attr.id}">${attr.realName}(${attr.username})</option>
+                              </c:forEach>
+                        </select>
+                        </div>
+                        <div class="form-group">
+                        <input class="form-control input-sm" type="text"  id="search_createTime_Date_bar1" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd', isShowToday: false, isShowClear: false, maxDate:'#F{$dp.$D(\'search_endTime_Date_bar1\')}'});" />
+                        至<input class="form-control input-sm" type="text" id="search_endTime_Date_bar1" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', isShowToday: false, isShowClear: false, minDate:'#F{$dp.$D(\'search_createTime_Date_bar1\')}'});"/>
+                        </div>
+                         <button type="button" class="btn btn-primary" onclick="searchReport_bar1();">查询</button>
+                        </form>
+                    </div>
+                    <div class="box-body">
+                         <div id="report_main_bar1" style="width: 600px;height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 <script type="text/javascript">
 //柱状图开始
 option_bar = {
@@ -121,10 +151,79 @@ function searchReport_bar() {
           }
      });
 }
+
 //柱状图结束
 $(function() {
     $(".btn").on("click",function(){var b=$(this);b.button("loading..."),setTimeout(function(){b.button("reset")}, 5000)});
 });
+
+//分类浏览时长柱状图开始
+option_bar1 = {
+    title : {
+        text: '分类浏览时长数据统计'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['单位分钟']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            data : []
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'浏览时长',
+            type:'bar',
+            data:[],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        }
+    ]
+};
+var myChart_bar1 = echarts.init(document.getElementById('report_main_bar1'));
+myChart_bar1.setOption(option_bar1);
+function searchReport_bar1() {
+    $.getJSON("usertime_bar_data.do", {userId : $("#userId_select_bar1").val(), startDate: $("#search_createTime_Date_bar1").val() ,  endDate : $("#search_endTime_Date_bar1").val() }, function(json){
+         if(json.status){
+            option_bar1.xAxis[0].data = [];
+            option_bar1.series[0].data = [];
+             $.each(json.result, function(index, item) {
+                 option_bar1.xAxis[0].data.push(item.favoriteName);
+                 option_bar1.series[0].data.push(item.num);
+             });
+             myChart_bar1.setOption(option_bar1, true);
+          }
+     });
+}
 </script>
 </div>
 </body>
