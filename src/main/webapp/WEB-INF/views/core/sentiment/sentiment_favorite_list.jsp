@@ -18,7 +18,7 @@
     <h1><s:message code="sentiment.management"/> - <s:message code="list"/> <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
 </div>
 <div class="content">
-    <div class="box box-primary" style="height:500px;">
+    <div class="box box-primary" style="height:100%;">
         <div class="box-body table-responsive">
             <form class="form-inline ls-search" action="list.do" method="get">
                 <div class="form-group">
@@ -36,11 +36,16 @@
             <div class="row" id="favorite_list">
             </div>
             </div>
-            <iframe src="" id="iframepage" frameborder="0" scrolling="yes" marginheight="0" marginwidth="0"  width="100%" height="600"></iframe>  
+            <div style="position: absolute; width: 5px; height: 600px; left: 200px; background-color: #f5e6e6; opacity: 0.1;"></div>
+            <div style="position: absolute; width: 5px; height: 600px; left: 300px; background-color: #f5e6e6; opacity: 0.1;"></div>
+            <div style="position: absolute; width: 5px; height: 600px; left: 500px; background-color: #f5e6e6; opacity: 0.1;"></div>
+            <iframe src="" id="iframepage" frameborder="0" scrolling="yes" marginheight="0" marginwidth="0"  width="100%" height="600"></iframe>
+            <!-- <div id="iframepage"></div> -->  
         </div>
         </div>
 </div>
 </body>
+<script src="${ctx}/static/vendor/ifvisible.min.js"></script>
 <script type="text/javascript">
 $(function() {
     $("#sortHead").headSort();
@@ -85,8 +90,15 @@ function doAddInfo(){
 }
 function goPage(id, url){
     $("#add_info_btn").show();
+    if(favoriteId){
+        //ajax记录停留时间
+    }
     favoriteId = id;
-    $("#iframepage").attr("src", url)
+    /* $("#iframepage").load(url, {},function(){
+    }); */
+    $("#iframepage").attr("src", url);
+    isRecordTime = true;
+    view_time_num = 0;
 }
 </script>
 </html>
