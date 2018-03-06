@@ -1,7 +1,6 @@
 package com.jspxcms.core.dto;
 
 import java.math.BigDecimal;
-<<<<<<< HEAD
 import java.math.BigInteger;
 
 public class ReportUserTimeDto {
@@ -33,33 +32,6 @@ public class ReportUserTimeDto {
     }
 
     public void setFavoriteId(BigInteger favoriteId) {
-=======
-
-public class ReportUserTimeDto {
-    private BigDecimal num;
-    private Integer favoriteId;
-    private String favoriteName;
-
-    public ReportUserTimeDto(BigDecimal num, String favoriteName) {
-        super();
-        this.num = num;
-        this.favoriteName = favoriteName;
-    }
-
-    public BigDecimal getNum() {
-        return num;
-    }
-
-    public void setNum(BigDecimal num) {
-        this.num = num;
-    }
-
-    public Integer getFavoriteId() {
-        return favoriteId;
-    }
-
-    public void setFavoriteId(Integer favoriteId) {
->>>>>>> branch 'master' of https://github.com/huangcheng11676670/webmanger.git
         this.favoriteId = favoriteId;
     }
 
