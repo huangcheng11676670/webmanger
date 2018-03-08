@@ -4,6 +4,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.jspxcms.common.service.IBaseService;
+import com.jspxcms.core.domain.Sentiment;
 import com.jspxcms.core.domain.SysSMS;
 
 /**
@@ -15,6 +16,8 @@ public interface SysSMSService extends IBaseService<SysSMS, Integer>{
     public void update(SysSMS bean, Integer siteId, Integer sysDictTypeId, Integer customerId);
 
     public void save(SysSMS bean, Integer siteId);
+    
+    public void save(Sentiment bean);
     /**
      * 分页
      * @param siteId

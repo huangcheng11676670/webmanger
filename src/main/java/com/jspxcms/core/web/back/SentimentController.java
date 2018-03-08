@@ -6,12 +6,14 @@ import static com.jspxcms.core.constant.Constants.EDIT;
 import static com.jspxcms.core.constant.Constants.MESSAGE;
 import static com.jspxcms.core.constant.Constants.OPRT;
 import static com.jspxcms.core.constant.Constants.SAVE_SUCCESS;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,7 @@ import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SentimentService;
 import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.service.SysFavoriteService;
+import com.jspxcms.core.service.SysSMSService;
 import com.jspxcms.core.support.Backends;
 import com.jspxcms.core.support.Context;
 
@@ -61,6 +63,9 @@ public class SentimentController {
     private OperationLogService logService;
 
     @Autowired
+    private SysSMSService sysSMSService;
+
+    @Autowired
     private SentimentService service;
 
     @Autowired
@@ -71,9 +76,6 @@ public class SentimentController {
 
     @Autowired
     private SysFavoriteService sysFavoriteService;
-
-    @Autowired  
-    private ThreadPoolTaskExecutor threadPoolTaskExecutor;  
 
     @ModelAttribute("bean")
     public Sentiment preloadBean(@RequestParam(required = false) Integer oid) {
@@ -207,12 +209,7 @@ public class SentimentController {
         service.save(bean, siteId);
         //是否发送短信
         if(bean.getSendSMS()) {
-            threadPoolTaskExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    aliyunSMSUtils.sendSms(bean.getSendSMSPhone(), bean.getSmsContent());
-                }
-            });  
+            sysSMSService.save(bean);
         }
         logService.operation("opr.Sentiment.add", bean.getSentimentTitle(), null, bean.getId(), request);
         logger.info("save Sentiment, title={}.", bean.getSentimentTitle());

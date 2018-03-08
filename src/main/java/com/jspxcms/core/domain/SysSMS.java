@@ -37,6 +37,10 @@ public class SysSMS implements Siteable, java.io.Serializable {
     private Site site;
     private String message;
     private Date createDatetime;
+    /**
+     * 短地址cms_yq_short_url外键id
+     */
+    private Integer refId;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -66,6 +70,15 @@ public class SysSMS implements Siteable, java.io.Serializable {
 
     public void setAreaId(Integer areaId) {
         this.areaId = areaId;
+    }
+
+    @Column(name = "f_ref_id", nullable = false)
+    public Integer getRefId() {
+        return this.refId;
+    }
+
+    public void setRefId(Integer refId) {
+        this.refId = refId;
     }
 
     @Column(name = "f_area_name", nullable = false, length = 100)

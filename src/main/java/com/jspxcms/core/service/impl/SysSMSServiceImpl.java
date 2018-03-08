@@ -22,10 +22,15 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.common.util.AliyunSMSUtils;
+import com.jspxcms.core.domain.Sentiment;
 import com.jspxcms.core.domain.Site;
+import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.domain.SysSMS;
+import com.jspxcms.core.domain.SysShortUrl;
 import com.jspxcms.core.listener.SiteDeleteListener;
+import com.jspxcms.core.repository.SysDictDao;
 import com.jspxcms.core.repository.SysSMSDao;
+import com.jspxcms.core.repository.SysShortUrlDao;
 import com.jspxcms.core.service.SiteService;
 import com.jspxcms.core.service.SysSMSService;
 
@@ -37,7 +42,14 @@ import com.jspxcms.core.service.SysSMSService;
 @Transactional(readOnly = true)
 public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implements SysSMSService, SiteDeleteListener {
 
+    @Autowired  
     private SysSMSDao dao;
+
+    @Autowired  
+    private SysShortUrlDao sysShortUrlDao;
+
+    @Autowired  
+    private SysDictDao sysDictDao;
 
     @Resource(name="aliyunSMSUtils")
     private AliyunSMSUtils aliyunSMSUtils;
@@ -88,7 +100,11 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
         threadPoolTaskExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                SendSmsResponse response = aliyunSMSUtils.sendSMS_125116385(bean.getContact1Phone(), bean.getContact1(), bean.getId().toString(), bean.getSmsContent());
+                String shorId = "";
+                if(bean.getRefId() != null) {
+                    shorId = bean.getRefId().toString();
+                }
+                SendSmsResponse response = aliyunSMSUtils.sendSMS_125116385(bean.getContact1Phone(), bean.getContact1(), shorId, bean.getSmsContent());
                 dbBean.setMessage(response.getMessage());
                 dao.save(dbBean);
             }
@@ -104,5 +120,41 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
 
     @Override
     public void preSiteDelete(Integer[] ids) {
+    }
+
+    @Override
+    @Transactional
+    public void save(Sentiment bean) {
+        //生成一个跳转记录
+        SysShortUrl shortUrl = new SysShortUrl();
+        shortUrl.setCode("");
+        shortUrl.setCreateDatetime(bean.getCreateDatetime());
+        shortUrl.setSite(bean.getSite());
+        shortUrl.setTargetUrl(bean.getSentimentUrl());
+        sysShortUrlDao.save(shortUrl);
+        //下面产生一个短信发送记录
+        SysSMS smsBean = new SysSMS();
+        SysDict dbSysDict = sysDictDao.findOne(bean.getAreaId());
+        if(dbSysDict != null) {
+            smsBean.setAreaId(bean.getAreaId());
+            smsBean.setAreaName(dbSysDict.getLabel());
+        }
+        if(bean.getCustomer() != null) {
+            //联系人
+            smsBean.setContact1(bean.getCustomer().getContact1());
+            //联系人电话
+            smsBean.setContact1Phone(bean.getCustomer().getContact1Phone());
+            smsBean.setContact1Qq(bean.getCustomer().getContact1QQ());
+            smsBean.setCustomerId(bean.getCustomer().getId());
+            smsBean.setCustomerName(bean.getCustomer().getName());
+        }
+        smsBean.setCreateDatetime(bean.getCreateDatetime());
+        smsBean.setSite(bean.getSite());
+        //smsBean.setMessage(bean.getSmsContent()); 回调信息不用写
+        //跳转的id
+        smsBean.setRefId(shortUrl.getId());
+        //短信内容
+        smsBean.setSmsContent(bean.getSmsContent());
+        save(smsBean, bean.getSite().getId());
     }
 }
