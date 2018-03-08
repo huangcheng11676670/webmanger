@@ -88,7 +88,7 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
         threadPoolTaskExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                SendSmsResponse response = aliyunSMSUtils.sendSms(bean.getContact1Phone(), bean.getSmsContent());
+                SendSmsResponse response = aliyunSMSUtils.sendSMS_125116385(bean.getContact1Phone(), bean.getContact1(), bean.getId().toString(), bean.getSmsContent());
                 dbBean.setMessage(response.getMessage());
                 dao.save(dbBean);
             }

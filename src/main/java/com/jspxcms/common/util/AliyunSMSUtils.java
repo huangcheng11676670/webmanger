@@ -64,6 +64,7 @@ public class AliyunSMSUtils {
      * 尊敬的${name}领导,我们在${from}监测到一条舆情,内容概述${content}
      * @param phone
      * @param message
+     * @param from 短地址id
      * @return
      */
     public SendSmsResponse sendSMS_125116385(String phone, String name, String from, String content) {
@@ -99,6 +100,7 @@ public class AliyunSMSUtils {
         return null;
     }
     
+    @Deprecated
     public SendSmsResponse sendSms(String phone, String message) {
         //初始化acsClient,暂不支持region化
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", getAccessKeyId(), getAccessKeySecret());
@@ -137,6 +139,7 @@ public class AliyunSMSUtils {
         return null;
     }
 
+    @Deprecated
     public SendSmsResponse sendSms() throws ClientException {
         //可自助调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
