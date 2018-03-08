@@ -39,7 +39,9 @@ public class HtmlAnalysisUtils {
             }
             if(StringUtils.isNotBlank(favorite.getCommentNumPattern())){
                 String num = Collect.findFirst(webSiteHtml, favorite.getCommentNumPattern(), true);
-                bean.setCommentNum(Integer.valueOf(num));
+                if(StringUtils.isNotBlank(num)) {
+                    bean.setCommentNum(Integer.valueOf(num));
+                }
             }
             if(StringUtils.isNotBlank(favorite.getSummaryPattern())){
                 bean.setSummary(Collect.findFirst(webSiteHtml, favorite.getSummaryPattern(), true));

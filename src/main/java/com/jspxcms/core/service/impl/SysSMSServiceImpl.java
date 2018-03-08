@@ -22,12 +22,14 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.common.util.AliyunSMSUtils;
+import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Sentiment;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.domain.SysSMS;
 import com.jspxcms.core.domain.SysShortUrl;
 import com.jspxcms.core.listener.SiteDeleteListener;
+import com.jspxcms.core.repository.CustomerDao;
 import com.jspxcms.core.repository.SysDictDao;
 import com.jspxcms.core.repository.SysSMSDao;
 import com.jspxcms.core.repository.SysShortUrlDao;
@@ -44,6 +46,9 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
 
     @Autowired  
     private SysSMSDao dao;
+
+    @Autowired  
+    private CustomerDao customerDao;
 
     @Autowired  
     private SysShortUrlDao sysShortUrlDao;
@@ -140,13 +145,30 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
             smsBean.setAreaName(dbSysDict.getLabel());
         }
         if(bean.getCustomer() != null) {
-            //联系人
-            smsBean.setContact1(bean.getCustomer().getContact1());
-            //联系人电话
-            smsBean.setContact1Phone(bean.getCustomer().getContact1Phone());
-            smsBean.setContact1Qq(bean.getCustomer().getContact1QQ());
-            smsBean.setCustomerId(bean.getCustomer().getId());
-            smsBean.setCustomerName(bean.getCustomer().getName());
+            Customer dbCustomer = customerDao.getOne(bean.getCustomer().getId());
+            if(dbCustomer != null) {
+                if(bean.getSendSMSPhone().equalsIgnoreCase(dbCustomer.getContact1Phone())) {
+                    //联系人
+                    smsBean.setContact1(dbCustomer.getContact1());
+                    //联系人电话
+                    smsBean.setContact1Phone(dbCustomer.getContact1Phone());
+                    smsBean.setContact1Qq(dbCustomer.getContact1QQ());
+                }else if(bean.getSendSMSPhone().equalsIgnoreCase(dbCustomer.getContact2Phone())) {
+                    //联系人
+                    smsBean.setContact1(dbCustomer.getContact2());
+                    //联系人电话
+                    smsBean.setContact1Phone(dbCustomer.getContact2Phone());
+                    smsBean.setContact1Qq(dbCustomer.getContact2QQ());
+                }else if(bean.getSendSMSPhone().equalsIgnoreCase(dbCustomer.getContact3Phone())) {
+                    //联系人
+                    smsBean.setContact1(dbCustomer.getContact3());
+                    //联系人电话
+                    smsBean.setContact1Phone(dbCustomer.getContact3Phone());
+                    smsBean.setContact1Qq(dbCustomer.getContact3QQ());
+                }
+                smsBean.setCustomerId(dbCustomer.getId());
+                smsBean.setCustomerName(dbCustomer.getName());
+            }
         }
         smsBean.setCreateDatetime(bean.getCreateDatetime());
         smsBean.setSite(bean.getSite());

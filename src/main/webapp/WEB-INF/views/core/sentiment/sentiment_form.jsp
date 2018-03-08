@@ -265,7 +265,7 @@ function autogetinfo(){
     $bar.addClass('animate');
     
     $.getJSON("autogetinfo.do", { favoriteId: ${favorite.id}, url: $("#sentimentUrl").val() },function(json){
-        if(json.status){
+        if(json.status && json.result){
            $("#sentimentTitle").val(json.result.sentimentTitle);
            $("#smsContent").val(json.result.sentimentTitle);
            $("#contentCreateTime").val(json.result.contentCreateTime);
