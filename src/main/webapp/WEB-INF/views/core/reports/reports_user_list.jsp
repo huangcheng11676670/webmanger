@@ -166,7 +166,7 @@ option_bar1 = {
         trigger: 'axis'
     },
     legend: {
-        data:['单位分钟']
+        data:['浏览分钟数']
     },
     toolbox: {
         show : true,
@@ -192,7 +192,7 @@ option_bar1 = {
     ],
     series : [
         {
-            name:'浏览时长',
+            name:'浏览分钟数',
             type:'bar',
             data:[],
             markPoint : {
