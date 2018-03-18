@@ -113,9 +113,12 @@ public class SysFavoriteServiceImpl extends BaseServiceImpl<SysFavorite, Integer
     }
 
     @Transactional
-    public void save(SysFavorite bean, Integer siteId) {
+    public void save(SysFavorite bean, Integer siteId, Integer customerId) {
         Site site = siteService.get(siteId);
         bean.setSite(site);
+        if(customerId != null) {
+            bean.setCustomer(customerService.get(customerId));
+        }
         bean = dao.save(bean);
     }
 

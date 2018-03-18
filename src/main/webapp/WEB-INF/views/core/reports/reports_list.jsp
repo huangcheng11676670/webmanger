@@ -15,7 +15,7 @@
 </head>
 <body class="skin-blue content-body">
     <div class="content-header">
-        <h1>后台首页</h1>
+        <h1>统计分析</h1>
     </div>
     <div class="content">
         <ul class="nav nav-tabs">
@@ -33,12 +33,7 @@
                         <h3 class="box-title">舆情数量统计</h3>
                         </div>
                         <div class="form-group">
-                        <select class="form-control input-sm" id="areaId_select" name="areaId_select" onchange="showSchool();">
-                            <c:forEach var="attr" items="${areaList}">
-                              <c:set var="idstr">${attr.id}</c:set>
-                              <option value="${attr.id}">${attr.label}</option>
-                              </c:forEach>
-                        </select>
+                        <input type="text" id="areaId_select" value="${search_EQ_areaId_Integer[0]}" name="areaId_select" class="myselectstyle">
                         </div>
                         <div class="form-group">
                             <select class="form-control input-sm" style="min-width: 200px;" id="school_select" name="school_select">
@@ -67,12 +62,7 @@
                         <h3 class="box-title">舆情分布统计</h3>
                         </div>
                         <div class="form-group">
-                        <select class="form-control input-sm" id="areaId_select_pie" onchange="showSchool_pie();">
-                            <c:forEach var="attr" items="${areaList}">
-                              <c:set var="idstr">${attr.id}</c:set>
-                              <option value="${attr.id}">${attr.label}</option>
-                              </c:forEach>
-                        </select>
+                        <input type="text" id="areaId_select_pie" value="${search_EQ_areaId_Integer[0]}" name="areaId_select" class="myselectstyle">
                         </div>
                         <div class="form-group">
                             <select class="form-control input-sm" style="min-width: 200px;" id="school_select_pie">
@@ -355,6 +345,8 @@ function searchReport_bar() {
 //柱状图结束
 $(function() {
     $(".btn").on("click",function(){var b=$(this);b.button("loading..."),setTimeout(function(){b.button("reset")}, 5000)});
+    $("#areaId_select_pie").myselect(showSchool_pie);
+    $("#areaId_select").myselect(showSchool);
 });
 </script>
 </div>

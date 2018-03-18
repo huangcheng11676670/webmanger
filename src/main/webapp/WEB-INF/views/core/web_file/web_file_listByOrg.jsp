@@ -158,7 +158,7 @@ parent.frames['left'].reload();
   </form>
 </div>
 <div class="content-header">
-    <h1><s:message code="webFile${type}.management"/> - <s:message code="list"/> - ${parentId} <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
+    <h1><s:message code="webFile${type}.management"/> - <s:message code="list"/> - ${parentId}</h1>
 </div>
 <div class="content">
     <div class="box box-primary">

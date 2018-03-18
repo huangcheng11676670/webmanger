@@ -81,17 +81,7 @@ function confirmDelete() {
                         <label class="col-sm-2 control-label"><em class="required">*</em>区域</label>
                         <div class="col-sm-5">
                             <input type="hidden" id="areaName" name="areaName" value="${bean.areaName}"/>
-                            <select class="form-control input-sm" id="areaId" name="areaId" onchange="showSchool();">
-                                <c:forEach var="attr" items="${areaList}">
-                                  <c:set var="idstr">${attr.id}</c:set>
-                                  <option value="${attr.id}"  <c:if test="${attr.id == bean.areaId}">selected="selected" </c:if>>
-                                 <c:choose>
-                                     <c:when test="${ fn:length(attr.treeNumber) == 14}">&#8711;</c:when>
-                                     <c:when test="${ fn:length(attr.treeNumber) == 19}">&emsp;&emsp;</c:when>
-                                   </c:choose>
-                                  ${attr.label}</option>
-                                  </c:forEach>
-                            </select>
+                            <input type="text" id="areaId" value="${bean.areaId}" name="areaId" class="myselectstyle">
                         </div>
                         <div class="col-sm-5">
                         <input type="hidden" id="customerName" name="customerName" value="${bean.customerName}"/>
@@ -157,7 +147,8 @@ function confirmDelete() {
     </div>
 </div>
 <script type="text/javascript">
-function showSchool() {
+function showSchool(treeNode) {
+    $("#areaName").val(treeNode.name);
     $.getJSON("../customer/customerAllList.do", { areaid: $("#areaId").val()}, function(json){
          if(json && json.length > 0){
              var htmlString = "<option value=''>选择学校</option>";
@@ -169,8 +160,6 @@ function showSchool() {
             $("#customerId").html("");
          }
     });
-    var areaName = $("#areaId").find("option:selected").html();
-    $("#areaName").val(areaName);
 }
 function selectcontract() {
     var contractPhone = $("#contact1").find("option:selected").attr("phone");
@@ -202,6 +191,9 @@ function showContact() {
         }
     }
 }
+$(document).ready(function() {
+    $("#areaId").myselect(showSchool);
+});
 </script>
 </body>
 </html>

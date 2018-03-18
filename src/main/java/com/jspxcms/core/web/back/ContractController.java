@@ -108,9 +108,9 @@ public class ContractController {
 
     @RequiresPermissions("core:contract:save")
     @RequestMapping("save.do")
-    public String save(Contract bean, String redirect, HttpServletRequest request, RedirectAttributes ra) {
+    public String save(Contract bean, String redirect,  Integer customerId, HttpServletRequest request, RedirectAttributes ra) {
         Integer siteId = Context.getCurrentSiteId();
-        service.save(bean, siteId);
+        service.save(bean, siteId,  customerId);
         logService.operation("opr.Contract.add", bean.getContractCode(), null, bean.getId(), request);
         logger.info("save Contract, title={}.", bean.getContractCode());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);

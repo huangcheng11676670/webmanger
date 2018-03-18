@@ -15,7 +15,7 @@
 </head>
 <body class="skin-blue content-body">
     <div class="content-header">
-        <h1>后台首页</h1>
+        <h1>统计分析</h1>
     </div>
     <div class="content">
         <ul class="nav nav-tabs">
@@ -33,12 +33,7 @@
                         <h3 class="box-title">销售业绩统计</h3>
                         </div>
                         <div class="form-group">
-                        <select class="form-control input-sm" id="areaId_select_bar">
-                            <c:forEach var="attr" items="${areaList}">
-                              <c:set var="idstr">${attr.id}</c:set>
-                              <option value="${attr.id}">${attr.label}</option>
-                              </c:forEach>
-                        </select>
+                        <input type="text" id="areaId_select_bar" class="myselectstyle">
                         </div>
                         <div class="form-group">
                         <input class="form-control input-sm" type="text"  id="search_createTime_Date_bar" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd', isShowToday: false, isShowClear: false, maxDate:'#F{$dp.$D(\'search_endTime_Date_bar\')}'});" />
@@ -125,6 +120,7 @@ function searchReport_bar() {
 //柱状图结束
 $(function() {
     $(".btn").on("click",function(){var b=$(this);b.button("loading..."),setTimeout(function(){b.button("reset")}, 5000)});
+    $("#areaId_select_bar").myselect();
 });
 </script>
 </div>

@@ -23,7 +23,7 @@ public interface ContractService extends IBaseService<Contract, Integer>{
     
     public void update(Contract bean, Integer siteId, Integer sysDictTypeId, Integer customerId);
 
-    public void save(Contract bean, Integer siteId);
+    public void save(Contract bean, Integer siteId, Integer customerId);
     /**
      * 每月新增合同数
      * @param searchMonth 格式为yyyy-MM

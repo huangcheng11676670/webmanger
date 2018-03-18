@@ -72,12 +72,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">地区</label>
                         <div class="col-sm-8">
-                            <select class="form-control input-sm" id="areaId_select" name="areaId_select" onchange="showSchool();">
-                                <c:forEach var="attr" items="${areaList}">
-                                  <c:set var="idstr">${attr.id}</c:set>
-                                  <option value="${attr.id}">${attr.label}</option>
-                                </c:forEach>
-                            </select>
+                            <input type="text" id="areaId_select" value="${bean.customer.areaId}" name="areaId_select" class="myselectstyle">
                         </div>
                     </div>
                 </div>
@@ -85,8 +80,8 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><em class="required">*</em>所属客户</label>
                         <div class="col-sm-8">
-                            <select class="form-control" name="customer.id" id="school_select">
-                                  <option value="${bean.customer.id}">${bean.customer.name}</option>
+                            <select class="form-control input-sm" id="customer_select" name="customerId">
+                                <option value="${bean.customer.id}" selected="selected">${bean.customer.name}</option>
                             </select>
                         </div>
                     </div>
@@ -212,6 +207,7 @@
 $(function() {
     $("#validForm").validate();
     $("input[name='name']").focus();
+    $("#areaId_select").myselect(showSchool);
 });
 function confirmDelete() {
     return confirm("<s:message code='confirmDelete'/>");
@@ -228,9 +224,9 @@ function showSchool() {
                 $.each(json, function(index, domEle) {
                 htmlString += "<option value='"+domEle.id+"'>"+domEle.schoolName+"</option>";
             });
-          $("#school_select").html(htmlString);
+          $("#customer_select").html(htmlString);
          }else{
-            $("#school_select").html("");
+            $("#customer_select").html("");
          }
          $bar.removeClass('animate');
          $modal.modal('hide');

@@ -47,7 +47,7 @@ function optDelete(form) {
 <body class="skin-blue content-body">
 <jsp:include page="/WEB-INF/views/commons/show_message.jsp"/>
 <div class="content-header">
-    <h1><s:message code="sms.management"/> - <s:message code="list"/> <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
+    <h1><s:message code="sms.management"/> - <s:message code="list"/></h1>
 </div>
 <div class="content">
     <div class="box box-primary">
@@ -55,18 +55,7 @@ function optDelete(form) {
             <form class="form-inline ls-search" action="list.do" method="get">
                 <div class="form-group">
                   <label for="search_EQ_areaId_Integer">区域</label>
-                <select class="form-control input-sm" id="search_EQ_areaId_Integer" name="search_EQ_areaId_Integer" onchange="showSchool();">
-                    <option value="" ><s:message code="allSelect"/></option>
-                    <c:forEach var="attr" items="${areaList}">
-                      <c:set var="idstr">${attr.id}</c:set>
-                      <option value="${attr.id}"<c:if test="${idstr eq search_EQ_areaId_Integer[0]}"> selected="selected"</c:if>>
-                      <c:choose>
-                         <c:when test="${ fn:length(attr.treeNumber) == 14}">&#8711;</c:when>
-                         <c:when test="${ fn:length(attr.treeNumber) == 19}">&emsp;&emsp;</c:when>
-                       </c:choose>
-                      ${attr.label}</option>
-                      </c:forEach>
-                </select>
+                  <input type="text" id="search_EQ_areaId_Integer" value="${search_EQ_areaId_Integer[0]}" name="search_EQ_areaId_Integer" class="myselectstyle">
                 </div>
                 <div class="form-group">
                   <label for="search_EQ_customer.id">学校列表</label>
@@ -152,5 +141,8 @@ function showSchool() {
          }
     });
 }
+$(document).ready(function() {
+    $("#search_EQ_areaId_Integer").myselect(showSchool);
+});
 </script>
 </html>

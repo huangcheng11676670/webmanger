@@ -24,7 +24,9 @@ $.fn.myselect = function(myonClick){
                     $("#"+inputID+"_tree_div").hide()
                     $("#"+inputID+"_label").val(treeNode.name);
                     $("#"+inputID).val(treeNode.id);
-                    myonClick();
+                    if( myonClick ){
+                        myonClick(treeNode);
+                    }
                 }
             },
         };

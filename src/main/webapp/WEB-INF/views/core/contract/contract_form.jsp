@@ -76,20 +76,10 @@ function confirmDelete() {
                     <div class="form-group">
                         <label class="col-sm-2 control-label"><em class="required">*</em>客户名称</label>
                         <div class="col-sm-5">
-                            <select class="form-control input-sm" id="areaId" name="areaId" onchange="showSchool();">
-                                <c:forEach var="attr" items="${areaList}">
-                                  <c:set var="idstr">${attr.id}</c:set>
-                                  <option value="${attr.id}"  <c:if test="${attr.id == bean.areaId}">selected="selected" </c:if>>
-                                 <c:choose>
-                                     <c:when test="${ fn:length(attr.treeNumber) == 14}">&#8711;</c:when>
-                                     <c:when test="${ fn:length(attr.treeNumber) == 19}">&emsp;&emsp;</c:when>
-                                   </c:choose>
-                                  ${attr.label}</option>
-                                  </c:forEach>
-                            </select>
+                            <input type="text" id="areaId" value="${bean.areaId}" name="areaId" class="myselectstyle">
                         </div>
                         <div class="col-sm-5">
-                        <select class="form-control" name="customerId" id="customer_select" >
+                        <select class="form-control input-sm" id="customer_select" name="customerId">
                             <option value="${bean.customer.id}" selected="selected">${bean.customer.name}</option>
                         </select>
                         </div>
@@ -107,7 +97,7 @@ function confirmDelete() {
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label"><em class="required">*</em>合同金额</label>
+                        <label class="col-sm-4 control-label"><em class="required">*</em>合同金额(万)</label>
                         <div class="col-sm-8">
                             <f:text name="contractMoney" value="${oprt=='edit' || oprt=='create' ? bean.contractMoney : ''}" class="form-control required"/>
                         </div>
@@ -167,6 +157,9 @@ function showSchool() {
          }
     });
 }
+$(document).ready(function() {
+    $("#areaId").myselect(showSchool);
+});
 </script>
 </body>
 </html>

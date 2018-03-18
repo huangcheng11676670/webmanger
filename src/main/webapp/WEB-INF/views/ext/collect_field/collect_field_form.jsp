@@ -31,7 +31,7 @@ function checkControl(name,checked) {
 <body class="skin-blue content-body">
 <jsp:include page="/WEB-INF/views/commons/show_message.jsp"/>
 <div class="content-header">
-	<h1><s:message code="collect.management"/> - <s:message code="collect.fieldCreate"/> - ${collect.name} <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
+	<h1><s:message code="collect.management"/> - <s:message code="collect.fieldCreate"/> - ${collect.name}</h1>
 </div>
 
 <div class="content">

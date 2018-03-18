@@ -15,7 +15,7 @@
 </head>
 <body class="skin-blue content-body">
     <div class="content-header">
-        <h1>后台首页</h1>
+        <h1>统计分析</h1>
     </div>
     <div class="content">
         <ul class="nav nav-tabs">

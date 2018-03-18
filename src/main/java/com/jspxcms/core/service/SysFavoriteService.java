@@ -17,7 +17,7 @@ import com.jspxcms.ext.dto.CommentListDto;
  */
 public interface SysFavoriteService extends IBaseService<SysFavorite, Integer>{
 
-    void save(SysFavorite bean, Integer siteId);
+    void save(SysFavorite bean, Integer siteId, Integer customerId);
     
     public List<SysFavorite> findList(Integer siteId, Map<String, String[]> params, Sort sort);
     

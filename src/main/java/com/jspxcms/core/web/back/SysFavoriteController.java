@@ -91,8 +91,8 @@ public class SysFavoriteController {
         }
         List<SysDict> dictList = sysDictService.findListByType(SysDict.FAVORITE_TYPE);
         modelMap.addAttribute("favoriteTypeList", dictList);
-        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+/*        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);*/
 /*        List<Customer> dbCustomerList = customerService.findList(siteId);
         modelMap.addAttribute("customerList", dbCustomerList);*/
         modelMap.addAttribute(OPRT, CREATE);
@@ -117,9 +117,9 @@ public class SysFavoriteController {
 
     @RequiresPermissions("core:sysfavorite:save")
     @RequestMapping("save.do")
-    public String save(SysFavorite bean, String redirect, HttpServletRequest request, RedirectAttributes ra) {
+    public String save(SysFavorite bean, Integer customerId, String redirect, HttpServletRequest request, RedirectAttributes ra) {
         Integer siteId = Context.getCurrentSiteId();
-        service.save(bean, siteId);
+        service.save(bean, siteId, customerId);
         logService.operation("opr.sysfavorite.add", bean.getFavoriteName(), null, bean.getId(), request);
         logger.info("save SysFavorite, title={}.", bean.getFavoriteName());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);

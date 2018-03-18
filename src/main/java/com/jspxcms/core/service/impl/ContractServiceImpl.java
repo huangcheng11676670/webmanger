@@ -27,7 +27,6 @@ import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.core.domain.Contract;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.dto.ReportContractDto;
-import com.jspxcms.core.dto.ReportCountAndIdDto;
 import com.jspxcms.core.dto.ReportUserSentimentDto;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.ContractDao;
@@ -91,9 +90,12 @@ public class ContractServiceImpl extends BaseServiceImpl<Contract, Integer> impl
     }
 
     @Transactional
-    public void save(Contract bean, Integer siteId) {
+    public void save(Contract bean, Integer siteId, Integer customerId) {
         Site site = siteService.get(siteId);
         bean.setSite(site);
+        if(customerId != null) {
+            bean.setCustomer(customerService.get(customerId));
+        }
         bean = dao.save(bean);
     }
 

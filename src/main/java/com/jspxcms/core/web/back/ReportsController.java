@@ -61,8 +61,8 @@ public class ReportsController {
     @RequiresPermissions("core:reports:list")
     @RequestMapping("list.do")
     public String list(Model modelMap) {
-        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+/*        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);*/
         return "core/reports/reports_list";
     }
 
@@ -168,8 +168,8 @@ public class ReportsController {
     @RequiresPermissions("core:reports:list")
     @RequestMapping("saleList.do")
     public String saleList(Model modelMap) {
-        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+/*        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);*/
         return "core/reports/reports_sale_list";
     }
     

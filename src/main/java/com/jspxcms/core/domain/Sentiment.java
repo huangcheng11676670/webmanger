@@ -28,8 +28,14 @@ public class Sentiment implements Siteable, java.io.Serializable {
     private String sentimentTitle;
     private String sentimentUrl;
     private User user;
+    /**
+     * 舆情等级
+     */
     private Integer infoLevel;
     private String infoLevelShow;
+    /**
+     * 舆情分类
+     */
     private Integer infoType;
     private String infoTypeShow;
     private Date createDatetime;
@@ -43,6 +49,9 @@ public class Sentiment implements Siteable, java.io.Serializable {
     private String contentCreateTime;
     private Integer relayNum;
     private Integer commentNum;
+    /**
+     * 舆情摘要
+     */
     private String summary;
     private String smsContent;
     private Boolean sendSMS;

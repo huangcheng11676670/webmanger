@@ -54,7 +54,7 @@ function optDelete(form) {
 <body class="skin-blue content-body">
 <jsp:include page="/WEB-INF/views/commons/show_message.jsp"/>
 <div class="content-header">
-	<h1><s:message code="model.management"/> - <s:message code="model.type.${queryType}"/> - <s:message code="list"/> <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
+	<h1><s:message code="model.management"/> - <s:message code="model.type.${queryType}"/> - <s:message code="list"/></h1>
 </div>
 <div class="content">
 	<div class="box box-primary">

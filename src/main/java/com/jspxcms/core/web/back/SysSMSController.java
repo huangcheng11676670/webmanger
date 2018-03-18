@@ -28,12 +28,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
-import com.jspxcms.core.domain.SysSMS;
 import com.jspxcms.core.domain.Site;
-import com.jspxcms.core.domain.SysDict;
-import com.jspxcms.core.service.SysSMSService;
+import com.jspxcms.core.domain.SysSMS;
 import com.jspxcms.core.service.OperationLogService;
 import com.jspxcms.core.service.SysDictService;
+import com.jspxcms.core.service.SysSMSService;
 import com.jspxcms.core.support.Backends;
 import com.jspxcms.core.support.Context;
 
@@ -67,8 +66,8 @@ public class SysSMSController {
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
         Page<SysSMS> pagedList = service.findPage(siteId, params, pageable);
         modelMap.addAttribute("pagedList", pagedList);
-        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+/*        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);*/
         return "core/sms/sms_list";
     }
 
@@ -83,8 +82,8 @@ public class SysSMSController {
         }
 /*        List<Customer> dbCustomerList = customerService.findList(siteId);
         modelMap.addAttribute("customerList", dbCustomerList);*/
-        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+/*        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);*/
         modelMap.addAttribute(OPRT, CREATE);
         return "core/sms/sms_form";
     }
@@ -99,8 +98,8 @@ public class SysSMSController {
         modelMap.addAttribute("bean", bean);
        /* List<Customer> dbCustomerList = customerService.findList(siteId);
         modelMap.addAttribute("customerList", dbCustomerList);*/
-        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+/*        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);*/
         modelMap.addAttribute(OPRT, EDIT);
         return "core/sms/sms_form";
     }

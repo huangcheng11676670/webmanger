@@ -60,7 +60,7 @@ function optDelete(form) {
 <body class="skin-blue content-body">
 <jsp:include page="/WEB-INF/views/commons/show_message.jsp"/>
 <div class="content-header">
-	<h1><s:message code="visitLog.deviceAnalysis"/> <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
+	<h1><s:message code="visitLog.deviceAnalysis"/></h1>
 </div>
 <div class="content">
 	<div class="box box-primary">

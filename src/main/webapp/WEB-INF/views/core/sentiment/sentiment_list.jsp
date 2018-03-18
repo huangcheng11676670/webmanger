@@ -47,7 +47,7 @@ function optDelete(form) {
 <body class="skin-blue content-body">
 <jsp:include page="/WEB-INF/views/commons/show_message.jsp"/>
 <div class="content-header">
-    <h1><s:message code="sentiment.management"/> - <s:message code="list"/> <small>(<s:message code="totalElements" arguments="${fn:length(list)}"/>)</small></h1>
+    <h1><s:message code="sentiment.management"/> - <s:message code="list"/></h1>
 </div>
 <div class="content">
     <div class="box box-primary">
@@ -55,18 +55,18 @@ function optDelete(form) {
             <form class="form-inline ls-search" action="list.do" method="get">
                 <div class="form-group">
                   <label>关键字</label>
-                  <input class="form-control input-sm" type="text" name="search_CONTAIN_contractCode" value="${search_CONTAIN_contractCode[0]}"/>
+                  <input class="form-control input-sm" type="text" name="search_CONTAIN_summary" value="${search_CONTAIN_summary[0]}"/>
                 </div>
                 <div class="form-group">
                   <label>开始时间</label>
-                  <input class="form-control input-sm" type="text" id="search_GTE_contractCreateTime_Date" name="search_GTE_contractCreateTime_Date" value="${search_GTE_contractCreateTime_Date[0]}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                  <input class="form-control input-sm" type="text" id="search_GTE_createDatetime_Date" name="search_GTE_createDatetime_Date" value="${search_GTE_createDatetime_Date[0]}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
                 </div>
                 <div class="form-group">
                   <label>截止时间</label>
-                  <input class="form-control input-sm" type="text" id="search_GTE_contractEndTime_Date" name="search_LTE_contractEndTime_Date" value="${search_LTE_contractEndTime_Date[0]}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'search_GTE_contractCreateTime_Date\')}'});"/>
+                  <input class="form-control input-sm" type="text" id="search_GTE_createDatetime_Date" name="search_LTE_createDatetime_Date" value="${search_LTE_createDatetime_Date[0]}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'search_GTE_createDatetime_Date\')}'});"/>
                 </div>
                 <div class="form-group">
-                  <label for="search_EQ_infoType_Integer">投诉</label>
+                  <label for="search_EQ_infoType_Integer">舆情分类</label>
                 <select class="form-control input-sm" id="search_EQ_infoType_Integer" name="search_EQ_infoType_Integer">
                     <option value="" ><s:message code="allSelect"/></option>
                     <c:forEach var="attr" items="${infoTypelList}">
