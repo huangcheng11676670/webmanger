@@ -65,25 +65,8 @@ function optDelete(form) {
                 </select>
                 </div>
                 <div class="form-group">
-                  <label for="search_EQ_areaId">区域</label>
-                    <c:set var="areaName"><c:choose><c:when test="${empty area}">选择地区</c:when><c:otherwise><c:out value="${area.label}"/></c:otherwise></c:choose></c:set>
-                    <f:hidden id="search_EQ_areaId" name="search_EQ_areaId" value="${search_EQ_areaId[0]}"/>
-                    <div class="input-group">
-                        <f:text class="form-control" id="search_EQ_areaIdName" value="${areaName}" readonly="readonly"/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" id="search_EQ_areaIdButton" type="button" style="margin-top: 0px;"><s:message code='choose'/></button>
-                        </span>
-                    </div>
-                    <script type="text/javascript">
-                    $(function(){
-                        Cms.f7.area("search_EQ_areaId","areaName",{
-                            settings: {"title": "选择地区"},
-                            params: {
-                                "treeNumber": "0000"
-                            }
-                        });
-                    });
-                    </script>
+                  <label for="areaId">区域</label>
+                    <input type="text" id="search_EQ_areaId_Integer" value="${search_EQ_areaId_Integer[0]}" name="search_EQ_areaId_Integer" class="myselectstyle">
                 </div>
               <button class="btn btn-default btn-sm" type="submit"><s:message code="search"/></button>
             </form>
@@ -170,4 +153,9 @@ function optDelete(form) {
     </div>
 </div>
 </body>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#search_EQ_areaId_Integer").myselect();
+});
+</script>
 </html>

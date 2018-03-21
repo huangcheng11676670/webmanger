@@ -157,12 +157,12 @@ public class SysFavoriteController {
     @RequiresPermissions("core:sysfavorite:delete")
     @RequestMapping("delete.do")
     public String delete(Integer[] ids, HttpServletRequest request, RedirectAttributes ra) {
-       /* SysFavorite[] beans = service.delete(ids);
+        List<SysFavorite> beans = service.delete(ids);
         for (SysFavorite bean : beans) {
-            logService.operation("opr.sysfavorite_group.delete", bean.getValue(), null, bean.getId(), request);
-            logger.info("delete SysFavorite, title={}.", bean.getValue());
+            logService.operation("opr.sysfavorite_group.delete", bean.getFavoriteName(), null, bean.getId(), request);
+            logger.info("delete SysFavorite, title={}.", bean.getFavoriteName());
         }
-        ra.addFlashAttribute(MESSAGE, DELETE_SUCCESS);*/
+        ra.addFlashAttribute(MESSAGE, Constants.DELETE_SUCCESS);
         return "redirect:list.do";
     }
     

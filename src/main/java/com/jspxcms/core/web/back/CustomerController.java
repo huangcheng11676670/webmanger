@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +34,6 @@ import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.dto.SchoolListDto;
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
-import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.support.Backends;
 import com.jspxcms.core.support.Context;
 
@@ -53,9 +51,6 @@ public class CustomerController {
     @Autowired
     private CustomerService service;
 
-    @Autowired
-    private SysDictService sysDictService;
-
     @ModelAttribute("bean")
     public Customer preloadBean(@RequestParam(required = false) Integer oid) {
         return oid != null ? service.get(oid) : null;
@@ -64,16 +59,16 @@ public class CustomerController {
     @RequiresPermissions("core:customer:list")
     @RequestMapping("list.do")
     public String list(@PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable,
-            HttpServletRequest request, org.springframework.ui.Model modelMap) {
+           HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
         Page<Customer> pagedList = service.findPage(siteId, params, pageable);
         modelMap.addAttribute("pagedList", pagedList);
 /*        List<SysDict> dictList = sysDictService.findAreaListByTree("0000");
         modelMap.addAttribute("dictList", dictList);*/
-        if(params.get("EQ_areaId") != null && params.get("EQ_areaId").length > 0 && StringUtils.isNotBlank(params.get("EQ_areaId")[0])) {
+/*        if(params.get("EQ_areaId") != null && params.get("EQ_areaId").length > 0 && StringUtils.isNotBlank(params.get("EQ_areaId")[0])) {
             modelMap.addAttribute("area",  sysDictService.get(Integer.valueOf(params.get("EQ_areaId")[0])));
-        }
+        }*/
         return "core/customer/customer_list";
     }
 
@@ -98,16 +93,16 @@ public class CustomerController {
         Customer bean = service.get(id);
         Backends.validateDataInSite(bean, siteId);
         modelMap.addAttribute("bean", bean);
-        modelMap.addAttribute("area",  sysDictService.get(bean.getAreaId()));
+        modelMap.addAttribute("area", bean.getArea());// sysDictService.get(bean.getAreaId()));
         modelMap.addAttribute(OPRT, EDIT);
         return "core/customer/customer_form";
     }
 
     @RequiresPermissions("core:customer:save")
     @RequestMapping("save.do")
-    public String save(Customer bean, String redirect, HttpServletRequest request, RedirectAttributes ra) {
+    public String save(Customer bean, Integer areaId, String redirect, HttpServletRequest request, RedirectAttributes ra) {
         Integer siteId = Context.getCurrentSiteId();
-        service.save(bean, siteId);
+        service.save(bean, siteId, areaId);
         logService.operation("opr.Customer.add", bean.getName(), null, bean.getId(), request);
         logger.info("save Customer, title={}.", bean.getName());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);
@@ -124,10 +119,11 @@ public class CustomerController {
     @RequiresPermissions("core:customer:update")
     @RequestMapping("update.do")
     public String update(@ModelAttribute("bean") Customer bean, Integer position, String redirect,
+            Integer areaId,
             HttpServletRequest request, RedirectAttributes ra) {
         Site site = Context.getCurrentSite();
         Backends.validateDataInSite(bean, site.getId());
-        service.update(bean);
+        service.update(bean, areaId);
         logService.operation("opr.customer.edit", bean.getName(), null, bean.getId(), request);
         logger.info("update CustomerGroup, title={}.", bean.getName());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);
@@ -143,12 +139,12 @@ public class CustomerController {
     @RequiresPermissions("core:customer:delete")
     @RequestMapping("delete.do")
     public String delete(Integer[] ids, HttpServletRequest request, RedirectAttributes ra) {
-       /* Customer[] beans = service.delete(ids);
+       List<Customer> beans = service.delete(ids);
         for (Customer bean : beans) {
-            logService.operation("opr.Customer_group.delete", bean.getValue(), null, bean.getId(), request);
-            logger.info("delete Customer, title={}.", bean.getValue());
+            logService.operation("opr.Customer_group.delete", bean.getName(), null, bean.getId(), request);
+            logger.info("delete Customer, name={}.", bean.getName());
         }
-        ra.addFlashAttribute(MESSAGE, DELETE_SUCCESS);*/
+        ra.addFlashAttribute(MESSAGE, Constants.DELETE_SUCCESS);
         return "redirect:list.do";
     }
     

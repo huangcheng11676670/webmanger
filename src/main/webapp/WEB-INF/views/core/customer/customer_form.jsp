@@ -83,24 +83,7 @@ function confirmDelete() {
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><em class="required">*</em>地区id</label>
                         <div class="col-sm-8">
-                                <c:set var="areaName"><c:choose><c:when test="${empty area}">中国</c:when><c:otherwise><c:out value="${area.label}"/></c:otherwise></c:choose></c:set>
-                                <f:hidden id="areaId" name="areaId" value="${bean.areaId}"/>
-                                <div class="input-group">
-                                    <f:text class="form-control" id="areaIdName" value="${areaName}" readonly="readonly"/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" id="areaIdButton" type="button"><s:message code='choose'/></button>
-                                    </span>
-                                </div>
-                                <script type="text/javascript">
-                                $(function(){
-                                    Cms.f7.area("areaId","areaName",{
-                                        settings: {"title": "选择地区"},
-                                        params: {
-                                            "treeNumber": "0000"
-                                        }
-                                    });
-                                });
-                                </script>
+                                <input type="text" id="areaId" value="${bean.area.id}" name="areaId" class="myselectstyle required">
                         </div>
                     </div>
                 </div>
@@ -286,5 +269,10 @@ function confirmDelete() {
         </form>
     </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#areaId").myselect();
+});
+</script>
 </body>
 </html>

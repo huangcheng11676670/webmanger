@@ -149,7 +149,7 @@ public class SentimentController {
         if(favorite != null) {
             modelMap.addAttribute("favorite", favorite);
             Sentiment bean = new Sentiment();
-            bean.setAreaId(favorite.getCustomer().getAreaId());
+            bean.setAreaId(favorite.getCustomer().getArea().getId());
             bean.setFavoriteId(favoriteId);
             bean.setCustomer(favorite.getCustomer());
             modelMap.addAttribute("bean", bean);

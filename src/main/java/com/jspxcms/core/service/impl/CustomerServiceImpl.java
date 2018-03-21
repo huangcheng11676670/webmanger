@@ -20,8 +20,10 @@ import com.jspxcms.common.orm.SearchFilter;
 import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Site;
+import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.CustomerDao;
+import com.jspxcms.core.repository.SysDictDao;
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.SiteService;
 
@@ -34,6 +36,9 @@ import com.jspxcms.core.service.SiteService;
 public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> implements CustomerService, SiteDeleteListener {
 
     private CustomerDao dao;
+    
+    @Autowired
+    private SysDictDao sysDictDao;
     
     @Autowired
     public void setDao(CustomerDao dao) {
@@ -56,11 +61,21 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> impl
     private Specification<Customer> spec(final Integer siteId, Map<String, String[]> params) {
         /*Collection<SearchFilter> filters = SearchFilter.parse(params).values();
         final Specification<Customer> fsp = SearchFilter.spec(filters, Customer.class);*/
+        
         Specification<Customer> sp = new Specification<Customer>() {
             public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Integer areaId = null;
+                if(params.get("EQ_areaId_Integer")  !=  null) {
+                    areaId =Integer.valueOf((String)params.get("EQ_areaId_Integer")[0]);
+                    params.remove("EQ_areaId_Integer");
+                }
                 Predicate pred = SearchFilter.buildSpecification(params, Customer.class).toPredicate(root, query, cb);
                 if (siteId != null) {
                     pred = cb.and(pred, cb.equal(root.get("site").<Integer>get("id"), siteId));
+                }
+                if(areaId != null) {
+                    SysDict dbSysDict = sysDictDao.findOne(areaId);
+                    pred = cb.like(root.join("area").get("treeNumber").as(String.class), dbSysDict.getTreeNumber()+"%");
                 }
                 return pred;
             }
@@ -101,8 +116,12 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> impl
     }
 
     @Transactional
-    public void save(Customer bean, Integer siteId) {
+    public void save(Customer bean, Integer siteId, Integer areaId) {
         Site site = siteService.get(siteId);
+        if(areaId != null) {
+            bean.setArea(sysDictDao.findOne(areaId));
+        }
+        bean.setStatus(Customer.NORMAL_STATUS);
         bean.setSite(site);
         bean = dao.save(bean);
     }
@@ -115,5 +134,13 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> impl
     @Override
     public Long countCustomer() {
         return dao.countByStatus();
+    }
+
+    @Override
+    public void update(Customer bean, Integer areaId) {
+        if(areaId != null) {
+            bean.setArea(sysDictDao.findOne(areaId));
+        }
+        dao.save(bean);
     }
 }

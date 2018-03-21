@@ -23,13 +23,29 @@ public class Customer implements Siteable, java.io.Serializable {
     private String name;
     private String webUrl;
     private String weixinName;
-    private Integer areaId;
+    private SysDict area;
+    //private Integer areaId;
     private String code;
     /**
      * 是否回款
      */
     private Boolean clearance;
     private String remarks;
+    /**
+     * 状态
+     * 0:正常
+     */
+    public static final Integer NORMAL_STATUS = 0;
+    /**
+     * 状态
+     * 1:锁定,
+     */
+    public static final Integer LOCK_STATUS = 1;
+    /**
+     * 状态
+     * 2:待验证
+     */
+    public static final Integer WAIT_STATUS = 2;
     private Integer status;
     private Site site;
     
@@ -90,15 +106,25 @@ public class Customer implements Siteable, java.io.Serializable {
     public void setWeixinName(String weixinName) {
         this.weixinName = weixinName;
     }
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "f_area_id", nullable = false)
+    public SysDict getArea() {
+        return this.area;
+    }
+    
+    public void setArea(SysDict area) {
+        this.area = area;
+    }
 
-    @Column(name = "f_area_id", nullable = false)
+    /*@Column(name = "f_area_id", nullable = false)
     public Integer getAreaId() {
         return this.areaId;
     }
 
     public void setAreaId(Integer areaId) {
         this.areaId = areaId;
-    }
+    }*/
 
     @Column(name = "f_code", nullable = false, length = 200)
     public String getCode() {

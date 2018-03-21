@@ -16,7 +16,7 @@ import com.jspxcms.core.domain.Customer;
  */
 public interface CustomerService extends IBaseService<Customer, Integer>{
 
-    void save(Customer bean, Integer siteId);
+    void save(Customer bean, Integer siteId, Integer areaId);
     
     public List<Customer> findList(Integer siteId, Map<String, String[]> params, Sort sort);
 
@@ -33,4 +33,6 @@ public interface CustomerService extends IBaseService<Customer, Integer>{
      * @return
      */
     Page<Customer> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable);
+
+    void update(Customer bean, Integer areaId);
 }
