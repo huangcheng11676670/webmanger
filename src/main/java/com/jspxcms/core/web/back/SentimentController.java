@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +90,14 @@ public class SentimentController {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
         //List<Sentiment> pagedList = service.findList(siteId, params, pageable.getSort());
-        Page<Sentiment> pagedList = service.findPage(siteId, params, pageable);
+        Integer areaId = null;
+        if(params.get("EQ_areaId_Integer") != null && StringUtils.isNotBlank(params.get("EQ_areaId_Integer")[0])) {
+            areaId = Integer.valueOf(params.get("EQ_areaId_Integer")[0]);
+            params.remove("EQ_areaId_Integer");
+            List<Customer> schoolList = customerService.findByAreaId(areaId);
+            modelMap.addAttribute("schoolList", schoolList);
+        }
+        Page<Sentiment> pagedList = service.findPage(siteId, areaId, params, pageable);
         pagedList.forEach(item -> {
             item.setInfoLevelShow(sysDictService.getLabelById(item.getInfoLevel()));
             item.setInfoTypeShow(sysDictService.getLabelById(item.getInfoType()));
@@ -113,15 +121,22 @@ public class SentimentController {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
         params.put("EQ_caseStatus_Boolean", new String[]{"true"});
-        Page<Sentiment> pagedList = service.findPage(siteId, params, pageable);
+        Integer areaId = null;
+        if(params.get("EQ_areaId_Integer") != null && StringUtils.isNotBlank(params.get("EQ_areaId_Integer")[0])) {
+            areaId = Integer.valueOf(params.get("EQ_areaId_Integer")[0]);
+            params.remove("EQ_areaId_Integer");
+            List<Customer> schoolList = customerService.findByAreaId(areaId);
+            modelMap.addAttribute("schoolList", schoolList);
+        }
+        Page<Sentiment> pagedList = service.findPage(siteId, areaId, params, pageable);
         //List<Sentiment> pagedList = service.findList(siteId, params, pageable.getSort());
         pagedList.forEach(item -> {
             item.setInfoLevelShow(sysDictService.getLabelById(item.getInfoLevel()));
             item.setInfoTypeShow(sysDictService.getLabelById(item.getInfoType()));
         });
         modelMap.addAttribute("pagedList", pagedList);
-        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
-        modelMap.addAttribute("areaList", areaList);
+/*        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
+        modelMap.addAttribute("areaList", areaList);*/
         List<SysDict> infoLevelList = sysDictService.findListByType(SysDict.INFO_LEVEL);
         modelMap.addAttribute("infoLevelList", infoLevelList);
         List<SysDict> infoTypelList = sysDictService.findListByType(SysDict.INFO_TYPE);
@@ -149,7 +164,7 @@ public class SentimentController {
         if(favorite != null) {
             modelMap.addAttribute("favorite", favorite);
             Sentiment bean = new Sentiment();
-            bean.setAreaId(favorite.getCustomer().getArea().getId());
+            bean.setArea(favorite.getCustomer().getArea());
             bean.setFavoriteId(favoriteId);
             bean.setCustomer(favorite.getCustomer());
             modelMap.addAttribute("bean", bean);
@@ -202,14 +217,14 @@ public class SentimentController {
 
     @RequiresPermissions("core:sentiment:save")
     @RequestMapping("save.do")
-    public String save(Sentiment bean, String redirect, HttpServletRequest request, RedirectAttributes ra) {
+    public String save(Sentiment bean, String redirect, Integer areaId, HttpServletRequest request, RedirectAttributes ra) {
         Integer siteId = Context.getCurrentSiteId();
         bean.setUser(Context.getCurrentUser());
         bean.setCreateDatetime(new Date());
-        service.save(bean, siteId);
+        service.save(bean, siteId, areaId);
         //是否发送短信
         if(bean.getSendSMS()) {
-            sysSMSService.save(bean);
+            sysSMSService.save(bean, areaId);
         }
         logService.operation("opr.Sentiment.add", bean.getSentimentTitle(), null, bean.getId(), request);
         logger.info("save Sentiment, title={}.", bean.getSentimentTitle());
@@ -236,11 +251,11 @@ public class SentimentController {
     @RequestMapping("update.do")
     public String update(@ModelAttribute("bean") Sentiment bean, Integer position, String redirect,
             Integer sysDictTypeId,
-            Integer customerId,
+            Integer customerId, Integer areaId,
             HttpServletRequest request, RedirectAttributes ra) {
         Site site = Context.getCurrentSite();
         Backends.validateDataInSite(bean, site.getId());
-        service.update(bean, site.getId(), sysDictTypeId, customerId);
+        service.update(bean, site.getId(), sysDictTypeId, customerId, areaId);
         logService.operation("opr.Sentiment.edit", bean.getSentimentTitle(), null, bean.getId(), request);
         logger.info("update SentimentGroup, title={}.", bean.getSentimentTitle());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);

@@ -81,7 +81,7 @@ function confirmDelete() {
                         <label class="col-sm-2 control-label"><em class="required">*</em>区域</label>
                         <div class="col-sm-5">
                             <input type="hidden" id="areaName" name="areaName" value="${bean.areaName}"/>
-                            <input type="text" id="areaId" value="${bean.areaId}" name="areaId" class="myselectstyle">
+                            <input type="text" id="areaId" value="${bean.area.id}" name="areaId" class="myselectstyle">
                         </div>
                         <div class="col-sm-5">
                         <input type="hidden" id="customerName" name="customerName" value="${bean.customerName}"/>

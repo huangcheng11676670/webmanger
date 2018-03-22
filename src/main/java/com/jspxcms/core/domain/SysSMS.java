@@ -26,7 +26,7 @@ public class SysSMS implements Siteable, java.io.Serializable {
 
     private static final long serialVersionUID = 6427469572404598316L;
     private Integer id;
-    private Integer areaId;
+    private SysDict area;
     private String areaName;
     private Integer customerId;
     private String customerName;
@@ -63,13 +63,14 @@ public class SysSMS implements Siteable, java.io.Serializable {
         this.createDatetime = createDatetime;
     }
 
-    @Column(name = "f_area_id", nullable = false)
-    public Integer getAreaId() {
-        return this.areaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "f_area_id", nullable = false)
+    public SysDict getArea() {
+        return this.area;
     }
-
-    public void setAreaId(Integer areaId) {
-        this.areaId = areaId;
+    
+    public void setArea(SysDict area) {
+        this.area = area;
     }
 
     @Column(name = "f_ref_id", nullable = false)

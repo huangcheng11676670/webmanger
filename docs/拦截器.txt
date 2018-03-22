@@ -1,0 +1,6 @@
+带有search_前缀的post提交参数，会通过${search_GTE_createDatetime_Date[0]}回填到页面的原因
+                  <input class="form-control input-sm" type="text" id="search_GTE_createDatetime_Date" name="search_GTE_createDatetime_Date" value="${search_GTE_createDatetime_Date[0]}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+
+此系统通过拦截器
+com.jspxcms.core.support.BackInterceptor
+来执行回填任务

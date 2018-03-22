@@ -50,25 +50,24 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer, Integer> impl
     private SiteService siteService;
 
     public List<Customer> findList(Integer siteId, Map<String, String[]> params, Sort sort) {
-        return dao.findAll(spec(siteId, params), sort);
-    }
-    
-    @Override
-    public Page<Customer> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable) {
-        return dao.findAll(spec(siteId, params), pageable);
+        return dao.findAll(spec(siteId, params, null), sort);
     }
 
-    private Specification<Customer> spec(final Integer siteId, Map<String, String[]> params) {
+    @Override
+    public Page<Customer> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable) {
+        Integer areaId = null;
+        if(params.get("EQ_areaId_Integer")  !=  null) {
+            areaId =Integer.valueOf((String)params.get("EQ_areaId_Integer")[0]);
+            params.remove("EQ_areaId_Integer");
+        }
+        return dao.findAll(spec(siteId, params, areaId), pageable);
+    }
+
+    private Specification<Customer> spec(final Integer siteId, Map<String, String[]> params, Integer areaId) {
         /*Collection<SearchFilter> filters = SearchFilter.parse(params).values();
         final Specification<Customer> fsp = SearchFilter.spec(filters, Customer.class);*/
-        
         Specification<Customer> sp = new Specification<Customer>() {
             public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Integer areaId = null;
-                if(params.get("EQ_areaId_Integer")  !=  null) {
-                    areaId =Integer.valueOf((String)params.get("EQ_areaId_Integer")[0]);
-                    params.remove("EQ_areaId_Integer");
-                }
                 Predicate pred = SearchFilter.buildSpecification(params, Customer.class).toPredicate(root, query, cb);
                 if (siteId != null) {
                     pred = cb.and(pred, cb.equal(root.get("site").<Integer>get("id"), siteId));

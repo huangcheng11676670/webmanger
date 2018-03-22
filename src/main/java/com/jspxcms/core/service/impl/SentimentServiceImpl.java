@@ -28,10 +28,12 @@ import com.jspxcms.common.service.BaseServiceImpl;
 import com.jspxcms.common.util.DateUtils;
 import com.jspxcms.core.domain.Sentiment;
 import com.jspxcms.core.domain.Site;
+import com.jspxcms.core.domain.SysDict;
 import com.jspxcms.core.dto.ReportSentimentNumDto;
 import com.jspxcms.core.dto.ReportCountAndIdDto;
 import com.jspxcms.core.listener.SiteDeleteListener;
 import com.jspxcms.core.repository.SentimentDao;
+import com.jspxcms.core.repository.SysDictDao;
 import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.SentimentService;
 import com.jspxcms.core.service.SiteService;
@@ -45,6 +47,9 @@ import com.jspxcms.core.support.Context;
 @Transactional(readOnly = true)
 public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> implements SentimentService, SiteDeleteListener {
     private SentimentDao dao;
+    
+    @Autowired
+    private SysDictDao sysDictDao;
 
     private EntityManager em;
 
@@ -70,20 +75,24 @@ public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> im
     }
 
     public List<Sentiment> findList(Integer siteId, Map<String, String[]> params, Sort sort) {
-        return dao.findAll(spec(siteId, params), sort);
+        return dao.findAll(spec(siteId, params, null), sort);
     }
 
     @Override
-    public Page<Sentiment> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable) {
-        return dao.findAll(spec(siteId, params), pageable);
+    public Page<Sentiment> findPage(Integer siteId, Integer areaId, Map<String, String[]> params, Pageable pageable) {
+        return dao.findAll(spec(siteId, params, areaId), pageable);
     }
 
-    private Specification<Sentiment> spec(final Integer siteId, Map<String, String[]> params) {
+    private Specification<Sentiment> spec(final Integer siteId, Map<String, String[]> params, Integer areaId) {
         Specification<Sentiment> sp = new Specification<Sentiment>() {
             public Predicate toPredicate(Root<Sentiment> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Predicate pred = SearchFilter.buildSpecification(params, Sentiment.class).toPredicate(root, query, cb);
                 if (siteId != null) {
                     pred = cb.and(pred, cb.equal(root.get("site").<Integer>get("id"), siteId));
+                }
+                if(areaId != null) {
+                    SysDict dbSysDict = sysDictDao.findOne(areaId);
+                    pred = cb.like(root.join("area").get("treeNumber").as(String.class), dbSysDict.getTreeNumber()+"%");
                 }
                 pred = cb.and(pred, cb.equal(root.get("user").<Integer>get("id"), Context.getCurrentUser().getId()));
                 return pred;
@@ -97,18 +106,26 @@ public class SentimentServiceImpl extends BaseServiceImpl<Sentiment, Integer> im
     }
 
     @Transactional
-    public void save(Sentiment bean, Integer siteId) {
+    public void save(Sentiment bean, Integer siteId, Integer areaId) {
         Site site = siteService.get(siteId);
+        if(areaId != null) {
+            bean.setArea(sysDictDao.findOne(areaId));
+        }
         bean.setSite(site);
         bean = dao.save(bean);
     }
 
+
+
     @Transactional
-    public void update(Sentiment bean, Integer siteId, Integer sysDictTypeId, Integer customerId) {
+    public void update(Sentiment bean, Integer siteId, Integer sysDictTypeId, Integer customerId, Integer areaId) {
         Site site = siteService.get(siteId);
         bean.setSite(site);
         if(customerId != null) {
             bean.setCustomer(customerService.get(customerId));
+        }
+        if(areaId != null) {
+            bean.setArea(sysDictDao.findOne(areaId));
         }
         bean = dao.save(bean);
     }

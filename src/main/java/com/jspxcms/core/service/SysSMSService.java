@@ -15,9 +15,9 @@ public interface SysSMSService extends IBaseService<SysSMS, Integer>{
 
     public void update(SysSMS bean, Integer siteId, Integer sysDictTypeId, Integer customerId);
 
-    public void save(SysSMS bean, Integer siteId);
+    public void save(SysSMS bean, Integer siteId, Integer areaId);
     
-    public void save(Sentiment bean);
+    public void save(Sentiment bean, Integer areaId);
     /**
      * 分页
      * @param siteId
@@ -25,5 +25,5 @@ public interface SysSMSService extends IBaseService<SysSMS, Integer>{
      * @param pageable
      * @return
      */
-    public Page<SysSMS> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable);
+    public Page<SysSMS> findPage(Integer siteId, Integer areaId, Map<String, String[]> params, Pageable pageable);
 }

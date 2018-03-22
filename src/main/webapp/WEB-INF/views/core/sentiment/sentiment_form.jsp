@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">所属客户</label>
                         <div class="col-sm-8">
-                            <input type="hidden" value="${bean.areaId}" name="areaId">
+                            <input type="hidden" value="${bean.area.id}" name="area.id">
                             <input type="hidden" value="${bean.customer.id}" name="customer.id">
                             <div style="padding:5px;">${bean.customer.name}</div>
                         </div>

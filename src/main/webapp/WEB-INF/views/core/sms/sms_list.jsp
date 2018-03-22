@@ -60,6 +60,9 @@ function optDelete(form) {
                 <div class="form-group">
                   <label for="search_EQ_customer.id">学校列表</label>
                     <select class="form-control input-sm" id="search_EQ_customerId_Integer" name="search_EQ_customerId_Integer">
+                     <c:forEach var="school" items="${schoolList}">
+                        <option value="${school.id}"<c:if test="${school.id eq search_EQ_customerId_Integer[0]}"> selected="selected"</c:if>>${school.name}</option>
+                     </c:forEach>
                     </select>
                 </div>
               <button class="btn btn-default btn-sm" type="submit"><s:message code="search"/></button>

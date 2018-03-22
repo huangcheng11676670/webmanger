@@ -63,7 +63,7 @@ function optDelete(form) {
                 </div>
                 <div class="form-group">
                   <label>截止时间</label>
-                  <input class="form-control input-sm" type="text" id="search_GTE_createDatetime_Date" name="search_LTE_createDatetime_Date" value="${search_LTE_createDatetime_Date[0]}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'search_GTE_createDatetime_Date\')}'});"/>
+                  <input class="form-control input-sm" type="text" id="search_LTE_createDatetime_Date" name="search_LTE_createDatetime_Date" value="${search_LTE_createDatetime_Date[0]}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'search_GTE_createDatetime_Date\')}'});"/>
                 </div>
                 <div class="form-group">
                   <label for="search_EQ_infoType_Integer">舆情分类</label>
@@ -102,6 +102,9 @@ function optDelete(form) {
                 <div class="form-group">
                   <label for="search_EQ_customer.id">学校列表</label>
                   <select class="form-control input-sm" id="search_EQ_customer" name="search_EQ_customer.id">
+                     <c:forEach var="school" items="${schoolList}">
+                        <option value="${school.id}"<c:if test="${school.id eq requestScope['search_EQ_customer.id'][0]}"> selected="selected"</c:if>>${school.name}</option>
+                     </c:forEach>
                   </select>
                 </div>
               <button class="btn btn-default btn-sm" type="submit"><s:message code="search"/></button>

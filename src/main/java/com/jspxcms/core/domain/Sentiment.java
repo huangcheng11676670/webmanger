@@ -40,7 +40,7 @@ public class Sentiment implements Siteable, java.io.Serializable {
     private String infoTypeShow;
     private Date createDatetime;
     private Integer schoolLevel;
-    private Integer areaId;
+    private SysDict area;
     private Site site;
     private Customer customer;
     /**
@@ -115,6 +115,16 @@ public class Sentiment implements Siteable, java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "f_area_id", nullable = false)
+    public SysDict getArea() {
+        return this.area;
+    }
+    
+    public void setArea(SysDict area) {
+        this.area = area;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "f_user_id", nullable = false)
     public User getUser() {
         return this.user;
@@ -159,15 +169,6 @@ public class Sentiment implements Siteable, java.io.Serializable {
 
     public void setSchoolLevel(Integer schoolLevel) {
         this.schoolLevel = schoolLevel;
-    }
-
-    @Column(name = "f_area_id")
-    public Integer getAreaId() {
-        return this.areaId;
-    }
-
-    public void setAreaId(Integer areaId) {
-        this.areaId = areaId;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

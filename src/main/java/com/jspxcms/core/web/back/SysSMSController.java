@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +29,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jspxcms.common.web.Servlets;
 import com.jspxcms.core.constant.Constants;
+import com.jspxcms.core.domain.Customer;
 import com.jspxcms.core.domain.Site;
 import com.jspxcms.core.domain.SysSMS;
+import com.jspxcms.core.service.CustomerService;
 import com.jspxcms.core.service.OperationLogService;
-import com.jspxcms.core.service.SysDictService;
 import com.jspxcms.core.service.SysSMSService;
 import com.jspxcms.core.support.Backends;
 import com.jspxcms.core.support.Context;
@@ -51,7 +53,7 @@ public class SysSMSController {
     private SysSMSService service;
 
     @Autowired
-    private SysDictService sysDictService;
+    private CustomerService customerService;
 
     @ModelAttribute("bean")
     public SysSMS preloadBean(@RequestParam(required = false) Integer oid) {
@@ -64,7 +66,14 @@ public class SysSMSController {
             HttpServletRequest request, org.springframework.ui.Model modelMap) {
         Integer siteId = Context.getCurrentSiteId();
         Map<String, String[]> params = Servlets.getParamValuesMap(request, Constants.SEARCH_PREFIX);
-        Page<SysSMS> pagedList = service.findPage(siteId, params, pageable);
+        Integer areaId = null;
+        if(params.get("EQ_areaId_Integer") != null && StringUtils.isNotBlank(params.get("EQ_areaId_Integer")[0])) {
+            areaId = Integer.valueOf(params.get("EQ_areaId_Integer")[0]);
+            params.remove("EQ_areaId_Integer");
+            List<Customer> schoolList = customerService.findByAreaId(areaId);
+            modelMap.addAttribute("schoolList", schoolList);
+        }
+        Page<SysSMS> pagedList = service.findPage(siteId, areaId, params, pageable);
         modelMap.addAttribute("pagedList", pagedList);
 /*        List<SysDict> areaList = sysDictService.findAreaListByTree("0000");
         modelMap.addAttribute("areaList", areaList);*/
@@ -106,9 +115,9 @@ public class SysSMSController {
 
     @RequiresPermissions("core:sms:save")
     @RequestMapping("save.do")
-    public String save(SysSMS bean, String redirect, HttpServletRequest request, RedirectAttributes ra) {
+    public String save(SysSMS bean, Integer areaId, String redirect, HttpServletRequest request, RedirectAttributes ra) {
         Integer siteId = Context.getCurrentSiteId();
-        service.save(bean, siteId);
+        service.save(bean, siteId, areaId);
         logService.operation("opr.SysSMS.add", bean.getContact1Phone(), null, bean.getId(), request);
         logger.info("save SysSMS, title={}.", bean.getContact1Phone());
         ra.addFlashAttribute(MESSAGE, SAVE_SUCCESS);

@@ -21,9 +21,9 @@ public interface SentimentService extends IBaseService<Sentiment, Integer>{
 
     public List<Sentiment> findList(Integer siteId, Map<String, String[]> params, Sort sort);
     
-    public void update(Sentiment bean, Integer siteId, Integer sysDictTypeId, Integer customerId);
+    public void update(Sentiment bean, Integer siteId, Integer sysDictTypeId, Integer customerId, Integer areaId);
 
-    public void save(Sentiment bean, Integer siteId);
+    public void save(Sentiment bean, Integer siteId, Integer areaId);
 
     public List<ReportSentimentNumDto> reportSentimentNumNativeQuery(Integer userid, String startDate, String endDate);
     /**
@@ -63,5 +63,5 @@ public interface SentimentService extends IBaseService<Sentiment, Integer>{
      * @param pageable
      * @return
      */
-    public Page<Sentiment> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable);
+    public Page<Sentiment> findPage(Integer siteId, Integer areaId, Map<String, String[]> params, Pageable pageable);
 }

@@ -72,16 +72,20 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
     private SiteService siteService;
 
     @Override
-    public Page<SysSMS> findPage(Integer siteId, Map<String, String[]> params, Pageable pageable) {
-        return dao.findAll(spec(siteId, params), pageable);
+    public Page<SysSMS> findPage(Integer siteId, Integer areaId, Map<String, String[]> params, Pageable pageable) {
+        return dao.findAll(spec(siteId, params, areaId), pageable);
     }
 
-    private Specification<SysSMS> spec(final Integer siteId, Map<String, String[]> params) {
+    private Specification<SysSMS> spec(final Integer siteId, Map<String, String[]> params, Integer areaId) {
         Specification<SysSMS> sp = new Specification<SysSMS>() {
             public Predicate toPredicate(Root<SysSMS> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Predicate pred = SearchFilter.buildSpecification(params, SysSMS.class).toPredicate(root, query, cb);
                 if (siteId != null) {
                     pred = cb.and(pred, cb.equal(root.get("site").<Integer>get("id"), siteId));
+                }
+                if(areaId != null) {
+                    SysDict dbSysDict = sysDictDao.findOne(areaId);
+                    pred = cb.like(root.join("area").get("treeNumber").as(String.class), dbSysDict.getTreeNumber()+"%");
                 }
                 return pred;
             }
@@ -94,12 +98,17 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
     }
 
     @Transactional
-    public void save(final SysSMS bean, Integer siteId) {
+    public void save(final SysSMS bean, Integer siteId, Integer areaId) {
         Site site = siteService.get(siteId);
         bean.setAreaName(bean.getAreaName().trim());
         bean.setSite(site);
         bean.setCreateDatetime(new Date());
         bean.setMessage("发送中...");
+        if(areaId != null) {
+            SysDict dbSysDict = sysDictDao.findOne(areaId);
+            bean.setArea(dbSysDict);
+            bean.setAreaName(dbSysDict.getLabel());
+        }
         SysSMS dbBean = dao.save(bean);
         //发送短信
         threadPoolTaskExecutor.execute(new Runnable() {
@@ -129,7 +138,7 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
 
     @Override
     @Transactional
-    public void save(Sentiment bean) {
+    public void save(Sentiment bean, Integer areaId) {
         //生成一个跳转记录
         SysShortUrl shortUrl = new SysShortUrl();
         shortUrl.setCode("");
@@ -139,9 +148,9 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
         sysShortUrlDao.save(shortUrl);
         //下面产生一个短信发送记录
         SysSMS smsBean = new SysSMS();
-        SysDict dbSysDict = sysDictDao.findOne(bean.getAreaId());
-        if(dbSysDict != null) {
-            smsBean.setAreaId(bean.getAreaId());
+        if(areaId != null) {
+            SysDict dbSysDict = sysDictDao.findOne(areaId);
+            smsBean.setArea(dbSysDict);
             smsBean.setAreaName(dbSysDict.getLabel());
         }
         if(bean.getCustomer() != null) {
@@ -177,6 +186,6 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
         smsBean.setRefId(shortUrl.getId());
         //短信内容
         smsBean.setSmsContent(bean.getSmsContent());
-        save(smsBean, bean.getSite().getId());
+        save(smsBean, bean.getSite().getId(), areaId);
     }
 }

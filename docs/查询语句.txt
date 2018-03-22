@@ -8,8 +8,12 @@ public enum Type {
 String, Integer, Long, Float, Double, BigDecimal, BigInteger, Boolean, Date, Timestamp;
 
 ================================
-                         查询比较符号
+                         前段查询查询比较符号
 ================================
+com.jspxcms.common.orm.SearchFilter
+    public static <T> Specification<T> spec(final Collection<SearchFilter> filters, final Class<T> clazz) {
+        return new Specification<T>() {
+        
 case EQ:
     predicates.add(builder.equal(exp, filter.value[0]));
     break;
