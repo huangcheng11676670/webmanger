@@ -103,17 +103,6 @@
     - save@core:role:save
     - update@core:role:update
     - delete@core:role:delete
-8-400:
-  name: memberGroup.management
-  url: core/member_group/list.do
-  perms: core:member_group:list
-  ops: 
-    - create@core:member_group:create
-    - copy@core:member_group:copy
-    - edit@core:member_group:edit
-    - save@core:member_group:save
-    - update@core:member_group:update
-    - delete@core:member_group:delete
 8-500:
   name: org.management
   url: core/org/list.do
@@ -126,33 +115,6 @@
     - update@core:org:update
     - batchUpdate@core:org:batch_update
     - delete@core:org:delete
-8-1000:
-  name: userGlobal.management
-  url: core/user_global/list.do
-  perms: core:user_global:list
-  ops:
-    - create@core:user_global:create
-    - copy@core:user_global:copy
-    - edit@core:user_global:edit
-    - save@core:user_global:save
-    - update@core:user_global:update
-    - delete@core:user_global:delete
-    - user.deletePassword@core:user_global:delete_password
-    - user.check@core:user_global:check
-    - user.lock@core:user_global:lock
-    - user.unlock@core:user_global:unlock
-8-1100:
-  name: orgGlobal.management
-  url: core/org_global/list.do
-  perms: core:org_global:list
-  ops:
-    - create@core:org_global:create
-    - copy@core:org_global:copy
-    - edit@core:org_global:edit
-    - save@core:org_global:save
-    - update@core:org_global:update
-    - batchUpdate@core:org_global:batch_update
-    - delete@core:org_global:delete
 100:
   name: sysdict.management
   url: core/sysdict/list.do
