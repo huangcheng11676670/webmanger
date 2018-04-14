@@ -171,12 +171,13 @@ public class OrgController {
      * @param parent
      * @return 返回根路径
      */
-    private String buildDir(Org bean, Site site, Org parent) {
+    private void buildDir(Org bean, Site site, Org parent) {
         PublishPoint point = site.getGlobal().getUploadsPublishPoint();
         FileHandler fileHandler =  point.getFileHandler(pathResolver);
-        String prentPath = service.findAllParent(site.getSiteBase(""), parent.getId());
-        fileHandler.mkdir(bean.getNumber(), prentPath);
-        return prentPath.toString();
+        if(parent != null) {
+            String prentPath = service.findAllParent(site.getSiteBase(""), parent.getId());
+            fileHandler.mkdir(bean.getNumber(), prentPath);
+        }
     }
 
     @RequiresPermissions("core:org:update")

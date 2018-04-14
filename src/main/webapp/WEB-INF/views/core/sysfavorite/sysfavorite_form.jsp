@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">地区</label>
                         <div class="col-sm-8">
-                            <input type="text" id="areaId_select" value="${bean.customer.areaId}" name="areaId_select" class="myselectstyle">
+                            <input type="text" id="areaId_select" value="${bean.customer.area.id}" name="areaId_select" class="myselectstyle">
                         </div>
                     </div>
                 </div>

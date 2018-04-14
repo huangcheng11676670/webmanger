@@ -42,7 +42,8 @@ public class LoginController {
 		Map<String, Object> data = modelMap.asMap();
 		ForeContext.setData(data, request);
 		modelMap.addAttribute(FALLBACK_URL_PARAM, fallbackUrl);
-		return site.getTemplate(LOGIN_TEMPLATE);
+		//return site.getTemplate(LOGIN_TEMPLATE);
+		return "redirect:/cmscp/index.do";
 	}
 
 	@RequestMapping(value = { "/login_include",
