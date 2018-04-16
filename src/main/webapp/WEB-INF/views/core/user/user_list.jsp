@@ -106,7 +106,7 @@ function optDeletePassword(form) {
 		        </c:forEach>
 		      </select>
 				</div>
-				<div class="form-group">
+<%-- 				<div class="form-group">
 				  <label for="search_EQ_JuserGroups.group.id"><s:message code="user.group"/></label>
 		      <select class="form-control input-sm" id="search_EQ_JuserGroups.group.id" name="search_EQ_JuserGroups.group.id">
 		        <option value=""><s:message code="allSelect"/></option>
@@ -114,15 +114,15 @@ function optDeletePassword(form) {
 		        <option value="${group.id}"<c:if test="${group.id == requestScope['search_EQ_JuserGroups.group.id'][0]}"> selected="selected"</c:if>>${group.name}</option>
 		        </c:forEach>
 		      </select>
-				</div>
-				<div class="form-group">
+				</div> --%>
+<%-- 				<div class="form-group">
 				  <label for="search_EQ_type"><s:message code="user.type"/></label>
 		      <select class="form-control input-sm" id="search_EQ_type" name="search_EQ_type">
 		        <option value=""><s:message code="allSelect"/></option>
 		        <option value="0"<c:if test="${'0' eq search_EQ_type[0]}"> selected="selected"</c:if>><s:message code="user.type.0"/></option>
 		        <option value="1"<c:if test="${'1' eq search_EQ_type[0]}"> selected="selected"</c:if>><s:message code="user.type.1"/></option>
 		      </select>
-				</div>
+				</div> --%>
 				<div class="form-group">
 				  <label for="search_EQ_status"><s:message code="user.status"/></label>
 		      <select class="form-control input-sm" id="search_EQ_status" name="search_EQ_status">
@@ -177,8 +177,8 @@ function optDeletePassword(form) {
 				    <th class="ls-th-sort"><span class="ls-sort" pagesort="username"><s:message code="user.username"/></span></th>
 				    <th class="ls-th-sort"><span class="ls-sort" pagesort="org.treeNumber"><s:message code="user.org"/></span></th>
 				    <th><s:message code="user.roles"/></th>
-				    <th class="ls-th-sort"><span class="ls-sort" pagesort="group.id"><s:message code="user.group"/></span></th>
-				    <th class="ls-th-sort"><span class="ls-sort" pagesort="type"><s:message code="user.type"/></span></th>
+<%-- 				    <th class="ls-th-sort"><span class="ls-sort" pagesort="group.id"><s:message code="user.group"/></span></th>
+				    <th class="ls-th-sort"><span class="ls-sort" pagesort="type"><s:message code="user.type"/></span></th> --%>
 				    <th class="ls-th-sort"><span class="ls-sort" pagesort="rank"><s:message code="user.rank"/></span></th>
 				    <th class="ls-th-sort"><span class="ls-sort" pagesort="status"><s:message code="user.status"/></span></th>
 				  </tr>
@@ -216,8 +216,8 @@ function optDeletePassword(form) {
 					    ${role.name}<c:if test="${!status.last}">,</c:if>
 					    </c:forEach>
 						</td>
-				    <td>${bean.group.name}</td>
-				    <td><s:message code="user.type.${bean.type}"/></td>
+<%-- 				    <td>${bean.group.name}</td>
+				    <td><s:message code="user.type.${bean.type}"/></td> --%>
 				    <td align="right">${bean.rank}</td>
 				    <td align="center"><c:if test="${bean.status!=0}"><strong></c:if><s:message code="user.status.${bean.status}"/><c:if test="${bean.status!=0}"></strong></c:if></td>
 				  </tr>

@@ -66,7 +66,7 @@ public class SentimentServiceTest extends AbstractServiceTest {
     public void findPageTest() {
         Map<String, String[]> params = new HashMap<String, String[]>();
         Pageable pageable = new PageRequest(0, 10);
-        sentimentService.findPage(1, params, pageable);
+       // sentimentService.findPage(1, params, pageable);
     }
     //@Test
     public void countTotalByUserId() {

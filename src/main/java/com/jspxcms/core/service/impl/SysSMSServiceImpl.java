@@ -100,7 +100,9 @@ public class SysSMSServiceImpl extends BaseServiceImpl<SysSMS, Integer> implemen
     @Transactional
     public void save(final SysSMS bean, Integer siteId, Integer areaId) {
         Site site = siteService.get(siteId);
-        bean.setAreaName(bean.getAreaName().trim());
+        if(bean.getAreaName() != null) {
+            bean.setAreaName(bean.getAreaName().trim());
+        }
         bean.setSite(site);
         bean.setCreateDatetime(new Date());
         bean.setMessage("发送中...");

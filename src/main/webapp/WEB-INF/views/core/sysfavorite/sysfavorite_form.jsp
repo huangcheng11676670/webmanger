@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><em class="required">*</em>类型名</label>
                         <div class="col-sm-8">
-                        <select class="form-control" name="sysDictType.id" >
+                        <select class="form-control" name="sysDictTypeId" >
                               <f:options items="${favoriteTypeList}" itemLabel="label" itemValue="id" selected="${bean.sysDictType.id}" />
                         </select>
                         </div>

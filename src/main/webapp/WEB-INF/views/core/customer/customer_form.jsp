@@ -32,7 +32,6 @@ function confirmDelete() {
             <tags:search_params/>
             <f:hidden name="oid" value="${bean.id}" />
             <f:hidden name="position" value="${position}" />
-            <f:hidden name="status" value="${bean.status}" />
             <input type="hidden" id="redirect" name="redirect" value="edit"/>
             <div class="box-header with-border">
                 <div class="btn-toolbar">
@@ -89,14 +88,25 @@ function confirmDelete() {
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                    <div class="col-sm-6">
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><em class="required">*</em>信用统一代码</label>
                         <div class="col-sm-8">
                             <f:text name="code" value="${oprt=='edit' || oprt=='create' ? bean.code : ''}" class="form-control required" maxlength="150" />
                         </div>
                     </div>
-                </div>
+                    </div>
+                    <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><em class="required">*</em>状态</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="status">
+                                <option value="1" <c:if test="${1 == bean.status}"> selected="selected"</c:if>>启用</option>
+                                <option value="0" <c:if test="${0 == bean.status}"> selected="selected"</c:if>>禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                    </div>
             </div>
             <div class="row">
                 <div class="col-sm-6">

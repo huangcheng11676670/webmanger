@@ -27,7 +27,8 @@
         <form class="form-horizontal" id="validForm" action="${oprt=='edit' ? 'update' : 'save'}.do" method="post">
             <tags:search_params/>
             <f:hidden name="oid" value="${bean.id}" />
-            <f:hidden name="position" value="${position}" />
+            <f:hidden name="position" value="${position}" /> 
+            <f:hidden name="areaId" value="${bean.area.id}" /> 
             <input type="hidden" id="redirect" name="redirect" value="edit"/>
             <div class="box-header with-border">
                 <div class="btn-toolbar">
