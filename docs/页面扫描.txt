@@ -1,0 +1,21 @@
+新浪微博扫描页面特殊
+标题为下面格式
+访问地址https://m.weibo.cn/p/1005055049932665#feedtop
+标题
+"status_title": "(.*?)",
+创建时间
+"created_at": "(.*?)",
+评论数量
+"comments_count":(.*?),
+
+
+百度贴吧
+访问地址https://tieba.baidu.com/f?kw=%E6%88%90%E9%83%BD%E5%8D%8E%E9%98%B3%E4%B8%AD%E5%AD%A6%20&fr=wwwt
+标题
+<title>(.*?)</title>
+评论数量
+<span class="red" style="margin-right:3px">(.*?)</span>
+概要
+<meta name="description" content="(.*?)" />
+创建时间
+<span class="tail-info">1楼</span><span class="tail-info">(.*?)</span>

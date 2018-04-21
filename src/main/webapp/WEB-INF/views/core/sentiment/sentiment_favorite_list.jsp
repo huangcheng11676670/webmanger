@@ -74,7 +74,7 @@ function showFavorite() {
          if(json && json.length > 0){
              var htmlString = "";
                 $.each(json, function(index, domEle) {
-                htmlString += "<button style='margin:10px;' type='button' class='btn btn-primary btn-lg' onclick='goPage("+domEle.id+",\""+domEle.name+"\",\""+domEle.customerUrl+"\")'>"+domEle.name+"</button>";
+                htmlString += "<a style='margin:10px;' type='button' class='btn btn-primary btn-lg' onclick='goPage("+domEle.id+",\""+domEle.name+"\",\""+domEle.customerUrl+"\")'>"+domEle.name+"</a>";
             });
                 htmlString += "";
           $("#favorite_list").html(htmlString);
@@ -104,6 +104,7 @@ function goPage(id, name, url){
     /* $("#iframepage").load(url, {},function(){
     }); */
     $("#iframepage").attr("src", url);
+    window.open(url);
     isRecordTime = true;
     view_time_num = 0;
 }
